@@ -1,19 +1,17 @@
-import Test from '../features/test';
 import { NextPageContext } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
-import style from "styles/home.module.scss";
+import Home from '../modules/home';
 
 function HomePage() {
   const { t } = useTranslation(["common", "about"]);
 
   return (
-    <main className={style.container}>
+    <main>
       <h1>Hello World!</h1>
       <h2>{t("common:greeting")}</h2>
       <h3>{t("about:welcome")}</h3>
-      <Test />
+      <Home />
     </main>
   );
 }
