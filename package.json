@@ -13,6 +13,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.0",
     "next": "11.0.1",
+    "next-i18next": "^8.5.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-redux": "^7.2.4",
@@ -38,8 +39,17 @@
     "typescript": "4.3.4"
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx}": "yarn lint",
-    "*.{css,scss,sass}": "yarn lint:style",
-    "*.json": "prettier --write"
+    "*.{js,ts,jsx,tsx}": [
+      "yarn lint",
+      "git add"
+    ],
+    "*.{css,scss,sass}": [
+      "yarn lint:style",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
