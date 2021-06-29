@@ -1,15 +1,15 @@
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   decrement,
   increment,
   selectCount,
-} from './testSlice'
-import styles from './test.module.scss'
+} from './testSlice';
+import styles from './test.module.scss';
 
 export default function Test() {
-  const count = useSelector(selectCount)
-  const dispatch = useDispatch()
+  const count = useSelector(selectCount);
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -31,5 +31,5 @@ export default function Test() {
         </button>
       </div>
     </div>
-  )
+  );
 }
