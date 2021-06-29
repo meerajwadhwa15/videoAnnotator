@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --fix",
+    "lint:style": "stylelint '**/*.{css,scss}' --fix",
     "test": "jest"
   },
   "dependencies": {
@@ -22,12 +23,23 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/react": "17.0.11",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
     "babel-jest": "^27.0.5",
     "eslint": "7.29.0",
     "eslint-config-next": "11.0.1",
+    "husky": "^6.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.0.5",
     "jest-dom": "^4.0.0",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.2",
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^22.0.0",
     "typescript": "4.3.4"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": "yarn lint",
+    "*.{css,scss,sass}": "yarn lint:style",
+    "*.json": "prettier --write"
   }
 }
