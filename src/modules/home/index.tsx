@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { decrement, getSinglePokemon, increment, selectCount, status, pokemonInfo } from './slice';
 import styles from './style.module.scss';
 
-export default function Home() {
+function Home() {
   const count = useAppSelector(selectCount);
   const loading = useAppSelector(status);
   const pokemonData: any = useAppSelector(pokemonInfo);
@@ -51,3 +51,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;

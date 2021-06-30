@@ -1,7 +1,7 @@
 import { NextPageContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Home from '../modules/home';
+import Home from 'modules/home';
 
 function HomePage() {
   const { t } = useTranslation(['common', 'about']);
