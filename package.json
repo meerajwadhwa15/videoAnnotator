@@ -11,7 +11,9 @@
     "prettier": "prettier --write .",
     "test": "jest",
     "prepare": "husky install",
-    "check-all": "yarn lint && yarn lint:style && yarn prettier && yarn test"
+    "check-all": "yarn lint && yarn lint:style && yarn prettier && yarn test",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.0",
@@ -25,21 +27,29 @@
     "sass": "^1.35.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@storybook/addon-actions": "^6.3.1",
+    "@storybook/addon-essentials": "^6.3.1",
+    "@storybook/addon-links": "^6.3.1",
+    "@storybook/preset-scss": "^1.0.3",
+    "@storybook/react": "^6.3.1",
     "@testing-library/dom": "^8.0.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/react": "17.0.11",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "babel-jest": "^27.0.5",
+    "babel-loader": "^8.2.2",
     "eslint": "7.29.0",
     "eslint-config-next": "11.0.1",
+    "husky": "^6.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.0.5",
     "jest-dom": "^4.0.0",
     "prettier": "^2.3.2",
+    "sass-loader": "^10",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
-    "typescript": "4.3.4",
-    "husky": "^6.0.0"
+    "typescript": "4.3.4"
   }
 }
