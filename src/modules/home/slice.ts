@@ -23,9 +23,8 @@ export const homeSlice = createSlice({
     decrement: (state) => {
       state.value -= 1;
     },
-    getSinglePokemon: (state, action) => {
+    getSinglePokemon: (state) => {
       state.status = 'loading';
-      console.log(action);
     },
     getSinglePokemonSuccess: (state, action) => {
       state.status = 'idle';
