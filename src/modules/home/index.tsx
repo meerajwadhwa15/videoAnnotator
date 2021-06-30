@@ -42,10 +42,10 @@ export default function Home() {
             <img src={pokemonData.sprites.front_default} alt="image" />
           </div>
           <div className={styles.bottomSpacing}>ID: {pokemonData.id}</div>
+          <div className={styles.bottomSpacing}>Type: {pokemonData.types[0].type.name}</div>
           <div className={styles.bottomSpacing}>Name: {pokemonData.name}</div>
           <div className={styles.bottomSpacing}>Height: {pokemonData.height}</div>
           <div className={styles.bottomSpacing}>Weight: {pokemonData.weight}</div>
-          <div className={styles.bottomSpacing}>Type: {pokemonData.types[0].type.name}</div>
         </div>
       )}
     </div>
