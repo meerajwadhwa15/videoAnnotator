@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC } from 'react';
 import { Provider } from 'react-redux';
 import { appWithTranslation } from 'next-i18next';
 import { AppProps } from 'next/app';
@@ -11,7 +11,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
     <Provider store={store}>
       <Component {...pageProps} />
     </Provider>
-    );
+  );
 };
 
 export default appWithTranslation(MyApp);

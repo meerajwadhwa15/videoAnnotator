@@ -7,11 +7,14 @@ axios.defaults.baseURL = 'https://pokeapi.co/api/v2/';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 // intercepting request
-axios.interceptors.request.use(function (config: AxiosRequestConfig) {
+axios.interceptors.request.use(
+  function (config: AxiosRequestConfig) {
     return config;
-  }, function (error) {
+  },
+  function (error) {
     return Promise.reject(error);
-  });
+  }
+);
 
 // intercepting response
 axios.interceptors.response.use(
@@ -20,7 +23,7 @@ axios.interceptors.response.use(
   },
   function (error) {
     return Promise.reject(error);
-  },
+  }
 );
 
 class APIClient {
@@ -55,6 +58,4 @@ class APIClient {
   };
 }
 
-export {
-  APIClient,
-};
+export { APIClient };

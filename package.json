@@ -6,9 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --fix",
+    "lint": "eslint . --ext ts --ext ts --ext js --fix",
     "lint:style": "stylelint '**/*.{css,scss}' --fix",
-    "test": "jest"
+    "prettier": "prettier --write .",
+    "test": "jest",
+    "prepare": "husky install",
+    "check-all": "yarn lint && yarn lint:style && yarn prettier && yarn test"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.0",
@@ -30,28 +33,13 @@
     "babel-jest": "^27.0.5",
     "eslint": "7.29.0",
     "eslint-config-next": "11.0.1",
-    "husky": "^6.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.0.5",
     "jest-dom": "^4.0.0",
-    "lint-staged": "^11.0.0",
     "prettier": "^2.3.2",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
-    "typescript": "4.3.4"
-  },
-  "lint-staged": {
-    "*.{js,ts,jsx,tsx}": [
-      "yarn lint",
-      "git add"
-    ],
-    "*.{css,scss,sass}": [
-      "yarn lint:style",
-      "git add"
-    ],
-    "*.json": [
-      "prettier --write",
-      "git add"
-    ]
+    "typescript": "4.3.4",
+    "husky": "^6.0.0"
   }
 }
