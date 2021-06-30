@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Provider } from 'react-redux';
 import { appWithTranslation } from 'next-i18next';
 import { AppProps } from 'next/app';
-import { store } from '../store/configureStore';
+import { store } from '../redux/store';
 
 import 'styles/globals.scss';
 
