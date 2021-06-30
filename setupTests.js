@@ -10,7 +10,6 @@ export const t = (key, params) => {
   return key;
 };
 
-
 // Mock react-i18next
 i18n.use(initReactI18next).init({
   lng: 'en',
@@ -19,9 +18,9 @@ i18n.use(initReactI18next).init({
   defaultNS: 'common',
   resources: {
     en: {
-      common: {}
-    }
-  }
+      common: {},
+    },
+  },
 });
 
 // Mock your i18n
@@ -32,15 +31,13 @@ jest.mock('next-i18next', () => {
         t,
         i18n: {
           language: 'en',
-          changeLanguage: jest
-            .fn()
-            .mockImplementation(() => null)
-        }
+          changeLanguage: jest.fn().mockImplementation(() => null),
+        },
       };
     },
     withTranslation: () => (Component) => {
       Component.defaultProps = { ...Component.defaultProps, t };
       return Component;
-    }
+    },
   };
 });

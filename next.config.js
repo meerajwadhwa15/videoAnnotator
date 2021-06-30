@@ -12,5 +12,5 @@ module.exports = {
     return config;
   },
   i18n,
-  dir: "/src"
+  dir: '/src',
 };
