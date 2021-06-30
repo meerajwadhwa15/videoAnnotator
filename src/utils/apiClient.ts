@@ -30,28 +30,28 @@ class APIClient {
   /**
    * Fetch data from given url
    */
-  get = (url: any, params: any) => {
+  get = (url: string, params: Record<string, unknown>) => {
     return axios.get(url, params);
   };
 
   /**
    * post given data to url
    */
-  post = (url: any, data: any, config = {}) => {
+  post = (url: string, data: Record<string, unknown>) => {
     return axios.post(url, data);
   };
 
   /**
    * Update data to url
    */
-  update = (url: any, data: any, config = {}) => {
+  update = (url: string, data: Record<string, unknown>) => {
     return axios.patch(url, data);
   };
 
   /**
    * Delete data from url
    */
-  delete = (url: any, data: any, config = {}) => {
+  delete = (url: string, data: Record<string, unknown>) => {
     axios.delete(url, {
       data,
     });

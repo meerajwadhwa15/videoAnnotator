@@ -4,7 +4,7 @@ import type { RootState } from '../../redux/store';
 interface homeState {
   value: number;
   status: string;
-  pokemon: Object;
+  pokemon: Record<string, unknown>;
 }
 
 const initialState: homeState = {
@@ -25,6 +25,7 @@ export const homeSlice = createSlice({
     },
     getSinglePokemon: (state, action) => {
       state.status = 'loading';
+      console.log(action);
     },
     getSinglePokemonSuccess: (state, action) => {
       state.status = 'idle';

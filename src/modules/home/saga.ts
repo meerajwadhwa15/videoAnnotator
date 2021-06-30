@@ -1,23 +1,24 @@
+import { AxiosResponse } from 'axios';
 import { all, takeLatest, fork, put, call, delay } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { APIClient } from '../../utils/apiClient';
 import { increment, decrement, getSinglePokemon, getSinglePokemonSuccess } from '../home/slice';
 
 const get: any = new APIClient().get;
-const post: any = new APIClient().post;
-const update: any = new APIClient().update;
+// const post: any = new APIClient().post;
+// const update: any = new APIClient().update;
 
-function* beforeIncrement(action: PayloadAction) {
+function* beforeIncrement() {
   console.log('before Increment Counter run...');
 }
 
-function* beforeDecrement(action: PayloadAction) {
+function* beforeDecrement() {
   console.log('before Decrement Counter run...');
 }
 
-function* getSinglePokemonSaga(action: PayloadAction): any {
+function* getSinglePokemonSaga(action: PayloadAction) {
   try {
-    const response = yield call(get, `/pokemon/${action.payload}`);
+    const response: AxiosResponse = yield call(get, `/pokemon/${action.payload}`);
     yield delay(1500);
     yield put(getSinglePokemonSuccess(response));
     console.log('pokemon', response);
