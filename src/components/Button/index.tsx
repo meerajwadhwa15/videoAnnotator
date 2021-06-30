@@ -26,7 +26,7 @@ interface ButtonProps {
 const Button: FC<ButtonProps> = ({
   label,
   onClick,
-  size = 'Medium',
+  size = 'medium',
   primary = true,
   ...restProps
 }) => {
