@@ -8,6 +8,8 @@
   "rules": {
     "semi": "error",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-unused-vars": "error"
+    "@typescript-eslint/no-unused-vars": "error",
+    "@next/next/no-img-element": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

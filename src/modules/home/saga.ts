@@ -21,7 +21,6 @@ function* getSinglePokemonSaga(action: PayloadAction) {
     const response: AxiosResponse = yield call(get, `/pokemon/${action.payload}`);
     yield delay(1500);
     yield put(getSinglePokemonSuccess(response));
-    console.log('pokemon', response);
   } catch (error) {
     console.log('error', error);
     window.alert('API error');
