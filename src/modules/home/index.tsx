@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { decrement, getSinglePokemon, increment, selectCount, status, pokemonInfo } from './slice';
 import styles from './style.module.scss';
 
@@ -11,7 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(getSinglePokemon('pikachu'));
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>

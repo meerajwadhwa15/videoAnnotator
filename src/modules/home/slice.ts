@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { RootState } from '../../redux/store';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from 'redux/store';
 
 interface homeState {
   value: number;
@@ -23,7 +23,8 @@ export const homeSlice = createSlice({
     decrement: (state) => {
       state.value -= 1;
     },
-    getSinglePokemon: (state) => {
+    getSinglePokemon: (state, action: PayloadAction<string>) => {
+      console.log(action);
       state.status = 'loading';
     },
     getSinglePokemonSuccess: (state, action) => {
