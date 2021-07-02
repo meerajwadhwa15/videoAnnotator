@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:mock": "cross-env MOCK=true next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext ts --ext ts --ext js --fix",
@@ -18,6 +19,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.0",
     "axios": "^0.21.1",
+    "axios-mock-adapter": "^1.19.0",
     "next": "11.0.1",
     "next-i18next": "^8.5.1",
     "react": "17.0.2",
@@ -40,6 +42,7 @@
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "babel-jest": "^27.0.5",
     "babel-loader": "^8.2.2",
+    "cross-env": "^7.0.3",
     "eslint": "7.29.0",
     "eslint-config-next": "11.0.1",
     "husky": "^6.0.0",

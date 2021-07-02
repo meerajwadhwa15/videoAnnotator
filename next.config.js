@@ -2,6 +2,8 @@
 const path = require('path');
 const { i18n } = require('./next-i18next.config');
 
+const isMock = !!process.env.MOCK && process.env.NODE_ENV !== 'production';
+
 module.exports = {
   reactStrictMode: true,
   sassOptions: {
@@ -13,4 +15,7 @@ module.exports = {
   },
   i18n,
   dir: '/src',
+  publicRuntimeConfig: {
+    isMock,
+  },
 };
