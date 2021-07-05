@@ -15,7 +15,6 @@ import {
   NavLink,
 } from 'shards-react';
 import Image from 'next/image';
-import avatar from 'assets/images/1.jpg';
 import styles from './style.module.scss';
 
 const MainNavbar = () => {
@@ -47,7 +46,7 @@ const MainNavbar = () => {
               <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
                 <Image
                   className={`user-avatar rounded-circle mr-2 ${styles.img}`}
-                  src={avatar}
+                  src="/images/1.jpg"
                   width={30}
                   height={30}
                   alt="User Avatar"

@@ -17,11 +17,7 @@ const Signup = () => (
         <Form>
           <FormGroup>
             <label htmlFor="exampleInputEmail1">Email Address</label>
-            <FormInput
-              type="email"
-              id="exampleInputEmail1"
-              placeholder="Enter email"
-            />
+            <FormInput type="email" id="exampleInputEmail1" placeholder="Enter email" />
           </FormGroup>
           <FormGroup>
             <label htmlFor="exampleInputUsername">User Name</label>
@@ -34,19 +30,11 @@ const Signup = () => (
           </FormGroup>
           <FormGroup>
             <label htmlFor="exampleInputPassword1">Password</label>
-            <FormInput
-              type="password"
-              id="exampleInputPassword1"
-              placeholder="Password"
-            />
+            <FormInput type="password" id="exampleInputPassword1" placeholder="Password" />
           </FormGroup>
           <FormGroup>
             <label htmlFor="exampleInputPassword2">Repeat Password</label>
-            <FormInput
-              type="password"
-              id="exampleInputPassword2"
-              placeholder="Confirm Password"
-            />
+            <FormInput type="password" id="exampleInputPassword2" placeholder="Confirm Password" />
           </FormGroup>
           <FormGroup>
             <FormCheckbox id="checkbox">
