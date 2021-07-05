@@ -1,6 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
-import { Card, CardBody, Form, FormGroup, FormInput, Button } from 'shards-react';
+import {
+  Card,
+  CardBody,
+  Form,
+  FormGroup,
+  FormInput,
+  Button,
+} from 'shards-react';
 import AuthLayout from 'components/layouts/AuthLayout';
 // import styles from './style.module.scss';
 

@@ -16,4 +16,11 @@ mock.onGet('/pokemon/pikachu').reply(200, {
   },
 });
 
+mock.onPost('/login').reply(200, {
+  data: {
+    status: 'success',
+    accessToken: 'gdhahdgajldah;dgsjfbkfha;fk',
+  },
+});
+
 export { mockAxios };

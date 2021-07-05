@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import i18n from 'i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import { initReactI18next } from 'react-i18next';
 
 // mock next config
@@ -51,3 +52,8 @@ jest.mock('next-i18next', () => {
     },
   };
 });
+
+jest.mock('redux-redux', () => ({
+  useSelector: useSelector,
+  useDispatch: useDispatch,
+}));
