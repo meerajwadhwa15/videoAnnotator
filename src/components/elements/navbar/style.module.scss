@@ -9,8 +9,13 @@
   height: 3.75rem;
 }
 
+.form {
+  flex-grow: 1;
+}
+
 .img {
   overflow: visible;
+  margin-right: 5px;
 }
 
 .dropdownMenu {
@@ -23,6 +28,26 @@
   border-top: none;
 
   @media (max-width: 767.98px) {
-    left: 10px;
+    left: 3px;
   }
+}
+
+.textToggle {
+  position: relative;
+  top: -8px;
+  margin-right: 5px;
+  color: black;
+  font-weight: 400;
+  max-width: 150px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  @media (max-width: 767.98px) {
+    top: -12px;
+  }
+}
+
+.toggleNav {
+	justify-content: center;
+	align-items: center;
 }

@@ -15,17 +15,25 @@ import {
   NavLink,
 } from 'shards-react';
 import Image from 'next/image';
+
+import { useAppDispatch } from 'redux/hooks';
+import { toggleSidebar } from 'components/elements/slice';
 import styles from './style.module.scss';
 
 const MainNavbar = () => {
   const [visible, setVisible] = useState(false);
+	const dispatch = useAppDispatch();
+
+  function onToggleSidebar() {
+    dispatch(toggleSidebar(true));
+  }
 
   return (
     <div className={styles.mainNavbar}>
       <Container fluid className="p-0">
         <Navbar type="light" className={styles.navbar}>
           {/* Navbar search */}
-          <Form className="w-100 d-none d-md-flex d-lg-flex">
+          <Form className={`d-none d-md-flex d-lg-flex ${styles.form}`}>
             <InputGroup seamless>
               <FormInput
                 style={{ border: 'none' }}
@@ -47,15 +55,15 @@ const MainNavbar = () => {
                 setVisible(!visible);
               }}
             >
-              <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
+              <DropdownToggle caret tag={NavLink} className="dropdownNavbar text-nowrap px-3">
                 <Image
                   className={`user-avatar rounded-circle mr-2 ${styles.img}`}
                   src="/images/1.jpg"
-                  width={30}
-                  height={30}
+                  width={40}
+                  height={40}
                   alt="User Avatar"
                 />
-                <span className="d-none d-md-inline-block">Phuongdk</span>
+                <span className={`d-md-inline-block ${styles.textToggle}`}>Phuongdk</span>
               </DropdownToggle>
               <Collapse
                 tag={DropdownMenu}
@@ -72,6 +80,13 @@ const MainNavbar = () => {
               </Collapse>
             </NavItem>
           </Nav>
+					{/* Navbar toggle */}
+					<nav className={`${styles.toggleNav} nav`}>
+						<a href="#" onClick={onToggleSidebar} className="nav-link nav-link-icon toggle-sidebar d-sm-inline d-md-none d-lg-none text-center">
+							{/* <i className="material-icons">&#xE5D2;</i> */}
+							Toggle
+						</a>
+      		</nav>
         </Navbar>
       </Container>
     </div>

@@ -4,7 +4,7 @@ import DashboardLayout from 'components/layouts/DashboardLayout';
 import PageTitle from 'components/elements/pageTitle';
 // import styles from './style.module.scss';
 
-function Home() {
+const Home = () => {
   return (
     <DashboardLayout>
       <PageTitle
@@ -14,6 +14,6 @@ function Home() {
       />
     </DashboardLayout>
   );
-}
+};
 
 export default Home;

@@ -1,12 +1,15 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Col, Nav, Navbar, NavbarBrand, NavItem, NavLink } from 'shards-react';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
 
+import { isSidebarOpen, toggleSidebar } from 'components/elements/slice';
 import styles from './style.module.scss';
 
 const Sidebar = () => {
-  const classes = classNames(styles.mainSidebar, 'px-0', 'col-12', 'open');
-
+	const sidebarVisible = useAppSelector(isSidebarOpen);
+	const dispatch = useAppDispatch();
+  const classes = classNames(styles.mainSidebar, 'px-0', 'col-12', sidebarVisible && styles.menuOpen);
   const items = [
     {
       title: 'Dashboards',
@@ -34,29 +37,21 @@ const Sidebar = () => {
   ];
 
   function onToggleSidebar() {
-    console.log('empty');
+    dispatch(toggleSidebar(false));
   }
 
   return (
     <Col tag="aside" className={classes} lg={{ size: 2 }} md={{ size: 3 }}>
       {/* Navbar brand */}
-      <div>
         <Navbar className={styles.navbar} type="light">
-          <NavbarBrand
-            className={styles.navbarBrand}
-            href="#"
-            style={{ lineHeight: '25px' }}
-          >
+          <NavbarBrand className={styles.navbarBrand} href="/">
             <span>Video Annotator Dashboard</span>
           </NavbarBrand>
-          <a
-            className="toggle-sidebar d-sm-inline d-md-none d-lg-none"
-            onClick={onToggleSidebar}
-          >
-            <i className="material-icons">&#xE5C4;</i>
+          <a className={`${styles.toggleSidebar} d-sm-inline d-md-none d-lg-none`} onClick={onToggleSidebar}>
+            {/* <i className="material-icons">&#xE5C4;</i> */}
+						Toggle
           </a>
         </Navbar>
-      </div>
       {/* Navbar items */}
       <div className={styles.navWrapper}>
         {items.map((nav, idx) => (
