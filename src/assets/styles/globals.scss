@@ -1,0 +1,49 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  height: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#__next {
+  height: 100%;
+}
+
+/*********************
+********CUSTOM********
+*********************/
+.auth-form {
+  .card-body {
+    box-shadow: inset 0 4px 0 0 #007bff;
+    border-radius: 10px;
+  }
+}
+
+.navbar-light .navbar-nav .nav-link > div {
+  overflow: visible !important;
+}
+
+.main-content-container {
+  min-height: calc(100vh - 120px);
+}
