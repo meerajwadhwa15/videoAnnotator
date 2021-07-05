@@ -2,6 +2,16 @@ import '@testing-library/jest-dom/extend-expect';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
+// mock next config
+jest.mock('next/config');
+import next from 'next/config';
+
+next.mockReturnValue({
+  getConfig: () => ({
+    publicRuntimeConfig: {},
+  }),
+});
+
 // Mock t function
 export const t = (key, params) => {
   if (key === 'key.with.params') {

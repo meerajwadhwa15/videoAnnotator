@@ -1,4 +1,10 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { mockAxios } from 'mock';
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
+
+const axios = publicRuntimeConfig?.isMock ? mockAxios : Axios;
 
 // default
 axios.defaults.baseURL = 'https://pokeapi.co/api/v2/';
