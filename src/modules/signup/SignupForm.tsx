@@ -5,8 +5,22 @@ import { useFormik } from 'formik';
 import Input from 'components/elements/Input';
 import { Form, FormGroup, FormCheckbox, Button } from 'shards-react';
 import { SignupSchema } from 'validations/SignupSchema';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import {
+  alertSelector,
+  dispatchSignup,
+  loadingSelector,
+  signupErrorSelector,
+  toggleAlert,
+} from './slice';
+import Alert, { AlertType } from 'components/elements/Alert';
 
 const SignupForm = () => {
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector(loadingSelector);
+  const error = useAppSelector(signupErrorSelector);
+  const showAlert = useAppSelector(alertSelector);
+
   const signUpForm = useFormik({
     initialValues: {
       fullname: '',
@@ -17,7 +31,7 @@ const SignupForm = () => {
     },
     validationSchema: SignupSchema,
     onSubmit: (values) => {
-      console.log('values', values);
+      dispatch(dispatchSignup(values));
     },
   });
 
@@ -69,9 +83,22 @@ const SignupForm = () => {
           I agree with the <a href="#">Terms & Conditions</a>.
         </FormCheckbox>
       </FormGroup>
-      <Button block className="d-table mx-auto" type="submit">
+      {error && <p className="error-text">{error}</p>}
+      <Button
+        block
+        type="submit"
+        disabled={loading}
+        className="d-table mx-auto"
+      >
         Create Account
       </Button>
+      <Alert
+        type={AlertType.success}
+        visible={showAlert}
+        dismiss={() => dispatch(toggleAlert())}
+      >
+        Create new account successful
+      </Alert>
     </Form>
   );
 };
