@@ -9,8 +9,8 @@ const initialState: LoginState = {
 
 export const [dispatchLogin, dispatchLoginSuccess, dispatchLoginFail] = [
   createAction<LoginData>('login/dispatchLogin'),
-  createAction('dispatchLoginSuccess'),
-  createAction('dispatchLoginFail'),
+  createAction('login/dispatchLoginSuccess'),
+  createAction('login/dispatchLoginFail'),
 ];
 
 export const loginSlice = createSlice({

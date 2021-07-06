@@ -4,6 +4,7 @@ import rootSaga from './rootSaga';
 
 import homeReducer from 'modules/home/slice';
 import loginReducer from 'modules/login/slice';
+import signupReducer from 'modules/signup/slice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -11,6 +12,7 @@ export const store = configureStore({
   reducer: {
     home: homeReducer,
     login: loginReducer,
+    signup: signupReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),
