@@ -14,7 +14,7 @@ export const store = configureStore({
     home: homeReducer,
     login: loginReducer,
     signup: signupReducer,
-		element: elementReducer
+    element: elementReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),

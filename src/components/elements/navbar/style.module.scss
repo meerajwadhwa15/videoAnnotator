@@ -1,5 +1,7 @@
 .mainNavbar {
+  -webkit-box-shadow: 0 0.125rem 0.625rem rgb(90 97 105 / 12%);
   box-shadow: 0 0.125rem 0.625rem rgb(90 97 105 / 12%);
+  border-bottom: 1px solid #e1e5eb !important;
 }
 
 .navbar {
@@ -42,12 +44,13 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+
   @media (max-width: 767.98px) {
     top: -12px;
   }
 }
 
 .toggleNav {
-	justify-content: center;
-	align-items: center;
+  justify-content: center;
+  align-items: center;
 }

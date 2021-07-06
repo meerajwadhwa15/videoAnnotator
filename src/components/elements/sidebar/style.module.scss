@@ -73,6 +73,7 @@
   font-weight: 400;
   color: #3d5170;
   padding: 0.9375rem 1.5625rem;
+
   &:hover {
     background-color: #fbfbfb;
   }
@@ -87,8 +88,16 @@
   line-height: 18px;
   border-left: 1px solid #e1e5eb;
   text-decoration: none;
+
   &:hover {
     cursor: pointer;
     text-decoration: none;
   }
+}
+
+.itemIconWrapper {
+  position: relative;
+  top: 4px;
+  margin-right: 10px;
+  display: inline-block !important;
 }

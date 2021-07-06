@@ -22,7 +22,7 @@ import styles from './style.module.scss';
 
 const MainNavbar = () => {
   const [visible, setVisible] = useState(false);
-	const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   function onToggleSidebar() {
     dispatch(toggleSidebar(true));
@@ -55,7 +55,11 @@ const MainNavbar = () => {
                 setVisible(!visible);
               }}
             >
-              <DropdownToggle caret tag={NavLink} className="dropdownNavbar text-nowrap px-3">
+              <DropdownToggle
+                caret
+                tag={NavLink}
+                className="dropdownNavbar text-nowrap px-3"
+              >
                 <Image
                   className={`user-avatar rounded-circle mr-2 ${styles.img}`}
                   src="/images/1.jpg"
@@ -63,7 +67,9 @@ const MainNavbar = () => {
                   height={40}
                   alt="User Avatar"
                 />
-                <span className={`d-md-inline-block ${styles.textToggle}`}>Phuongdk</span>
+                <span className={`d-md-inline-block ${styles.textToggle}`}>
+                  Phuongdk
+                </span>
               </DropdownToggle>
               <Collapse
                 tag={DropdownMenu}
@@ -80,13 +86,16 @@ const MainNavbar = () => {
               </Collapse>
             </NavItem>
           </Nav>
-					{/* Navbar toggle */}
-					<nav className={`${styles.toggleNav} nav`}>
-						<a href="#" onClick={onToggleSidebar} className="nav-link nav-link-icon toggle-sidebar d-sm-inline d-md-none d-lg-none text-center">
-							{/* <i className="material-icons">&#xE5D2;</i> */}
-							Toggle
-						</a>
-      		</nav>
+          {/* Navbar toggle */}
+          <nav className={`${styles.toggleNav} nav`}>
+            <a
+              href="#"
+              onClick={onToggleSidebar}
+              className="nav-link nav-link-icon toggle-sidebar d-sm-inline d-md-none d-lg-none text-center"
+            >
+              <i className="material-icons">menu</i>
+            </a>
+          </nav>
         </Navbar>
       </Container>
     </div>

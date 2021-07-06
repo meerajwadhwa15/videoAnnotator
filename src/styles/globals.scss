@@ -45,6 +45,7 @@ h6 {
 
 .main-content-container {
   min-height: calc(100vh - 120px);
+
   @media (max-width: 767.98px) {
     top: -12px;
     min-height: calc(100vh - 142px);
@@ -60,4 +61,8 @@ h6 {
   color: red;
   font-size: 1rem;
   margin-top: 4px;
+}
+
+i.material-icons {
+  font-size: 22px;
 }
