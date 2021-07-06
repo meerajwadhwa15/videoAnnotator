@@ -8,8 +8,10 @@ const AllProvider: FC = ({ children }) => {
   return <Provider store={store}>{children}</Provider>;
 };
 
-const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'queries'>) =>
-  render(ui, { wrapper: AllProvider, ...options });
+const customRender = (
+  ui: ReactElement,
+  options?: Omit<RenderOptions, 'queries'>
+) => render(ui, { wrapper: AllProvider, ...options });
 
 export * from '@testing-library/react';
 

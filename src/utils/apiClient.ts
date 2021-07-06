@@ -32,36 +32,37 @@ axios.interceptors.response.use(
   }
 );
 
-class APIClient {
+export class APIClient {
   /**
    * Fetch data from given url
    */
-  get = (url: string, params: Record<string, unknown>) => {
+  get = (url: string, params: Record<string, any>) => {
     return axios.get(url, params);
   };
 
   /**
    * post given data to url
    */
-  post = (url: string, data: Record<string, unknown>) => {
+  post = (url: string, data: Record<string, any>) => {
+    console.log('data', data);
     return axios.post(url, data);
   };
 
   /**
    * Update data to url
    */
-  update = (url: string, data: Record<string, unknown>) => {
+  update = (url: string, data: Record<string, any>) => {
     return axios.patch(url, data);
   };
 
   /**
    * Delete data from url
    */
-  delete = (url: string, data: Record<string, unknown>) => {
+  delete = (url: string, data: Record<string, any>) => {
     axios.delete(url, {
       data,
     });
   };
 }
 
-export { APIClient };
+export const request = new APIClient();

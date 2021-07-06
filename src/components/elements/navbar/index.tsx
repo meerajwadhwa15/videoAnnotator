@@ -35,7 +35,11 @@ const MainNavbar = () => {
             </InputGroup>
           </Form>
           {/* Navbar user actions */}
-          <Nav navbar className="border-left flex-row" style={{ cursor: 'pointer' }}>
+          <Nav
+            navbar
+            className="border-left flex-row"
+            style={{ cursor: 'pointer' }}
+          >
             <NavItem
               tag={Dropdown}
               caret

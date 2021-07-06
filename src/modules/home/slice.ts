@@ -34,8 +34,12 @@ export const homeSlice = createSlice({
   },
 });
 
-export const { increment, decrement, getSinglePokemon, getSinglePokemonSuccess } =
-  homeSlice.actions;
+export const {
+  increment,
+  decrement,
+  getSinglePokemon,
+  getSinglePokemonSuccess,
+} = homeSlice.actions;
 
 export const selectCount = (state: RootState) => state.home.value;
 export const status = (state: RootState) => state.home.status;

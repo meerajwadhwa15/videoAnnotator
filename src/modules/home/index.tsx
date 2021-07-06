@@ -7,7 +7,11 @@ import PageTitle from 'components/elements/pageTitle';
 function Home() {
   return (
     <DashboardLayout>
-      <PageTitle title="Videos" subtitle="Videos" className="text-sm-left mb-3" />
+      <PageTitle
+        title="Videos"
+        subtitle="Videos"
+        className="text-sm-left mb-3"
+      />
     </DashboardLayout>
   );
 }

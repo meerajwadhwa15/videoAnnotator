@@ -42,10 +42,17 @@ const Sidebar = () => {
       {/* Navbar brand */}
       <div>
         <Navbar className={styles.navbar} type="light">
-          <NavbarBrand className={styles.navbarBrand} href="#" style={{ lineHeight: '25px' }}>
+          <NavbarBrand
+            className={styles.navbarBrand}
+            href="#"
+            style={{ lineHeight: '25px' }}
+          >
             <span>Video Annotator Dashboard</span>
           </NavbarBrand>
-          <a className="toggle-sidebar d-sm-inline d-md-none d-lg-none" onClick={onToggleSidebar}>
+          <a
+            className="toggle-sidebar d-sm-inline d-md-none d-lg-none"
+            onClick={onToggleSidebar}
+          >
             <i className="material-icons">&#xE5C4;</i>
           </a>
         </Navbar>
