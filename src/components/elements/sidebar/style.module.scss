@@ -8,8 +8,10 @@
   transition: -webkit-transform 200ms ease-in-out;
   transition: transform 200ms ease-in-out;
   transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
-  box-shadow: 0 0.125rem 9.375rem rgb(90 97 105 / 10%), 0 0.25rem 0.5rem rgb(90 97 105 / 12%),
-    0 0.9375rem 1.375rem rgb(90 97 105 / 10%), 0 0.4375rem 2.1875rem rgb(165 182 201 / 10%);
+  box-shadow: 0 0.125rem 9.375rem rgb(90 97 105 / 10%),
+    0 0.25rem 0.5rem rgb(90 97 105 / 12%),
+    0 0.9375rem 1.375rem rgb(90 97 105 / 10%),
+    0 0.4375rem 2.1875rem rgb(165 182 201 / 10%);
 
   @media (max-width: 767.98px) {
     -webkit-transform: translateX(-100%);

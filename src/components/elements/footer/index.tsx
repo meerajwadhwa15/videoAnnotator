@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import { Container, Row, Nav, NavItem, NavLink } from 'shards-react';
 
 interface Item {
-	title: string,
-	to: string,
+  title: string;
+  to: string;
 }
 
 interface Props {

@@ -9,7 +9,12 @@ interface Props {
 }
 
 const PageTitle: FC<Props> = ({ title, subtitle, className, ...attrs }) => {
-  const classes = classNames(className, 'text-center', 'text-md-left', 'mb-sm-0');
+  const classes = classNames(
+    className,
+    'text-center',
+    'text-md-left',
+    'mb-sm-0'
+  );
 
   return (
     <Col xs="12" sm="4" className={classes} {...attrs}>

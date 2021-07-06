@@ -1,7 +1,15 @@
 /* eslint jsx-a11y/anchor-is-valid: 0 */
 
 import React from 'react';
-import { Card, CardBody, Form, FormGroup, FormInput, FormCheckbox, Button } from 'shards-react';
+import {
+  Card,
+  CardBody,
+  Form,
+  FormGroup,
+  FormInput,
+  FormCheckbox,
+  Button,
+} from 'shards-react';
 import Link from 'next/link';
 import AuthLayout from 'components/layouts/AuthLayout';
 // import styles from './style.module.scss';
@@ -11,13 +19,19 @@ const Signup = () => (
     <Card>
       <CardBody>
         {/* Title */}
-        <h5 className="auth-form__title text-center mb-4">Create New Account</h5>
+        <h5 className="auth-form__title text-center mb-4">
+          Create New Account
+        </h5>
 
         {/* Form Fields */}
         <Form>
           <FormGroup>
             <label htmlFor="exampleInputEmail1">Email Address</label>
-            <FormInput type="email" id="exampleInputEmail1" placeholder="Enter email" />
+            <FormInput
+              type="email"
+              id="exampleInputEmail1"
+              placeholder="Enter email"
+            />
           </FormGroup>
           <FormGroup>
             <label htmlFor="exampleInputUsername">User Name</label>
@@ -30,11 +44,19 @@ const Signup = () => (
           </FormGroup>
           <FormGroup>
             <label htmlFor="exampleInputPassword1">Password</label>
-            <FormInput type="password" id="exampleInputPassword1" placeholder="Password" />
+            <FormInput
+              type="password"
+              id="exampleInputPassword1"
+              placeholder="Password"
+            />
           </FormGroup>
           <FormGroup>
             <label htmlFor="exampleInputPassword2">Repeat Password</label>
-            <FormInput type="password" id="exampleInputPassword2" placeholder="Confirm Password" />
+            <FormInput
+              type="password"
+              id="exampleInputPassword2"
+              placeholder="Confirm Password"
+            />
           </FormGroup>
           <FormGroup>
             <FormCheckbox id="checkbox">

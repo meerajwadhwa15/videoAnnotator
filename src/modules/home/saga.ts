@@ -1,8 +1,20 @@
 import { AxiosResponse } from 'axios';
-import { all, takeLatest, fork, put, call, delay } from '@redux-saga/core/effects';
+import {
+  all,
+  takeLatest,
+  fork,
+  put,
+  call,
+  delay,
+} from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { APIClient } from '../../utils/apiClient';
-import { increment, decrement, getSinglePokemon, getSinglePokemonSuccess } from '../home/slice';
+import {
+  increment,
+  decrement,
+  getSinglePokemon,
+  getSinglePokemonSuccess,
+} from '../home/slice';
 
 const get: any = new APIClient().get;
 // const post: any = new APIClient().post;
@@ -18,7 +30,10 @@ function* beforeDecrement() {
 
 function* getSinglePokemonSaga(action: PayloadAction) {
   try {
-    const response: AxiosResponse = yield call(get, `/pokemon/${action.payload}`);
+    const response: AxiosResponse = yield call(
+      get,
+      `/pokemon/${action.payload}`
+    );
     yield delay(1500);
     yield put(getSinglePokemonSuccess(response));
   } catch (error) {
@@ -40,7 +55,11 @@ export function* watchSinglePokemon() {
 }
 
 function* homeSaga() {
-  yield all([fork(watchBeforeIncrement), fork(watchBeforeDecrement), fork(watchSinglePokemon)]);
+  yield all([
+    fork(watchBeforeIncrement),
+    fork(watchBeforeDecrement),
+    fork(watchSinglePokemon),
+  ]);
 }
 
 export default homeSaga;
