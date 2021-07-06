@@ -1,7 +1,15 @@
 import ForgotPassword from 'modules/forgotPassword';
+import Head from 'next/head';
 
-function forgotPassword() {
-  return <ForgotPassword />;
+function Index() {
+  return (
+    <>
+      <Head>
+        <title>Video Annotator - Forgot Password</title>
+      </Head>
+      <ForgotPassword />
+    </>
+  );
 }
 
-export default forgotPassword;
+export default Index;

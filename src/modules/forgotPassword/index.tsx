@@ -1,14 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import {
-  Card,
-  CardBody,
-  Form,
-  FormGroup,
-  FormInput,
-  Button,
-} from 'shards-react';
+import { Card, CardBody } from 'shards-react';
 import AuthLayout from 'components/layouts/AuthLayout';
+import ForgotPassForm from './ForgotPassForm';
 // import styles from './style.module.scss';
 
 const ForgotPassword = () => (
@@ -17,25 +11,8 @@ const ForgotPassword = () => (
       <CardBody>
         {/* Title */}
         <h5 className="auth-form__title text-center mb-4">Reset Password</h5>
-
         {/* Form Fields */}
-        <Form>
-          <FormGroup>
-            <label htmlFor="exampleInputEmail1">Email address</label>
-            <FormInput
-              type="email"
-              id="exampleInputEmail1"
-              placeholder="Enter email"
-              autoComplete="email"
-            />
-            <small className="form-text text-muted text-center">
-              You will receive an email with a unique token.
-            </small>
-          </FormGroup>
-          <Button block className="d-table mx-auto" type="submit">
-            Reset Password
-          </Button>
-        </Form>
+        <ForgotPassForm />
       </CardBody>
     </Card>
 
