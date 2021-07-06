@@ -69,12 +69,12 @@ const Sidebar = () => {
                 {nav.items.map((item, index) => (
                   <NavItem key={index} style={{ position: 'relative' }}>
                     <NavLink href={item.to} className={styles.navLink}>
-											          {item.htmlBefore && (
-            <div
-              className={styles.itemIconWrapper}
-              dangerouslySetInnerHTML={{ __html: item.htmlBefore }}
-            />
-          )}
+                      {item.htmlBefore && (
+                        <div
+                          className={styles.itemIconWrapper}
+                          dangerouslySetInnerHTML={{ __html: item.htmlBefore }}
+                        />
+                      )}
                       {item.title && <span>{item.title}</span>}
                     </NavLink>
                   </NavItem>

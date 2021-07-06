@@ -1,3 +1,6 @@
+@import '../../node_modules/react-table/react-table.css';
+@import 'react-table';
+
 html,
 body {
   padding: 0;
@@ -60,7 +63,7 @@ h6 {
 .error-text {
   color: red;
   font-size: 1rem;
-  margin-top: 4px;
+  margin: 5px 0 0;
 }
 
 i.material-icons {

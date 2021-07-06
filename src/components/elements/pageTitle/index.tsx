@@ -1,25 +1,18 @@
 import React, { FC } from 'react';
-import classNames from 'classnames';
 import { Col } from 'shards-react';
+
+import styles from './style.module.scss';
 
 interface Props {
   title: string;
   subtitle: string;
-  className: string;
 }
 
-const PageTitle: FC<Props> = ({ title, subtitle, className, ...attrs }) => {
-  const classes = classNames(
-    className,
-    'text-center',
-    'text-md-left',
-    'mb-sm-0'
-  );
-
+const PageTitle: FC<Props> = ({ title, subtitle, ...attrs }) => {
   return (
-    <Col xs="12" sm="4" className={classes} {...attrs}>
-      <span className="text-uppercase page-subtitle">{subtitle}</span>
-      <h3 className="page-title">{title}</h3>
+    <Col xs="12" sm="4" {...attrs} style={{ marginBottom: '20px' }}>
+      <span className={styles.subTitle}>{subtitle}</span>
+      <h3 className={styles.title}>{title}</h3>
     </Col>
   );
 };
