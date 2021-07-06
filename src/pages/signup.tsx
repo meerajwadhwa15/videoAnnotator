@@ -1,7 +1,7 @@
 import Signup from 'modules/signup';
 import Head from 'next/head';
 
-function signup() {
+function Index() {
   return (
     <>
       <Head>
@@ -12,4 +12,4 @@ function signup() {
   );
 }
 
-export default signup;
+export default Index;
