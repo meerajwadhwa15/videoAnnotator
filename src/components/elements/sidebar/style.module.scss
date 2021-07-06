@@ -1,7 +1,7 @@
 .mainSidebar {
   top: 0;
   position: fixed;
-  height: calc(100vh);
+  height: 100vh;
   background: #fff;
   z-index: 1070;
   will-change: transform;
@@ -14,10 +14,17 @@
     0 0.4375rem 2.1875rem rgb(165 182 201 / 10%);
 
   @media (max-width: 767.98px) {
+    -moz-transform: translateX(-100%);
     -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
     box-shadow: none;
   }
+}
+
+.menuOpen {
+  -moz-transform: translateX(0);
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
 }
 
 .navbar {
@@ -70,4 +77,27 @@
   &:hover {
     background-color: #fbfbfb;
   }
+}
+
+.toggleSidebar {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  padding: 20px;
+  font-size: 18px;
+  line-height: 18px;
+  border-left: 1px solid #e1e5eb;
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+  }
+}
+
+.itemIconWrapper {
+  position: relative;
+  top: 4px;
+  margin-right: 10px;
+  display: inline-block !important;
 }

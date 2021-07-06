@@ -1,3 +1,6 @@
+@import '../../node_modules/react-table/react-table.css';
+@import 'react-table';
+
 html,
 body {
   padding: 0;
@@ -45,10 +48,24 @@ h6 {
 
 .main-content-container {
   min-height: calc(100vh - 120px);
+
+  @media (max-width: 767.98px) {
+    top: -12px;
+    min-height: calc(100vh - 142px);
+  }
+}
+
+.dropdownNavbar.dropdown-toggle::after {
+  position: relative;
+  top: -11px;
 }
 
 .error-text {
   color: red;
   font-size: 1rem;
-  margin-top: 4px;
+  margin: 5px 0 0;
+}
+
+i.material-icons {
+  font-size: 22px;
 }
