@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from 'utils/test-util';
-import Button from './index';
+import { fireEvent, render, screen } from 'utils/testUtil';
+import Button from '.';
 
 test('should render button', () => {
   render(<Button label="click me" />);

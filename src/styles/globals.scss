@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
     Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  height: 100%;
 }
 
 a {
@@ -23,4 +24,26 @@ h6 {
 
 * {
   box-sizing: border-box;
+}
+
+#__next {
+  height: 100%;
+}
+
+/*********************
+********CUSTOM********
+*********************/
+.auth-form {
+  .card-body {
+    box-shadow: inset 0 4px 0 0 #007bff;
+    border-radius: 10px;
+  }
+}
+
+.navbar-light .navbar-nav .nav-link > div {
+  overflow: visible !important;
+}
+
+.main-content-container {
+  min-height: calc(100vh - 120px);
 }

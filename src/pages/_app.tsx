@@ -2,7 +2,10 @@ import { FC } from 'react';
 import { Provider } from 'react-redux';
 import { appWithTranslation } from 'next-i18next';
 import { AppProps } from 'next/app';
-import { store } from '../redux/store';
+import { store } from 'redux/store';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'shards-ui/dist/css/shards.min.css';
 
 import 'styles/globals.scss';
 
