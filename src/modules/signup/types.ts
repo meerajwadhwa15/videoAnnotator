@@ -6,7 +6,7 @@ export interface SignupState {
 
 export interface SignupData {
   email: string;
-  fullname: string;
+  fullName: string;
   password: string;
   matchingPassword: string;
 }

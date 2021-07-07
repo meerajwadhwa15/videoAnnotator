@@ -1,4 +1,4 @@
-import { createSlice, createAction } from '@reduxjs/toolkit';
+import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from 'redux/store';
 import { SignupData, SignupState } from './types';
 
@@ -11,7 +11,7 @@ const initialState: SignupState = {
 export const [dispatchSignup, dispatchSignupSuccess, dispatchSignupFail] = [
   createAction<SignupData>('signup/dispatchSignup'),
   createAction('signup/dispatchSignupSuccess'),
-  createAction('signup/dispatchSignupFail'),
+  createAction<string>('signup/dispatchSignupFail'),
 ];
 
 export const signupSlice = createSlice({
@@ -30,9 +30,12 @@ export const signupSlice = createSlice({
       state.loading = false;
       state.error = '';
     },
-    [dispatchSignupFail.type](state: SignupState) {
+    [dispatchSignupFail.type](
+      state: SignupState,
+      action: PayloadAction<string>
+    ) {
       state.loading = false;
-      state.error = 'signup failed';
+      state.error = action.payload;
     },
   },
 });
