@@ -23,6 +23,7 @@ export const loginSlice = createSlice({
     },
     [dispatchLoginSuccess.type](state: LoginState) {
       state.loading = false;
+      state.error = '';
     },
     [dispatchLoginFail.type](state: LoginState) {
       state.loading = false;

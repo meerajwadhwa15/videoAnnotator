@@ -28,6 +28,7 @@ export const signupSlice = createSlice({
     },
     [dispatchSignupSuccess.type](state: SignupState) {
       state.loading = false;
+      state.error = '';
     },
     [dispatchSignupFail.type](state: SignupState) {
       state.loading = false;
