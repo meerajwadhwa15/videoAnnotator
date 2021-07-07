@@ -10,7 +10,7 @@ interface Props {
 
 const PageTitle: FC<Props> = ({ title, subtitle, ...attrs }) => {
   return (
-    <Col xs="12" sm="4" {...attrs} style={{ marginBottom: '20px' }}>
+    <Col xs="12" {...attrs} style={{ marginBottom: '20px' }}>
       <span className={styles.subTitle}>{subtitle}</span>
       <h3 className={styles.title}>{title}</h3>
     </Col>

@@ -1,14 +1,14 @@
 import React from 'react';
 import Head from 'next/head';
-import Signup from 'modules/signup';
+import Profile from 'modules/profile';
 
 function Index() {
   return (
     <React.Fragment>
       <Head>
-        <title>Video Annotator - Signup</title>
+        <title>Video Annotator - Profile</title>
       </Head>
-      <Signup />
+      <Profile />
     </React.Fragment>
   );
 }

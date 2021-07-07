@@ -118,19 +118,19 @@ const Home = () => {
     {
       Header: 'Type',
       accessor: 'type',
-      minWidth: 100,
+      maxWidth: 150,
       className: 'text-center',
     },
     {
       Header: 'Size',
       accessor: 'size',
-      minWidth: 100,
+      maxWidth: 150,
       className: 'text-center',
     },
     {
       Header: 'Status',
       accessor: 'status',
-      minWidth: 100,
+      minWidth: 200,
       Cell: function displayStatus(row: any) {
         return <span>{row.original.status}</span>;
       },
@@ -139,8 +139,8 @@ const Home = () => {
     {
       Header: 'Actions',
       accessor: 'action',
-      maxWidth: 300,
-      minWidth: 180,
+      minWidth: 200,
+      maxWidth: 350,
       sortable: false,
       Cell: function displayAction(row) {
         return (
@@ -155,7 +155,7 @@ const Home = () => {
               <i className={`${styles.icon} material-icons`}>pageview</i>
             </Button>
             <Button
-              theme="danger"
+              theme="white"
               className={styles.button}
               onClick={() => {
                 onDeleteItem(row);

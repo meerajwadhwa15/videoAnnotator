@@ -4,7 +4,14 @@ import homeSaga from 'modules/home/saga';
 import loginSaga from 'modules/login/saga';
 import signupSaga from 'modules/signup/saga';
 import forgotPassSaga from 'modules/forgotPassword/saga';
+import resetPasswordSaga from 'modules/resetPassword/saga';
 
 export default function* rootSaga() {
-  yield all([homeSaga(), loginSaga(), signupSaga(), forgotPassSaga()]);
+  yield all([
+    homeSaga(),
+    loginSaga(),
+    signupSaga(),
+    forgotPassSaga(),
+    resetPasswordSaga(),
+  ]);
 }
