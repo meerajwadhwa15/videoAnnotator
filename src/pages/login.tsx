@@ -1,3 +1,4 @@
+import React from 'react';
 import Login from 'modules/login';
 import { NextPageContext } from 'next';
 import { useTranslation } from 'next-i18next';
@@ -7,12 +8,12 @@ import Head from 'next/head';
 function Index() {
   const { t } = useTranslation(['login']);
   return (
-    <>
+    <React.Fragment>
       <Head>
         <title>{t('login:pageTitle')}</title>
       </Head>
       <Login />
-    </>
+    </React.Fragment>
   );
 }
 

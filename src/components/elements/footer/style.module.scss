@@ -1,3 +1,11 @@
-.footer {
-  display: block;
+.copyright {
+  margin: auto;
+}
+
+.nav {
+  margin: auto;
+
+  @media (max-width: 767.98px) {
+    margin-bottom: 5px;
+  }
 }

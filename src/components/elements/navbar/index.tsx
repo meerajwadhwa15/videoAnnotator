@@ -78,9 +78,15 @@ const MainNavbar = () => {
                 open={visible}
                 className={styles.dropdownMenu}
               >
-                <DropdownItem to="/">Profile</DropdownItem>
+                <DropdownItem tag={NavLink} href="/profile">
+                  Profile
+                </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem to="/" className="text-danger">
+                <DropdownItem
+                  tag={NavLink}
+                  href="/logout"
+                  className="text-danger"
+                >
                   Logout
                 </DropdownItem>
               </Collapse>

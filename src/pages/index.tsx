@@ -1,18 +1,20 @@
+import React from 'react';
 import { NextPageContext } from 'next';
 // import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Head from 'next/head';
 import Home from 'modules/home';
 
-function HomePage() {
+function Index() {
   // const { t } = useTranslation(['common', 'about']);
 
   return (
-    // <main>
-    //   <h1 data-testid="helloworld">Hello World!</h1>
-    //   <h2 data-testid="greeting">{t('common:greeting')}</h2>
-    //   <h3>{t('about:welcome')}</h3>
-    <Home />
-    // </main>
+    <React.Fragment>
+      <Head>
+        <title>Video Annotator - Dashboard</title>
+      </Head>
+      <Home />
+    </React.Fragment>
   );
 }
 
@@ -22,4 +24,4 @@ export const getServerSideProps = async ({ locale }: NextPageContext) => ({
   },
 });
 
-export default HomePage;
+export default Index;

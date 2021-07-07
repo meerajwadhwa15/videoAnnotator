@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import { Container, Row, Nav, NavItem, NavLink } from 'shards-react';
 
+import styles from './style.module.scss';
+
 interface Item {
   title: string;
   to: string;
@@ -15,14 +17,14 @@ const Footer: FC<Props> = ({ menuItems, copyright }) => (
   <footer className="main-footer d-flex p-2 px-3 bg-white border-top">
     <Container fluid={false}>
       <Row>
-        <Nav>
+        <Nav className={styles.nav}>
           {menuItems?.map((item, idx) => (
             <NavItem key={idx}>
               <NavLink to={item.to}>{item.title}</NavLink>
             </NavItem>
           ))}
         </Nav>
-        <span className="copyright ml-auto my-auto mr-2">{copyright}</span>
+        <div className={styles.copyright}>{copyright}</div>
       </Row>
     </Container>
   </footer>
@@ -36,15 +38,15 @@ Footer.defaultProps = {
       to: '#',
     },
     {
-      title: 'Page1',
+      title: 'Services',
       to: '#',
     },
     {
-      title: 'Page2',
+      title: 'Contacts',
       to: '#',
     },
     {
-      title: 'Page3',
+      title: 'About Us',
       to: '#',
     },
   ],

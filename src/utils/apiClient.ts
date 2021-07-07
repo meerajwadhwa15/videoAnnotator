@@ -44,7 +44,6 @@ export class APIClient {
    * post given data to url
    */
   post = (url: string, data: Record<string, any>) => {
-    console.log('data', data);
     return axios.post(url, data);
   };
 

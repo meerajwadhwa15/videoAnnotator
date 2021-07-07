@@ -63,7 +63,7 @@ const SignupForm = () => {
         name="password"
         label="Password"
         type="password"
-        placeholder="Password"
+        placeholder="Enter password"
       />
       <Input
         value={values.matchingPassword}
@@ -72,7 +72,7 @@ const SignupForm = () => {
         name="matchingPassword"
         label="Repeat Password"
         type="password"
-        placeholder="Password"
+        placeholder="Confirm password"
       />
       <FormGroup>
         <FormCheckbox
