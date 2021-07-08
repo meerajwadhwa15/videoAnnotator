@@ -18,4 +18,12 @@ module.exports = {
   publicRuntimeConfig: {
     isMock,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://13.82.120.142:8080/:path*',
+      },
+    ];
+  },
 };
