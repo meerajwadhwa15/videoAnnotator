@@ -19,8 +19,8 @@ interface AlertProps {
 const AlertCustom: FC<AlertProps> = ({ type, visible, dismiss, children }) => {
   const ref = useRef<any>();
   useEffect(() => {
+    clearTimeout(ref.current);
     if (visible) {
-      clearTimeout(ref.current);
       ref.current = setTimeout(() => {
         dismiss();
       }, ALERT_LIFE_TIME);

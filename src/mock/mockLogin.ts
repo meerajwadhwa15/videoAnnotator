@@ -1,6 +1,4 @@
 export const mockLogin = {
-  data: {
-    status: 'success',
-    accessToken: 'gdhahdgajldah;dgsjfbkfha;fk',
-  },
+  status: 200,
+  token: 'Bearer gdhahdgajldah;dgsjfbkfha;fk',
 };

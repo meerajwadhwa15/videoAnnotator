@@ -9,8 +9,8 @@ const mockAxios = axios.create();
 
 const mock = new MockAdapter(mockAxios);
 
-mock.onPost('/login').reply(200, mockLogin);
-mock.onPost('/signup').reply(200, mockSignup);
+mock.onPost('/user/signin').reply(200, mockLogin);
+mock.onPost('/user/signup').reply(200, mockSignup);
 mock.onPost('/updatePassword').reply(200, mockForgotPass);
 mock.onPost('/resetpassword').reply(200, mockResetPassword);
 

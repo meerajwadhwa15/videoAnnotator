@@ -12,9 +12,10 @@ import { LoginData } from './types';
 
 function* loginWorker({ payload }: PayloadAction<LoginData>) {
   try {
-    const { data } = yield call(request.post, 'login', payload);
-    const { accessToken } = data;
-    clientCookie.saveToken(accessToken);
+    const { remember, ...data } = payload;
+    const result = yield call(request.post, '/user/signin', data);
+    const token = result.token.replace('Bearer ', '');
+    clientCookie.saveToken({ token, remember });
     yield put(dispatchLoginSuccess());
     yield call(router.push, '/');
   } catch (error) {

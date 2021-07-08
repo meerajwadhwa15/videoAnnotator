@@ -23,7 +23,7 @@ const SignupForm = () => {
 
   const signUpForm = useFormik({
     initialValues: {
-      fullname: '',
+      fullName: '',
       email: '',
       password: '',
       matchingPassword: '',
@@ -50,10 +50,10 @@ const SignupForm = () => {
       />
       <Input
         label="User Name"
-        value={values.fullname}
-        errorMessage={errors.fullname}
+        value={values.fullName}
+        errorMessage={errors.fullName}
         onChange={handleChange}
-        name="fullname"
+        name="fullName"
         placeholder="Enter user name"
       />
       <Input
