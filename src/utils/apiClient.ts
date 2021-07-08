@@ -7,7 +7,7 @@ const { publicRuntimeConfig } = getConfig();
 const axios = publicRuntimeConfig?.isMock ? mockAxios : Axios;
 
 // default
-axios.defaults.baseURL = 'https://13.82.120.142:8080';
+axios.defaults.baseURL = '/api';
 
 // content type
 axios.defaults.headers.common['Content-Type'] = 'application/json';
