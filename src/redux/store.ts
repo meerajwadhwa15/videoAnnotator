@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './rootSaga';
 
+import appReducer from './globalSlice';
 import homeReducer from 'modules/home/slice';
 import loginReducer from 'modules/login/slice';
 import signupReducer from 'modules/signup/slice';
@@ -13,6 +14,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
   reducer: {
+    app: appReducer,
     home: homeReducer,
     login: loginReducer,
     signup: signupReducer,
