@@ -16,13 +16,15 @@ import {
 } from 'shards-react';
 import Image from 'next/image';
 
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { toggleSidebar } from 'components/elements/slice';
 import styles from './style.module.scss';
+import { userDataSelector } from 'redux/globalSlice';
 
 const MainNavbar = () => {
   const [visible, setVisible] = useState(false);
   const dispatch = useAppDispatch();
+  const { fullName } = useAppSelector(userDataSelector);
 
   function onToggleSidebar() {
     dispatch(toggleSidebar(true));
@@ -68,7 +70,7 @@ const MainNavbar = () => {
                   alt="User Avatar"
                 />
                 <span className={`d-md-inline-block ${styles.textToggle}`}>
-                  Phuongdk
+                  {fullName}
                 </span>
               </DropdownToggle>
               <Collapse

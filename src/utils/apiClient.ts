@@ -1,6 +1,9 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { mockAxios } from 'mock';
+import { GetServerSidePropsContext } from 'next';
 import getConfig from 'next/config';
+import { ACCESS_TOKEN } from './clientCookies';
+import { parseContextCookie } from './helpers';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -63,5 +66,41 @@ export class APIClient {
     });
   };
 }
+
+class APIServer {
+  private axiosInstance = Axios.create();
+  constructor() {
+    this.axiosInstance.defaults.baseURL = 'http://13.82.120.142:8080';
+    // intercepting response
+    this.axiosInstance.interceptors.response.use(
+      function (response: AxiosResponse) {
+        return response.data ? response.data : response;
+      },
+      function (error) {
+        return Promise.reject(error);
+      }
+    );
+  }
+
+  get({
+    url,
+    params,
+    context,
+  }: {
+    url: string;
+    params?: Record<string, any>;
+    context: GetServerSidePropsContext;
+  }) {
+    const cookie = parseContextCookie(context);
+    return this.axiosInstance.get(url, {
+      params,
+      headers: {
+        Authorization: `Bearer ${cookie[ACCESS_TOKEN]}`,
+      },
+    });
+  }
+}
+
+export const requestServer = new APIServer();
 
 export const request = new APIClient();
