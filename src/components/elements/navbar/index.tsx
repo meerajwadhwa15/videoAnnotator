@@ -14,20 +14,28 @@ import {
   NavItem,
   NavLink,
 } from 'shards-react';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { toggleSidebar } from 'components/elements/slice';
 import styles from './style.module.scss';
 import { userDataSelector } from 'redux/globalSlice';
+import { clientCookie } from 'utils/clientCookies';
 
 const MainNavbar = () => {
   const [visible, setVisible] = useState(false);
   const dispatch = useAppDispatch();
+  const { push } = useRouter();
   const { fullName } = useAppSelector(userDataSelector);
 
   function onToggleSidebar() {
     dispatch(toggleSidebar(true));
+  }
+
+  function handleLogout() {
+    clientCookie.deleteSession();
+    push('/login');
   }
 
   return (
@@ -84,11 +92,7 @@ const MainNavbar = () => {
                   Profile
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem
-                  tag={NavLink}
-                  href="/logout"
-                  className="text-danger"
-                >
+                <DropdownItem onClick={handleLogout} className="text-danger">
                   Logout
                 </DropdownItem>
               </Collapse>

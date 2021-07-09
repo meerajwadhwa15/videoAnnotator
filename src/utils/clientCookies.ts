@@ -13,6 +13,9 @@ class ClientCookie {
   getToken() {
     return JSCookie.get(ACCESS_TOKEN);
   }
+  deleteSession() {
+    JSCookie.remove(ACCESS_TOKEN);
+  }
 }
 
 export const clientCookie = new ClientCookie();
