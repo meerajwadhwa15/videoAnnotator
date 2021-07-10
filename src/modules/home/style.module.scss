@@ -1,5 +1,6 @@
 .card {
   padding: 0 !important;
+  margin: 0 15px;
   width: 100%;
 }
 
@@ -52,6 +53,7 @@
 }
 
 .button {
+  display: inline-block;
   padding: 0.4286rem 0.875rem !important;
   font-size: 0.6875rem !important;
   line-height: 1.5 !important;

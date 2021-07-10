@@ -1,24 +1,24 @@
 import React from 'react';
 import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Profile from 'modules/profile';
+import VideoDetail from 'modules/videoDetail';
 import { withAuthPage } from 'utils/hoc';
 
 function Index() {
   return (
     <React.Fragment>
       <Head>
-        <title>Video Annotator - Profile</title>
+        <title>Video Annotator - Video Detail</title>
       </Head>
-      <Profile />
+      <VideoDetail />
     </React.Fragment>
   );
 }
 
-export const getServerSideProps = withAuthPage(async ({ locale }) => {
+export const getServerSideProps = withAuthPage(async (props) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale || '', ['common'])),
+      ...(await serverSideTranslations(props.locale || '', ['common'])),
     },
   };
 });

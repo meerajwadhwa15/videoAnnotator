@@ -7,6 +7,7 @@ import { store } from 'redux/store';
 
 import { setCurrentLoginUser, fetchUsersListSSR } from 'redux/globalSlice';
 import { fetchVideosListSSR } from 'modules/home/slice';
+import { fetchVideoDetailSSR } from 'modules/videoDetail/slice';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'shards-ui/dist/css/shards.min.css';
@@ -28,16 +29,22 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const { user, videosList, usersList } = pageProps;
+      const { user, videosList, usersList, videoDetail } = pageProps;
 
       if (user) {
         store.dispatch(setCurrentLoginUser(user));
       }
 
-      store.dispatch(fetchVideosListSSR(videosList));
-
-      if (Array.isArray(usersList) && usersList.length > 0) {
+      if (usersList) {
         store.dispatch(fetchUsersListSSR(usersList));
+      }
+
+      if (videosList) {
+        store.dispatch(fetchVideosListSSR(videosList));
+      }
+
+      if (videoDetail) {
+        store.dispatch(fetchVideoDetailSSR(videoDetail));
       }
     }
   }, [pageProps]);

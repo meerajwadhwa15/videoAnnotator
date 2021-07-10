@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from 'redux/store';
-import { VideosList } from 'models';
+import { VideoInfo } from 'models';
 import { assignVideoRequestData, Message } from './types';
 
 interface homeState {
-  videosList: VideosList[];
+  videosList: VideoInfo[];
   loading: boolean;
   message: Message;
 }
@@ -22,7 +22,7 @@ export const homeSlice = createSlice({
   name: 'home',
   initialState,
   reducers: {
-    fetchVideosListSSR(state: homeState, action: PayloadAction<VideosList[]>) {
+    fetchVideosListSSR(state: homeState, action: PayloadAction<VideoInfo[]>) {
       state.videosList = action.payload;
     },
     assignVideo(
@@ -36,7 +36,7 @@ export const homeSlice = createSlice({
       };
       console.log('action', action);
     },
-    assignVideoSuccess: (state, action: PayloadAction<VideosList>) => {
+    assignVideoSuccess: (state, action: PayloadAction<VideoInfo>) => {
       const videoId = action.payload.id;
       const currentVideoIndex = state.videosList.findIndex(
         (video) => video.id === videoId
@@ -67,7 +67,7 @@ export const {
   clearMessage,
 } = homeSlice.actions;
 
-export const videoListsSelector = (state: RootState) => state.home.videosList;
+export const videosListSelector = (state: RootState) => state.home.videosList;
 export const loadingSelector = (state: RootState) => state.home.loading;
 export const messageSelector = (state: RootState) => state.home.message;
 

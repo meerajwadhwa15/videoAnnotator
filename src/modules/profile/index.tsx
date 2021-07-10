@@ -54,7 +54,7 @@ const Profile = () => {
   return (
     <DashboardLayout>
       <div className="d-flex flex-column justify-content-center">
-        <PageTitle title="Profile" subtitle="" />
+        <PageTitle title="My Profile" subtitle="Profile" />
         {renderContent()}
       </div>
     </DashboardLayout>

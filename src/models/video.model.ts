@@ -4,12 +4,13 @@ export interface assignedUsers {
   fullName: string;
 }
 
-export interface VideosList {
+export interface VideoInfo {
   id: number;
   name: string;
   description: string;
   format: string;
   size: string;
   url: string;
+  status: string;
   assignedUsers: assignedUsers[];
 }

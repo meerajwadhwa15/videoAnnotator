@@ -19,17 +19,17 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  NavLink,
 } from 'shards-react';
 import Image from 'next/image';
 import FuzzySearch from 'fuzzy-search';
 import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-
 import DashboardLayout from 'components/layouts/DashboardLayout';
 import PageTitle from 'components/elements/pageTitle';
 import { userDataSelector, usersListDataSelector } from 'redux/globalSlice';
 import {
-  videoListsSelector,
+  videosListSelector,
   messageSelector,
   loadingSelector,
   assignVideo,
@@ -41,12 +41,11 @@ import styles from './style.module.scss';
 
 const Home = () => {
   const dispatch = useAppDispatch();
-  const tableDataStore = useAppSelector(videoListsSelector);
+  const tableDataStore = useAppSelector(videosListSelector);
   const currentUser = useAppSelector(userDataSelector);
   const usersList = useAppSelector(usersListDataSelector);
   const message = useAppSelector(messageSelector);
   const loading = useAppSelector(loadingSelector);
-
   const [tableDataState, setTableDataState] = useState(tableDataStore);
   const [pageSizeOptions] = useState([5, 10, 15, 20]);
   const [pageSize, setPageSize] = useState(10);
@@ -130,6 +129,8 @@ const Home = () => {
               </Button>
             )}
             <Button
+              tag={NavLink}
+              href={`/video-detail/${row.original.id}`}
               title="View Detail"
               theme="white"
               className={styles.button}
@@ -265,7 +266,7 @@ const Home = () => {
   return (
     <DashboardLayout>
       {/* Page Title */}
-      <PageTitle title="Videos" subtitle="Video List" />
+      <PageTitle title="Videos List" subtitle="Video" />
       {/* Table */}
       <Card className={styles.card}>
         <CardHeader className="p-0">
@@ -300,8 +301,8 @@ const Home = () => {
                   </InputGroupAddon>
                   <FormInput
                     placeholder="Search..."
-                    onChange={(e) => {
-                      onSearch(e);
+                    onChange={(event) => {
+                      onSearch(event);
                     }}
                   />
                 </InputGroup>
@@ -330,7 +331,7 @@ const Home = () => {
         <ModalHeader>Assign/Retract this video for</ModalHeader>
         <ModalBody>
           <div className="content-wrapper">
-            {usersList.length > 0 ? (
+            {Array.isArray(usersList) && usersList.length > 0 ? (
               usersList.map((user) => (
                 <div key={user.id} className={styles.modalCheckbox}>
                   <FormCheckbox
@@ -345,7 +346,7 @@ const Home = () => {
                       height={45}
                       alt="Avatar"
                     />
-                    <span className="test">{`${user.fullName} - ${user.email}`}</span>
+                    <span>{`${user.fullName} - ${user.email}`}</span>
                   </FormCheckbox>
                 </div>
               ))
