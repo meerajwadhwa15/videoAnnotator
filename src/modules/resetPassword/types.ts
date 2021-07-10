@@ -1,6 +1,11 @@
 export interface ResetState {
   loading: boolean;
-  error: string;
+  message: Message;
+}
+
+export interface Message {
+  type: string;
+  text: string;
 }
 export interface ResetData {
   new_password: string;

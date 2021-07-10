@@ -1,16 +1,22 @@
 /* eslint jsx-a11y/anchor-is-valid: 0 */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CardBody, Form, FormGroup, FormCheckbox, Button } from 'shards-react';
-import Input from 'components/elements/Input';
 import { useFormik } from 'formik';
-import { LoginSchema } from 'validations/LoginSchema';
+import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { loadingSelector, loginErrorSelector, dispatchLogin } from './slice';
+import { LoginSchema } from 'validations/LoginSchema';
+import {
+  loadingSelector,
+  messageSelector,
+  dispatchLogin,
+  clearMessage,
+} from './slice';
+import Input from 'components/elements/Input';
 // import styles from './style.module.scss';
 
 export const LoginForm = () => {
   const loading = useAppSelector(loadingSelector);
-  const error = useAppSelector(loginErrorSelector);
+  const message = useAppSelector(messageSelector);
   const dispatch = useAppDispatch();
 
   const loginForm = useFormik({
@@ -25,15 +31,31 @@ export const LoginForm = () => {
       dispatch(dispatchLogin({ email, password, remember }));
     },
   });
-
-  const { values, handleChange, handleSubmit, errors, setFieldValue } =
+  const { values, errors, setFieldValue, handleChange, handleSubmit } =
     loginForm;
+
+  useEffect(() => {
+    if (message.type === 'success') {
+      setTimeout(() => {
+        toast.success('🚀 Login successfully!');
+      }, 1500);
+    }
+
+    if (message.type === 'error') {
+      toast.error('🚀 Login error!');
+    }
+
+    return () => {
+      dispatch(clearMessage());
+    };
+  }, [message, dispatch]);
 
   return (
     <CardBody>
       <h5 className="auth-form__title text-center mb-4">Login Form</h5>
       <Form onSubmit={handleSubmit}>
         <Input
+          invalid={errors.email ? true : false}
           value={values.email}
           onChange={handleChange}
           errorMessage={errors.email}
@@ -43,6 +65,7 @@ export const LoginForm = () => {
           autoComplete="email"
         />
         <Input
+          invalid={errors.password ? true : false}
           value={values.password}
           onChange={handleChange}
           errorMessage={errors.password}
@@ -62,14 +85,13 @@ export const LoginForm = () => {
             Remember me
           </FormCheckbox>
         </FormGroup>
-        {error && <p className="error-text">{error}</p>}
         <Button
           block
           type="submit"
           disabled={loading}
           className="d-table mx-auto"
         >
-          Login
+          {loading ? 'Authenticating...' : 'Login'}
         </Button>
       </Form>
     </CardBody>

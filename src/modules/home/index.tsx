@@ -31,6 +31,7 @@ import { userDataSelector, usersListDataSelector } from 'redux/globalSlice';
 import {
   videoListsSelector,
   messageSelector,
+  loadingSelector,
   assignVideo,
   clearMessage,
 } from './slice';
@@ -44,6 +45,7 @@ const Home = () => {
   const currentUser = useAppSelector(userDataSelector);
   const usersList = useAppSelector(usersListDataSelector);
   const message = useAppSelector(messageSelector);
+  const loading = useAppSelector(loadingSelector);
 
   const [tableDataState, setTableDataState] = useState(tableDataStore);
   const [pageSizeOptions] = useState([5, 10, 15, 20]);
@@ -60,7 +62,6 @@ const Home = () => {
     }
   );
   const currentVideoId = useRef(0);
-  const updateBtnRef = useRef();
 
   const tableColumns = [
     {
@@ -356,12 +357,12 @@ const Home = () => {
         <ModalFooter>
           {
             <Button
-              ref={updateBtnRef}
+              disabled={loading}
               onClick={() => {
                 onUpdate();
               }}
             >
-              Update
+              {loading ? 'Updating...' : 'Update'}
             </Button>
           }
           <Button

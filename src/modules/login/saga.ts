@@ -9,11 +9,12 @@ import {
   dispatchLogin,
 } from './slice';
 import { LoginData } from './types';
+import { API_ENDPOINT } from 'utils/constants';
 
 function* loginWorker({ payload }: PayloadAction<LoginData>) {
   try {
     const { remember, ...data } = payload;
-    const result = yield call(request.post, '/user/signin', data);
+    const result = yield call(request.post, API_ENDPOINT.login, data);
     const token = result.token.replace('Bearer ', '');
     clientCookies.saveToken({ token, remember });
     setAuthorizationHeader();

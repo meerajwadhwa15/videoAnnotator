@@ -23,8 +23,8 @@ const Profile = () => {
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
             <Image
-              className={`user-avatar`}
-              src="/images/1.jpg"
+              className={`user-avatar rounded-circle`}
+              src="/images/avatar-default.jpg"
               width={120}
               height={120}
               alt="User Avatar"

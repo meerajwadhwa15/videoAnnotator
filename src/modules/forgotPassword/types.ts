@@ -1,7 +1,11 @@
 export interface ForgotPassState {
   loading: boolean;
-  error: string;
-  alert: boolean;
+  message: Message;
+}
+
+export interface Message {
+  type: string;
+  text: string;
 }
 
 export interface ForgotPassData {

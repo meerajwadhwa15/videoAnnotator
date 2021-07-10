@@ -22,7 +22,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
     closeOnClick: true,
     pauseOnHover: true,
     newestOnTop: true,
-    pauseOnFocusLoss: true,
+    pauseOnFocusLoss: false,
     transition: Flip,
   });
 

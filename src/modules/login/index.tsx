@@ -2,9 +2,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { Card } from 'shards-react';
+import { useTranslation } from 'next-i18next';
 import AuthLayout from 'components/layouts/AuthLayout';
 import { LoginForm } from './LoginForm';
-import { useTranslation } from 'next-i18next';
 // import styles from './style.module.scss';
 
 const Login = () => {

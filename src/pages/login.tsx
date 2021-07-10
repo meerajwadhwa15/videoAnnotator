@@ -1,6 +1,5 @@
 import React from 'react';
 import Login from 'modules/login';
-import { NextPageContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
@@ -17,7 +16,7 @@ function Index() {
   );
 }
 
-export const getStaticProps = async ({ locale }: NextPageContext) => ({
+export const getStaticProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(locale || '', ['common', 'login'])),
   },

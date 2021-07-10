@@ -20,6 +20,7 @@ import Image from 'next/image';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { toggleSidebar } from 'components/elements/slice';
 import { userDataSelector } from 'redux/globalSlice';
+import { removeAuthorizationHeader } from 'utils/apiClient';
 import { clientCookies } from 'utils/clientCookies';
 import styles from './style.module.scss';
 
@@ -35,6 +36,7 @@ const MainNavbar = () => {
 
   function handleLogout() {
     clientCookies.deleteSession();
+    removeAuthorizationHeader();
     push('/login');
   }
 
