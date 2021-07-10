@@ -1,8 +1,8 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import router from 'next/router';
 import { takeLatest, all, call, put } from 'redux-saga/effects';
-import { request } from 'utils/apiClient';
-import { clientCookie } from 'utils/clientCookies';
+import { request, setAuthorizationHeader } from 'utils/apiClient';
+import { clientCookies } from 'utils/clientCookies';
 import {
   dispatchLoginFail,
   dispatchLoginSuccess,
@@ -15,7 +15,8 @@ function* loginWorker({ payload }: PayloadAction<LoginData>) {
     const { remember, ...data } = payload;
     const result = yield call(request.post, '/user/signin', data);
     const token = result.token.replace('Bearer ', '');
-    clientCookie.saveToken({ token, remember });
+    clientCookies.saveToken({ token, remember });
+    setAuthorizationHeader();
     yield put(dispatchLoginSuccess());
     yield call(router.push, '/');
   } catch (error) {

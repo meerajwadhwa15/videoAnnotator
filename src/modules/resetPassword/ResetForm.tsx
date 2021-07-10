@@ -33,8 +33,6 @@ export const ResetForm = () => {
   //   return <></>;
   // }
 
-  console.log('token', token);
-
   const { values, handleChange, handleSubmit, errors } = resetForm;
 
   return (

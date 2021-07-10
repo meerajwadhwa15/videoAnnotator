@@ -71,3 +71,51 @@
 .icon {
   font-size: 14px !important;
 }
+
+.modalContentItem {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.modalCheckbox {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.checkLabel {
+  > label {
+    position: absolute;
+    left: 0;
+    top: 12px;
+    z-index: 1;
+  }
+
+  > input {
+    left: 1px;
+    top: 13px;
+    z-index: 2;
+    cursor: pointer;
+  }
+
+  > span > div {
+    margin: 0 15px 0 5px !important;
+  }
+
+  > span > span {
+    position: relative;
+    top: -9px;
+    display: inline-block;
+    font-weight: 400;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 300px;
+  }
+}
+
+.notFoundUsers {
+  margin: 0 !important;
+  text-align: center;
+}

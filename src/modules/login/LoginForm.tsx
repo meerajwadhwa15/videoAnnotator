@@ -54,6 +54,7 @@ export const LoginForm = () => {
         />
         <FormGroup>
           <FormCheckbox
+            id="remember_me"
             name="remember"
             checked={values.remember}
             onChange={() => setFieldValue('remember', !values.remember)}
