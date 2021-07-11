@@ -17,9 +17,7 @@ const DashboardLayout = ({ children }) => {
         >
           <Navbar />
           <Container fluid className="main-content-container px-4">
-            <Row noGutters className="page-header py-4">
-              {children}
-            </Row>
+            <Row className="page-header py-4">{children}</Row>
           </Container>
           <Footer />
         </Col>

@@ -1,0 +1,81 @@
+const sampleData = [
+  {
+    id: 1,
+    name: 'Lava episode 1',
+    type: 'mp4 file',
+    size: '10mb',
+    status: 'Awaited annotation',
+  },
+  {
+    id: 2,
+    name: 'Lava episode 2',
+    type: 'mp4 file',
+    size: '10mb',
+    status: 'Awaited annotation',
+  },
+  {
+    id: 3,
+    name: 'Lava episode 3',
+    type: 'mp4 file',
+    size: '10mb',
+    status: 'Awaited annotation',
+  },
+  {
+    id: 4,
+    name: 'Lava episode 4',
+    type: 'mp4 file',
+    size: '10mb',
+    status: 'Awaited annotation',
+  },
+  {
+    id: 5,
+    name: 'Lava episode 5',
+    type: 'mp4 file',
+    size: '10mb',
+    status: 'Awaited annotation',
+  },
+  {
+    id: 6,
+    name: 'Lava episode 6',
+    type: 'mp4 file',
+    size: '10mb',
+    status: 'Awaited annotation',
+  },
+  {
+    id: 7,
+    name: 'Lava episode 7',
+    type: 'mp4 file',
+    size: '10mb',
+    status: 'Awaited annotation',
+  },
+  {
+    id: 8,
+    name: 'Lava episode 8',
+    type: 'mp4 file',
+    size: '10mb',
+    status: 'Awaited annotation',
+  },
+  {
+    id: 9,
+    name: 'Lava episode 9',
+    type: 'mp4 file',
+    size: '10mb',
+    status: 'Awaited annotation',
+  },
+  {
+    id: 10,
+    name: 'Lava episode 10',
+    type: 'mp4 file',
+    size: '10mb',
+    status: 'Awaited annotation',
+  },
+  {
+    id: 11,
+    name: 'Lava episode 11',
+    type: 'mp4 file',
+    size: '10mb',
+    status: 'Awaited annotation',
+  },
+];
+
+export { sampleData };

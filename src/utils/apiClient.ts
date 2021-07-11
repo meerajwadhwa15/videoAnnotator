@@ -2,21 +2,27 @@ import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { mockAxios } from 'mock';
 import { GetServerSidePropsContext } from 'next';
 import getConfig from 'next/config';
-import { ACCESS_TOKEN } from './clientCookies';
+import { ACCESS_TOKEN, clientCookies } from './clientCookies';
 import { parseContextCookie } from './helpers';
 
 const { publicRuntimeConfig } = getConfig();
 
-const axios = publicRuntimeConfig?.isMock ? mockAxios : Axios;
+const axiosClient = publicRuntimeConfig?.isMock ? mockAxios : Axios;
 
 // default
-axios.defaults.baseURL = '/api';
+axiosClient.defaults.baseURL = '/api';
 
 // content type
-axios.defaults.headers.common['Content-Type'] = 'application/json';
+axiosClient.defaults.headers.common['Content-Type'] = 'application/json';
+
+// set authorization header
+if (clientCookies.getToken()) {
+  axiosClient.defaults.headers.common['Authorization'] =
+    'Bearer ' + clientCookies.getToken();
+}
 
 // intercepting request
-axios.interceptors.request.use(
+axiosClient.interceptors.request.use(
   function (config: AxiosRequestConfig) {
     return config;
   },
@@ -26,7 +32,7 @@ axios.interceptors.request.use(
 );
 
 // intercepting response
-axios.interceptors.response.use(
+axiosClient.interceptors.response.use(
   function (response: AxiosResponse) {
     return response.data ? response.data : response;
   },
@@ -35,44 +41,53 @@ axios.interceptors.response.use(
   }
 );
 
+const setAuthorizationHeader = () => {
+  axiosClient.defaults.headers.common['Authorization'] =
+    'Bearer ' + clientCookies.getToken();
+};
+
+const removeAuthorizationHeader = () => {
+  delete axiosClient.defaults.headers.common['Authorization'];
+};
+
 export class APIClient {
   /**
    * Fetch data from given url
    */
-  get = (url: string, params: Record<string, any>) => {
-    return axios.get(url, params);
+  get = (url: string, params: Record<string, any> = {}) => {
+    return axiosClient.get(url, params);
   };
 
   /**
    * post given data to url
    */
   post = (url: string, data: Record<string, any>) => {
-    return axios.post(url, data);
+    return axiosClient.post(url, data);
   };
 
   /**
    * Update data to url
    */
   update = (url: string, data: Record<string, any>) => {
-    return axios.patch(url, data);
+    return axiosClient.patch(url, data);
   };
 
   /**
    * Delete data from url
    */
   delete = (url: string, data: Record<string, any>) => {
-    axios.delete(url, {
+    axiosClient.delete(url, {
       data,
     });
   };
 }
 
 class APIServer {
-  private axiosInstance = Axios.create();
+  private axiosServer = Axios.create();
   constructor() {
-    this.axiosInstance.defaults.baseURL = 'http://13.82.120.142:8080';
+    this.axiosServer.defaults.baseURL = 'http://13.82.120.142:8080';
     // intercepting response
-    this.axiosInstance.interceptors.response.use(
+    this.axiosServer.interceptors.response.use(
       function (response: AxiosResponse) {
         return response.data ? response.data : response;
       },
@@ -92,7 +107,7 @@ class APIServer {
     context: GetServerSidePropsContext;
   }) {
     const cookie = parseContextCookie(context);
-    return this.axiosInstance.get(url, {
+    return this.axiosServer.get(url, {
       params,
       headers: {
         Authorization: `Bearer ${cookie[ACCESS_TOKEN]}`,
@@ -101,6 +116,12 @@ class APIServer {
   }
 }
 
-export const requestServer = new APIServer();
+const request = new APIClient();
+const requestServer = new APIServer();
 
-export const request = new APIClient();
+export {
+  setAuthorizationHeader,
+  removeAuthorizationHeader,
+  request,
+  requestServer,
+};

@@ -1,0 +1,29 @@
+.videoDetail {
+  display: block;
+}
+
+@media (max-width: 991px) {
+  .playerWrapper {
+    height: 400px !important;
+  }
+
+  .col {
+    margin-bottom: 30px;
+  }
+}
+
+.cardHead {
+  border-bottom: 1px solid #dae9f9 !important;
+  background-color: #fff;
+}
+
+.videoPlaceHoldler {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  color: #000;
+}

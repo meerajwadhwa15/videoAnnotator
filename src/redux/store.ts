@@ -7,8 +7,9 @@ import homeReducer from 'modules/home/slice';
 import loginReducer from 'modules/login/slice';
 import signupReducer from 'modules/signup/slice';
 import resetPasswordReducer from 'modules/resetPassword/slice';
-import elementReducer from 'components/elements/slice';
 import forgotPassReducer from 'modules/forgotPassword/slice';
+import videoDetailReducer from 'modules/videoDetail/slice';
+import elementReducer from 'components/elements/slice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -18,9 +19,10 @@ export const store = configureStore({
     home: homeReducer,
     login: loginReducer,
     signup: signupReducer,
-    resetPassword: resetPasswordReducer,
-    element: elementReducer,
     forgotPass: forgotPassReducer,
+    resetPassword: resetPasswordReducer,
+    videoDetail: videoDetailReducer,
+    element: elementReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),

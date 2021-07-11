@@ -2,7 +2,7 @@ import JSCookie from 'js-cookie';
 
 export const ACCESS_TOKEN = 'access_token';
 
-class ClientCookie {
+class ClientCookies {
   saveToken({ token, remember }: { token: string; remember: boolean }) {
     if (remember) {
       JSCookie.set(ACCESS_TOKEN, token, { expires: 7 });
@@ -18,4 +18,4 @@ class ClientCookie {
   }
 }
 
-export const clientCookie = new ClientCookie();
+export const clientCookies = new ClientCookies();

@@ -8,6 +8,6 @@ export const SignupSchema = Yup.object().shape({
   password: Yup.string().required(),
   matchingPassword: Yup.string().oneOf(
     [Yup.ref('password'), null],
-    'passwords must match'
+    'Password must match'
   ),
 });

@@ -7,10 +7,11 @@ import {
   resetPasswordFail,
 } from './slice';
 import { ResetData } from './types';
+import { API_ENDPOINT } from 'utils/constants';
 
 function* resetPasswordWorker({ payload }: PayloadAction<ResetData>) {
   try {
-    yield call(request.post, 'resetpassword', payload);
+    yield call(request.post, API_ENDPOINT.resetPassword, payload);
     yield put(resetPasswordSuccess());
   } catch (error) {
     yield put(resetPasswordFail());

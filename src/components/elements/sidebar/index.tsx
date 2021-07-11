@@ -20,21 +20,15 @@ const Sidebar = () => {
       title: 'Dashboards',
       items: [
         {
-          title: 'Dashboard',
+          title: 'Videos List',
           to: '/',
           htmlBefore: '<i class="material-icons">videocam</i>',
           htmlAfter: '',
         },
         {
-          title: 'Login',
-          to: '/login',
-          htmlBefore: '<i class="material-icons">videocam</i>',
-          htmlAfter: '',
-        },
-        {
-          title: 'Signup',
-          to: '/signup',
-          htmlBefore: '<i class="material-icons">videocam</i>',
+          title: 'Profile',
+          to: '/profile',
+          htmlBefore: '<i class="material-icons">person</i>',
           htmlAfter: '',
         },
       ],
@@ -50,7 +44,7 @@ const Sidebar = () => {
       {/* Navbar brand */}
       <Navbar className={styles.navbar} type="light">
         <NavbarBrand className={styles.navbarBrand} href="/">
-          <span>Video Annotator Dashboard</span>
+          <span>Video Annotator</span>
         </NavbarBrand>
         <a
           className={`${styles.toggleSidebar} d-sm-inline d-md-none d-lg-none`}

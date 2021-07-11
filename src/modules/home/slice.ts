@@ -1,48 +1,74 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from 'redux/store';
+import { VideoInfo } from 'models';
+import { assignVideoRequestData, Message } from './types';
 
 interface homeState {
-  value: number;
-  status: string;
-  pokemon: Record<string, unknown>;
+  videosList: VideoInfo[];
+  loading: boolean;
+  message: Message;
 }
 
 const initialState: homeState = {
-  value: 0,
-  status: 'idle',
-  pokemon: {},
+  videosList: [],
+  loading: false,
+  message: {
+    type: '',
+    text: '',
+  },
 };
 
 export const homeSlice = createSlice({
   name: 'home',
   initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1;
+    fetchVideosListSSR(state: homeState, action: PayloadAction<VideoInfo[]>) {
+      state.videosList = action.payload;
     },
-    decrement: (state) => {
-      state.value -= 1;
+    assignVideo(
+      state: homeState,
+      action: PayloadAction<assignVideoRequestData>
+    ) {
+      state.loading = true;
+      state.message = {
+        type: '',
+        text: '',
+      };
+      console.log('action', action);
     },
-    getSinglePokemon: (state, action: PayloadAction<string>) => {
-      console.log(action);
-      state.status = 'loading';
+    assignVideoSuccess: (state, action: PayloadAction<VideoInfo>) => {
+      const videoId = action.payload.id;
+      const currentVideoIndex = state.videosList.findIndex(
+        (video) => video.id === videoId
+      );
+
+      state.videosList[currentVideoIndex] = action.payload;
+      state.message.type = 'success';
+      state.message.text = 'update_assign_success';
+      state.loading = false;
     },
-    getSinglePokemonSuccess: (state, action) => {
-      state.status = 'idle';
-      state.pokemon = action.payload;
+    assignVideoError: (state) => {
+      state.message.type = 'error';
+      state.message.text = 'update_assign_error';
+      state.loading = false;
+    },
+    clearMessage: (state) => {
+      state.message.type = '';
+      state.message.text = '';
     },
   },
 });
 
 export const {
-  increment,
-  decrement,
-  getSinglePokemon,
-  getSinglePokemonSuccess,
+  fetchVideosListSSR,
+  assignVideo,
+  assignVideoSuccess,
+  assignVideoError,
+  clearMessage,
 } = homeSlice.actions;
 
-export const selectCount = (state: RootState) => state.home.value;
-export const status = (state: RootState) => state.home.status;
-export const pokemonInfo = (state: RootState) => state.home.pokemon;
+export const videosListSelector = (state: RootState) => state.home.videosList;
+export const loadingSelector = (state: RootState) => state.home.loading;
+export const messageSelector = (state: RootState) => state.home.message;
 
 export default homeSlice.reducer;

@@ -19,9 +19,10 @@ import Image from 'next/image';
 
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { toggleSidebar } from 'components/elements/slice';
-import styles from './style.module.scss';
 import { userDataSelector } from 'redux/globalSlice';
-import { clientCookie } from 'utils/clientCookies';
+import { removeAuthorizationHeader } from 'utils/apiClient';
+import { clientCookies } from 'utils/clientCookies';
+import styles from './style.module.scss';
 
 const MainNavbar = () => {
   const [visible, setVisible] = useState(false);
@@ -34,7 +35,8 @@ const MainNavbar = () => {
   }
 
   function handleLogout() {
-    clientCookie.deleteSession();
+    clientCookies.deleteSession();
+    removeAuthorizationHeader();
     push('/login');
   }
 
@@ -72,7 +74,7 @@ const MainNavbar = () => {
               >
                 <Image
                   className={`user-avatar rounded-circle mr-2 ${styles.img}`}
-                  src="/images/1.jpg"
+                  src="/images/avatar-default.jpg"
                   width={40}
                   height={40}
                   alt="User Avatar"

@@ -66,10 +66,6 @@ h6 {
   margin: 5px 0 0;
 }
 
-i.material-icons {
-  font-size: 22px;
-}
-
 /* User profile */
 
 /* User details card */
@@ -180,4 +176,29 @@ i.material-icons {
       }
     }
   }
+}
+
+/* Modal */
+.modal-backdrop.show {
+  opacity: 0.6;
+}
+
+@media (min-width: 767.98px) and (max-width: 991px) {
+  .modal .modal-dialog {
+    left: 100px;
+  }
+}
+
+.modal-header {
+  background-color: #007bff;
+  padding: 0.8rem 2.1875rem;
+
+  .modal-title {
+    color: #fff;
+  }
+}
+
+.modal-body {
+  max-height: 600px;
+  overflow: auto;
 }

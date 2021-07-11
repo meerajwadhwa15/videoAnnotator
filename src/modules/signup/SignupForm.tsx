@@ -1,25 +1,23 @@
 /* eslint jsx-a11y/anchor-is-valid: 0 */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
-import Input from 'components/elements/Input';
 import { Form, FormGroup, FormCheckbox, Button } from 'shards-react';
-import { SignupSchema } from 'validations/SignupSchema';
+import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { SignupSchema } from 'validations/SignupSchema';
+import Input from 'components/elements/Input';
 import {
-  alertSelector,
   dispatchSignup,
   loadingSelector,
-  signupErrorSelector,
-  toggleAlert,
+  messageSelector,
+  clearMessage,
 } from './slice';
-import Alert, { AlertType } from 'components/elements/Alert';
 
 const SignupForm = () => {
   const dispatch = useAppDispatch();
   const loading = useAppSelector(loadingSelector);
-  const error = useAppSelector(signupErrorSelector);
-  const showAlert = useAppSelector(alertSelector);
+  const message = useAppSelector(messageSelector);
 
   const signUpForm = useFormik({
     initialValues: {
@@ -31,16 +29,36 @@ const SignupForm = () => {
     },
     validationSchema: SignupSchema,
     onSubmit: (values) => {
-      dispatch(dispatchSignup(values));
+      if (values.policyChecked) {
+        dispatch(dispatchSignup(values));
+      } else {
+        toast.info('You must agree Terms & Conditions.');
+      }
     },
   });
 
   const { values, handleChange, handleSubmit, errors, setFieldValue } =
     signUpForm;
 
+  useEffect(() => {
+    if (message.type === 'success') {
+      signUpForm.resetForm();
+      toast.success('🚀 Signup successfully!');
+    }
+
+    if (message.type === 'error') {
+      toast.error('🚀 Signup error!');
+    }
+
+    return () => {
+      dispatch(clearMessage());
+    };
+  }, [message, dispatch, signUpForm]);
+
   return (
     <Form onSubmit={handleSubmit}>
       <Input
+        invalid={errors.email ? true : false}
         name="email"
         value={values.email}
         onChange={handleChange}
@@ -49,6 +67,7 @@ const SignupForm = () => {
         placeholder="Enter email"
       />
       <Input
+        invalid={errors.fullName ? true : false}
         label="User Name"
         value={values.fullName}
         errorMessage={errors.fullName}
@@ -57,6 +76,7 @@ const SignupForm = () => {
         placeholder="Enter user name"
       />
       <Input
+        invalid={errors.password ? true : false}
         value={values.password}
         errorMessage={errors.password}
         onChange={handleChange}
@@ -66,6 +86,7 @@ const SignupForm = () => {
         placeholder="Enter password"
       />
       <Input
+        invalid={errors.matchingPassword ? true : false}
         value={values.matchingPassword}
         errorMessage={errors.matchingPassword}
         onChange={handleChange}
@@ -76,6 +97,7 @@ const SignupForm = () => {
       />
       <FormGroup>
         <FormCheckbox
+          id="checkbox"
           required
           checked={values.policyChecked}
           onChange={() => setFieldValue('policyChecked', !values.policyChecked)}
@@ -83,22 +105,14 @@ const SignupForm = () => {
           I agree with the <a href="#">Terms & Conditions</a>.
         </FormCheckbox>
       </FormGroup>
-      {error && <p className="error-text">{error}</p>}
       <Button
         block
         type="submit"
         disabled={loading}
         className="d-table mx-auto"
       >
-        Create Account
+        {loading ? 'Checking...' : 'Create Account'}
       </Button>
-      <Alert
-        type={AlertType.success}
-        visible={showAlert}
-        dismiss={() => dispatch(toggleAlert())}
-      >
-        Create new account successful
-      </Alert>
     </Form>
   );
 };

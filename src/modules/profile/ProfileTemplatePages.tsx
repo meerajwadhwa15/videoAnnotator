@@ -135,7 +135,7 @@ const Profile = () => {
                   <div className="edit-user-details__avatar">
                     <Image
                       className={`user-avatar rounded-circle`}
-                      src="/images/1.jpg"
+                      src="/images/avatar-default.jpg"
                       width={100}
                       height={100}
                       alt="User Avatar"
