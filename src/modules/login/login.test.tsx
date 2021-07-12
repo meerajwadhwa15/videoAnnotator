@@ -4,5 +4,5 @@ import Login from '.';
 
 it('It should mount', () => {
   render(<Login />);
-  expect(screen.getByText('Login Form')).toBeInTheDocument();
+  expect(screen.getByText('login:loginFormTitle')).toBeInTheDocument();
 });

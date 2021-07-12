@@ -1,5 +1,17 @@
 {
   "pageTitle": "Video Annotator - Đăng Nhập",
+  "loginFormTitle": "Video Annotator - Đăng Nhập",
+  "loginFormEmailLabel": "Địa chỉ email",
+  "loginFormEmailPlaceholder": "Nhập email",
+  "loginFormPasswordTitle": "Mật khẩu",
+  "loginFormPasswordPlaceholder": "Nhập mật khẩu",
+  "loginFormRememberTitle": "Ghi nhớ thông tin",
+  "loginFormSubmitButton": "Đăng nhập",
+  "loadingSigninTitle": "Đang xác thực...",
   "toForgotPassword": "Quên mật khẩu?",
-  "toSignup": "Đăng ký tài khoản mới?"
+  "toSignup": "Đăng ký tài khoản mới?",
+  "requiredEmailError": "Email là trường bắt buộc",
+  "invalidEmailError": "Hãy nhập địa chỉ email hợp lệ",
+  "requiredPasswordError": "Mật khẩu là trường bắt buộc",
+  "loginFailMessage": "Đăng nhập thất bại"
 }

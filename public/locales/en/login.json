@@ -1,5 +1,17 @@
 {
   "pageTitle": "Video Annotator - Login",
+  "loginFormTitle": "Video Annotator - Login",
+  "loginFormEmailLabel": "Email Address",
+  "loginFormEmailPlaceholder": "Enter email",
+  "loginFormPasswordTitle": "Password",
+  "loginFormPasswordPlaceholder": "Enter password",
+  "loginFormRememberTitle": "Remember me",
+  "loginFormSubmitButton": "Login",
+  "loadingSigninTitle": "Authenticating...",
   "toForgotPassword": "Forgot your password?",
-  "toSignup": "Create a new account?"
+  "toSignup": "Create a new account?",
+  "requiredEmailError": "Email is required",
+  "invalidEmailError": "Please enter valid email address",
+  "requiredPasswordError": "Password is required",
+  "loginFailMessage": "🚀 Login failed"
 }

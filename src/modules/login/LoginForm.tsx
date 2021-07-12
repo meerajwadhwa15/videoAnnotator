@@ -12,12 +12,14 @@ import {
   clearMessage,
 } from './slice';
 import Input from 'components/elements/Input';
+import { useTranslation } from 'next-i18next';
 // import styles from './style.module.scss';
 
 export const LoginForm = () => {
   const loading = useAppSelector(loadingSelector);
   const message = useAppSelector(messageSelector);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation(['login']);
 
   const loginForm = useFormik({
     initialValues: {
@@ -25,7 +27,7 @@ export const LoginForm = () => {
       password: '',
       remember: false,
     },
-    validationSchema: LoginSchema,
+    validationSchema: LoginSchema(t),
     onSubmit: (values) => {
       const { email, password, remember } = values;
       dispatch(dispatchLogin({ email, password, remember }));
@@ -35,12 +37,6 @@ export const LoginForm = () => {
     loginForm;
 
   useEffect(() => {
-    if (message.type === 'success') {
-      setTimeout(() => {
-        toast.success('🚀 Login successfully!');
-      }, 1500);
-    }
-
     if (message.type === 'error') {
       toast.error('🚀 Login error!');
     }
@@ -52,15 +48,17 @@ export const LoginForm = () => {
 
   return (
     <CardBody>
-      <h5 className="auth-form__title text-center mb-4">Login Form</h5>
+      <h5 className="auth-form__title text-center mb-4">
+        {t('login:loginFormTitle')}
+      </h5>
       <Form onSubmit={handleSubmit}>
         <Input
           value={values.email}
           onChange={handleChange}
           errorMessage={errors.email}
           name="email"
-          label="Email address"
-          placeholder="Enter email"
+          label={t('login:loginFormEmailLabel')}
+          placeholder={t('login:loginFormEmailPlaceholder')}
           autoComplete="email"
         />
         <Input
@@ -68,9 +66,9 @@ export const LoginForm = () => {
           onChange={handleChange}
           errorMessage={errors.password}
           name="password"
-          label="Password"
+          label={t('login:loginFormPasswordTitle')}
           type="password"
-          placeholder="Password"
+          placeholder={t('login:loginFormPasswordPlaceholder')}
           autoComplete="current-password"
         />
         <FormGroup>
@@ -80,7 +78,7 @@ export const LoginForm = () => {
             checked={values.remember}
             onChange={() => setFieldValue('remember', !values.remember)}
           >
-            Remember me
+            {t('login:loginFormRememberTitle')}
           </FormCheckbox>
         </FormGroup>
         <Button
@@ -89,7 +87,9 @@ export const LoginForm = () => {
           disabled={loading}
           className="d-table mx-auto"
         >
-          {loading ? 'Authenticating...' : 'Login'}
+          {loading
+            ? t('login:loadingSigninTitle')
+            : t('login:loginFormSubmitButton')}
         </Button>
       </Form>
     </CardBody>
