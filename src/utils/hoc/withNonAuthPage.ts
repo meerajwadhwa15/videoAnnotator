@@ -1,26 +1,21 @@
-import { GetStaticProps, GetStaticPropsContext } from 'next';
-import { clientCookies } from 'utils/clientCookies';
+import { GetServerSideProps } from 'next';
+import { ACCESS_TOKEN } from 'utils/clientCookies';
+import { parseContextCookie } from 'utils/helpers';
 
-export function withNonAuthPage(gsp: GetStaticProps): GetStaticProps {
-  const redirectPayload = {
-    redirect: {
-      destination: '/',
-      permanent: false,
-    },
-  };
-
-  return async (context: GetStaticPropsContext<any>) => {
-    if (clientCookies.getToken()) {
-      return redirectPayload;
+export function withNonAuthPage(gssp: GetServerSideProps): GetServerSideProps {
+  return async (context) => {
+    const cookie = parseContextCookie(context);
+    const accessToken = cookie[ACCESS_TOKEN];
+    if (accessToken) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+        props: {},
+      };
     }
-
-    const gspData: any = await gsp(context);
-
-    return {
-      ...gspData,
-      props: {
-        ...(gspData.props || {}),
-      },
-    };
+    const gsspData = await gssp(context);
+    return gsspData;
   };
 }

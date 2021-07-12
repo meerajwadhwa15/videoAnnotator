@@ -12,15 +12,14 @@ interface InputProps {
   placeholder?: string;
   errorMessage?: string;
   autoComplete?: string;
-  invalid: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: FC<InputProps> = ({ label, errorMessage, invalid, ...props }) => {
+const Input: FC<InputProps> = ({ label, errorMessage, ...props }) => {
   return (
     <FormGroup className={styles.Input}>
       <label>{label}</label>
-      <FormInput {...props} invalid={invalid} />
+      <FormInput {...props} invalid={!!errorMessage} />
       {errorMessage && <p className="error-text">{errorMessage}</p>}
     </FormGroup>
   );

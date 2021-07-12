@@ -58,7 +58,6 @@ const SignupForm = () => {
   return (
     <Form onSubmit={handleSubmit}>
       <Input
-        invalid={errors.email ? true : false}
         name="email"
         value={values.email}
         onChange={handleChange}
@@ -67,7 +66,6 @@ const SignupForm = () => {
         placeholder="Enter email"
       />
       <Input
-        invalid={errors.fullName ? true : false}
         label="User Name"
         value={values.fullName}
         errorMessage={errors.fullName}
@@ -76,7 +74,6 @@ const SignupForm = () => {
         placeholder="Enter user name"
       />
       <Input
-        invalid={errors.password ? true : false}
         value={values.password}
         errorMessage={errors.password}
         onChange={handleChange}
@@ -86,7 +83,6 @@ const SignupForm = () => {
         placeholder="Enter password"
       />
       <Input
-        invalid={errors.matchingPassword ? true : false}
         value={values.matchingPassword}
         errorMessage={errors.matchingPassword}
         onChange={handleChange}

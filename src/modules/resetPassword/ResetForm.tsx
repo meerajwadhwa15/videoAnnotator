@@ -64,7 +64,6 @@ export const ResetForm = () => {
       <h5 className="auth-form__title text-center mb-4">Create New Password</h5>
       <Form onSubmit={handleSubmit}>
         <Input
-          invalid={errors.new_password ? true : false}
           value={values.new_password}
           onChange={handleChange}
           errorMessage={errors.new_password}
@@ -74,7 +73,6 @@ export const ResetForm = () => {
           placeholder="Enter new password"
         />
         <Input
-          invalid={errors.confirm_password ? true : false}
           value={values.confirm_password}
           onChange={handleChange}
           errorMessage={errors.confirm_password}
