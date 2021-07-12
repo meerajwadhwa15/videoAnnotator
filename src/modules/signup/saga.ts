@@ -1,6 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { takeLatest, all, call, put } from 'redux-saga/effects';
+import { takeLatest, all, call, put, delay } from 'redux-saga/effects';
 import { request } from 'utils/apiClient';
+import Router from 'next/router';
 import {
   dispatchSignup,
   dispatchSignupFail,
@@ -13,6 +14,7 @@ function* signupWorker({ payload }: PayloadAction<SignupData>) {
   try {
     yield call(request.post, API_ENDPOINT.signup, payload);
     yield put(dispatchSignupSuccess());
+    yield delay(1000), yield call(Router.push, '/login');
   } catch (error) {
     yield put(dispatchSignupFail());
   }

@@ -13,11 +13,13 @@ import {
   messageSelector,
   clearMessage,
 } from './slice';
+import { useTranslation } from 'next-i18next';
 
 const SignupForm = () => {
   const dispatch = useAppDispatch();
   const loading = useAppSelector(loadingSelector);
   const message = useAppSelector(messageSelector);
+  const { t } = useTranslation(['signup']);
 
   const signUpForm = useFormik({
     initialValues: {
@@ -27,13 +29,9 @@ const SignupForm = () => {
       matchingPassword: '',
       policyChecked: false,
     },
-    validationSchema: SignupSchema,
+    validationSchema: SignupSchema(t),
     onSubmit: (values) => {
-      if (values.policyChecked) {
-        dispatch(dispatchSignup(values));
-      } else {
-        toast.info('You must agree Terms & Conditions.');
-      }
+      dispatch(dispatchSignup(values));
     },
   });
 
@@ -43,17 +41,17 @@ const SignupForm = () => {
   useEffect(() => {
     if (message.type === 'success') {
       signUpForm.resetForm();
-      toast.success('🚀 Signup successfully!');
+      toast.success(t('signup:signupSuccessMessage'));
     }
 
     if (message.type === 'error') {
-      toast.error('🚀 Signup error!');
+      toast.error(t('signup:failToSignupError'));
     }
 
     return () => {
       dispatch(clearMessage());
     };
-  }, [message, dispatch, signUpForm]);
+  }, [message, dispatch, signUpForm, t]);
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -62,34 +60,34 @@ const SignupForm = () => {
         value={values.email}
         onChange={handleChange}
         errorMessage={errors.email}
-        label="Email Address"
-        placeholder="Enter email"
+        label={t('signup:formInputEmailLabel')}
+        placeholder={t('signup:formInputEmailPlaceholder')}
       />
       <Input
-        label="User Name"
+        label={t('signup:formInputUserNameLabel')}
         value={values.fullName}
         errorMessage={errors.fullName}
         onChange={handleChange}
         name="fullName"
-        placeholder="Enter user name"
+        placeholder={t('signup:formInputUserNamePlaceholder')}
       />
       <Input
         value={values.password}
         errorMessage={errors.password}
         onChange={handleChange}
         name="password"
-        label="Password"
+        label={t('signup:formInputPasswordLabel')}
         type="password"
-        placeholder="Enter password"
+        placeholder={t('signup:formInputPasswordPlaceholder')}
       />
       <Input
         value={values.matchingPassword}
         errorMessage={errors.matchingPassword}
         onChange={handleChange}
         name="matchingPassword"
-        label="Repeat Password"
+        label={t('signup:formInputMatchPasswordLabel')}
         type="password"
-        placeholder="Confirm password"
+        placeholder={t('signup:formInputPasswordPlaceholder')}
       />
       <FormGroup>
         <FormCheckbox
@@ -98,7 +96,7 @@ const SignupForm = () => {
           checked={values.policyChecked}
           onChange={() => setFieldValue('policyChecked', !values.policyChecked)}
         >
-          I agree with the <a href="#">Terms & Conditions</a>.
+          {t('signup:termOfUseMessage')}
         </FormCheckbox>
       </FormGroup>
       <Button
@@ -107,7 +105,9 @@ const SignupForm = () => {
         disabled={loading}
         className="d-table mx-auto"
       >
-        {loading ? 'Checking...' : 'Create Account'}
+        {loading
+          ? t('signup:loadingSubmitButtonLabel')
+          : t('signup:signupSubmitButtonLabel')}
       </Button>
     </Form>
   );
