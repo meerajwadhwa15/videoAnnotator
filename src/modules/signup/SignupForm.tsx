@@ -1,8 +1,16 @@
 /* eslint jsx-a11y/anchor-is-valid: 0 */
 
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Form, FormGroup, FormCheckbox, Button } from 'shards-react';
+import {
+  Form,
+  FormGroup,
+  FormCheckbox,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+} from 'shards-react';
 import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { SignupSchema } from 'validations/SignupSchema';
@@ -20,6 +28,8 @@ const SignupForm = () => {
   const loading = useAppSelector(loadingSelector);
   const message = useAppSelector(messageSelector);
   const { t } = useTranslation(['signup']);
+
+  const [isModalOpen, setModal] = useState(false);
 
   const signUpForm = useFormik({
     initialValues: {
@@ -52,6 +62,10 @@ const SignupForm = () => {
       dispatch(clearMessage());
     };
   }, [message, dispatch, signUpForm, t]);
+
+  function toggleModal() {
+    setModal(!isModalOpen);
+  }
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -96,7 +110,17 @@ const SignupForm = () => {
           checked={values.policyChecked}
           onChange={() => setFieldValue('policyChecked', !values.policyChecked)}
         >
-          {t('signup:termOfUseMessage')}
+          {t('signup:agreeWith')}{' '}
+          <a
+            style={{ textDecoration: 'underline' }}
+            href="#"
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleModal();
+            }}
+          >
+            {t('signup:termOfUseMessage')}
+          </a>
         </FormCheckbox>
       </FormGroup>
       <Button
@@ -109,6 +133,13 @@ const SignupForm = () => {
           ? t('signup:loadingSubmitButtonLabel')
           : t('signup:signupSubmitButtonLabel')}
       </Button>
+      {/* Modal */}
+      <Modal centered size="md" open={isModalOpen} toggle={() => toggleModal()}>
+        <ModalHeader>{t('signup:termModalHeader')}</ModalHeader>
+        <ModalBody>
+          <div style={{ textAlign: 'justify' }}>{t('signup:dummyText')}</div>
+        </ModalBody>
+      </Modal>
     </Form>
   );
 };

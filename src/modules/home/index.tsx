@@ -21,6 +21,7 @@ import {
   ModalFooter,
   NavLink,
 } from 'shards-react';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import FuzzySearch from 'fuzzy-search';
 import { toast } from 'react-toastify';
@@ -40,7 +41,9 @@ import { displayVideoStatus } from 'utils/helpers';
 import styles from './style.module.scss';
 
 const Home = () => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
+
   const tableDataStore = useAppSelector(videosListSelector);
   const currentUser = useAppSelector(userDataSelector);
   const usersList = useAppSelector(usersListDataSelector);
@@ -73,18 +76,7 @@ const Home = () => {
       Header: 'Name',
       accessor: 'name',
       className: 'text-center',
-      maxWidth: 300,
-      // Cell: function displayName(data) {
-      // 	// return <span>{data.original.url}</span>;
-      // 	return (
-      // 		<div>
-      // 			{/* <video id={`video-${data.original.id}`} src="http://www.w3schools.com/html/mov_bbb.mp4" controls></video> */}
-      // 			{/* <video controls>
-      //   		<source src="www.youtube.com/watch?v=3bGNuRtlqAQ" type="video/mp4" />
-      // 			</video> */}
-      // 		</div>
-      // 	);
-      // }
+      minWidth: 250,
     },
     {
       Header: 'Type',
@@ -101,7 +93,8 @@ const Home = () => {
     {
       Header: 'Status',
       accessor: 'status',
-      minWidth: 200,
+      minWidth: 150,
+      maxWidth: 250,
       className: 'text-center',
       Cell: function displayStatus(row) {
         return <span>{displayVideoStatus(row.original.status)}</span>;
@@ -111,7 +104,7 @@ const Home = () => {
       Header: 'Actions',
       accessor: 'action',
       minWidth: 200,
-      maxWidth: 350,
+      maxWidth: 400,
       sortable: false,
       Cell: function displayAction(row) {
         return (
@@ -121,7 +114,8 @@ const Home = () => {
                 title="Assign Video"
                 theme="white"
                 className={styles.button}
-                onClick={() => {
+                onClick={(event) => {
+                  event.stopPropagation();
                   toggleModal(row.original.id);
                 }}
               >
@@ -134,11 +128,11 @@ const Home = () => {
               title="View Detail"
               theme="white"
               className={styles.button}
-              onClick={() => {
-                onViewItemDetail(row);
+              onClick={(event) => {
+                event.stopPropagation();
               }}
             >
-              <i className={`${styles.icon} material-icons`}>pageview</i>
+              <i className={`${styles.icon} material-icons`}>visibility</i>
             </Button>
           </ButtonGroup>
         );
@@ -190,10 +184,6 @@ const Home = () => {
 
   function onSearch(event) {
     setTableDataState(searcher.search(event.target.value));
-  }
-
-  function onViewItemDetail(item) {
-    console.log('view detail', item);
   }
 
   function onPageSizeChange(e) {
@@ -317,6 +307,17 @@ const Home = () => {
             pageSize={pageSize}
             showPageSizeOptions={false}
             resizable={true}
+            className="-highlight"
+            getTrProps={(state, row) => {
+              return {
+                style: {
+                  cursor: 'pointer',
+                },
+                onClick: () => {
+                  router.push(`video-detail/${row.original.id}`);
+                },
+              };
+            }}
             noDataText={'No data found'}
           />
         </CardBody>

@@ -29,7 +29,7 @@ function Index({ usersList, videosList }) {
 }
 
 export const getServerSideProps = withAuthPage(async (context, user) => {
-  let usersList: any = [];
+  let usersList: any = null;
   const { locale } = context;
   if (Array.isArray(user['roles']) && user['roles'].includes(UserRole.admin)) {
     usersList = await requestServer.get({

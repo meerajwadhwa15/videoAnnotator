@@ -15,10 +15,13 @@
   "passwordRequiredError": "Mật khẩu là trường bắt buộc",
   "passwordMustMatchError": "Mật khẩu xác nhận cần phải trùng khớp",
   "forgotPasswordLink": "Quên mật khẩu?",
-  "termOfUseMessage": "Tôi đồng ý với điều khoản xử dụng",
+  "agreeWith": "Tôi đồng ý với",
+  "termOfUseMessage": "điều khoản sử dụng.",
+  "termModalHeader": "Điều khoản sử dụng",
   "signupSubmitButtonLabel": "Đăng Ký Tài Khoản",
-  "loadingSubmitButtonLabel": "Loading...",
+  "loadingSubmitButtonLabel": "Đang kiểm tra...",
   "toSigninLink": "Đăng Nhập?",
   "signupSuccessMessage": "🚀 Đăng ký tài khoản thành công!",
-  "failToSignupError": "🚀 Đăng ký tài khoản thất bại!"
+  "failToSignupError": "🚀 Đăng ký tài khoản thất bại!",
+  "dummyText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras molestie leo eget sapien mattis semper. Nam ultrices nisl lorem, nec congue leo hendrerit eu. Morbi a varius lacus. Donec ut quam porttitor velit vehicula semper. Fusce commodo ligula in felis scelerisque gravida. Quisque dapibus luctus lorem sed laoreet. Aliquam nec pretium lorem, at porta odio. Duis sit amet ipsum augue. Quisque eu vehicula nibh, nec tincidunt purus. Nunc nec nibh consectetur, fringilla est et, mollis massa. Vestibulum venenatis mauris a elit placerat, quis mollis nibh feugiat. Morbi sit amet est scelerisque, maximus tellus vel, malesuada metus. Vivamus vel dolor non sem rhoncus pretium. Quisque commodo posuere volutpat. Praesent a auctor magna. Morbi molestie euismod purus, id posuere nibh interdum eget. Nulla vitae volutpat nisi. Quisque vestibulum ultrices nisi. Nulla suscipit ultrices turpis, a consequat enim tempus a. Nullam tempor mauris eget venenatis tristique."
 }
