@@ -55,7 +55,6 @@ export const LoginForm = () => {
       <h5 className="auth-form__title text-center mb-4">Login Form</h5>
       <Form onSubmit={handleSubmit}>
         <Input
-          invalid={errors.email ? true : false}
           value={values.email}
           onChange={handleChange}
           errorMessage={errors.email}
@@ -65,7 +64,6 @@ export const LoginForm = () => {
           autoComplete="email"
         />
         <Input
-          invalid={errors.password ? true : false}
           value={values.password}
           onChange={handleChange}
           errorMessage={errors.password}

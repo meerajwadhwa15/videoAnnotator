@@ -47,7 +47,6 @@ const ForgotPassForm = () => {
   return (
     <Form onSubmit={handleSubmit}>
       <Input
-        invalid={errors.email ? true : false}
         value={values.email}
         onChange={handleChange}
         errorMessage={errors.email}

@@ -5,9 +5,7 @@ import { AppProps } from 'next/app';
 import { toast, Flip } from 'react-toastify';
 import { store } from 'redux/store';
 
-import { setCurrentLoginUser, fetchUsersListSSR } from 'redux/globalSlice';
-import { fetchVideosListSSR } from 'modules/home/slice';
-import { fetchVideoDetailSSR } from 'modules/videoDetail/slice';
+import { setCurrentLoginUser } from 'redux/globalSlice';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'shards-ui/dist/css/shards.min.css';
@@ -29,22 +27,9 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const { user, videosList, usersList, videoDetail } = pageProps;
-
+      const { user } = pageProps;
       if (user) {
         store.dispatch(setCurrentLoginUser(user));
-      }
-
-      if (usersList) {
-        store.dispatch(fetchUsersListSSR(usersList));
-      }
-
-      if (videosList) {
-        store.dispatch(fetchVideosListSSR(videosList));
-      }
-
-      if (videoDetail) {
-        store.dispatch(fetchVideoDetailSSR(videoDetail));
       }
     }
   }, [pageProps]);
