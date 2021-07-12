@@ -11,7 +11,7 @@ import { API_ENDPOINT } from 'utils/constants';
 
 function* signupWorker({ payload }: PayloadAction<SignupData>) {
   try {
-    yield call(request.get, API_ENDPOINT.signup, payload);
+    yield call(request.post, API_ENDPOINT.signup, payload);
     yield put(dispatchSignupSuccess());
   } catch (error) {
     yield put(dispatchSignupFail());
