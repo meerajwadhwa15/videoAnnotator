@@ -61,7 +61,7 @@ export class APIClient {
   /**
    * post given data to url
    */
-  post = (url: string, data: Record<string, any>) => {
+  post = (url: string, data?: Record<string, any>) => {
     return axiosClient.post(url, data);
   };
 
@@ -108,6 +108,29 @@ class APIServer {
   }) {
     const cookie = parseContextCookie(context);
     return this.axiosServer.get(url, {
+      params,
+      headers: {
+        Authorization: `Bearer ${cookie[ACCESS_TOKEN]}`,
+      },
+    });
+  }
+
+  post({
+    url,
+    params,
+    data,
+    context,
+  }: {
+    url: string;
+    params?: Record<string, any>;
+    data?: Record<string, any>;
+    context: GetServerSidePropsContext;
+  }) {
+    const cookie = parseContextCookie(context);
+    return this.axiosServer.request({
+      method: 'POST',
+      url,
+      data,
       params,
       headers: {
         Authorization: `Bearer ${cookie[ACCESS_TOKEN]}`,
