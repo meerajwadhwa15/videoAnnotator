@@ -8,7 +8,7 @@ export interface Message {
   text: string;
 }
 export interface ResetData {
-  new_password: string;
-  confirm_password: string;
-  token: string | string[] | undefined | null;
+  password: string;
+  matchingPassword: string;
+  token: string | undefined | string[];
 }

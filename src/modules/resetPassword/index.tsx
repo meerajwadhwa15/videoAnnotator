@@ -1,22 +1,38 @@
 /* eslint jsx-a11y/anchor-is-valid: 0 */
-import React from 'react';
+import { FC } from 'react';
 import Link from 'next/link';
-import { Card } from 'shards-react';
+import { Card, CardBody } from 'shards-react';
 import AuthLayout from 'components/layouts/AuthLayout';
 import { ResetForm } from './ResetForm';
-// import { useTranslation } from 'next-i18next';
-// import styles from './style.module.scss';
+import { useTranslation } from 'next-i18next';
 
-const ResetPassword = () => {
-  // const { t } = useTranslation(['login']);
+const ResetPassword: FC<{ isTokenValid: boolean }> = ({ isTokenValid }) => {
+  const { t } = useTranslation(['reset-password']);
+
+  const renderContent = () => {
+    if (isTokenValid) {
+      return (
+        <Card>
+          <ResetForm />
+        </Card>
+      );
+    }
+    return (
+      <Card>
+        <CardBody>
+          <h4>{t('reset-password:failToVerifyTokenTitle')}</h4>
+          <p>{t('reset-password:failToVerifyTokenDescription')}</p>
+        </CardBody>
+      </Card>
+    );
+  };
+
   return (
     <AuthLayout>
-      <Card>
-        <ResetForm />
-      </Card>
+      {renderContent()}
       <div className="mt-4 text-center">
         <Link href="/login">
-          <a className="mx-auto">Back to login page.</a>
+          <a className="mx-auto">{t('toLoginLink')}</a>
         </Link>
       </div>
     </AuthLayout>

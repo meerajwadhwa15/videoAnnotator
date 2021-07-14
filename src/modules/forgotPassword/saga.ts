@@ -11,7 +11,10 @@ import { API_ENDPOINT } from 'utils/constants';
 
 function* forgotPasswordWorker({ payload }: PayloadAction<ForgotPassData>) {
   try {
-    yield call(request.post, API_ENDPOINT.forgotPassword, payload);
+    yield call(
+      request.post,
+      `${API_ENDPOINT.forgotPassword}?email=${payload.email}`
+    );
     yield put(dispatchForgotPasswordSuccess());
   } catch (error) {
     yield put(dispatchForgotPasswordFail());
