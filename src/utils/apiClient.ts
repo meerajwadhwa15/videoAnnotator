@@ -65,6 +65,10 @@ export class APIClient {
     return axiosClient.post(url, data);
   };
 
+  put = (url: string, data?: Record<string, any>) => {
+    return axiosClient.put(url, data);
+  };
+
   /**
    * Update data to url
    */

@@ -1,12 +1,12 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from 'redux/store';
 import { AlertMessageType } from 'utils/types';
-import { ProfileState, ProfileUpdateData } from './types';
+import { ChangePasswordData, ProfileState, ProfileUpdateData } from './types';
 
 const initialState: ProfileState = {
   loading: false,
   message: {
-    type: '',
+    type: AlertMessageType.default,
     text: '',
   },
 };
@@ -23,12 +23,22 @@ export const [
   createAction(`${name}/updateUserProfileFail`),
 ];
 
+export const [
+  changeUserPassword,
+  changeUserPasswordSuccess,
+  changeUserPasswordFail,
+] = [
+  createAction<ChangePasswordData>(`${name}/changeUserPassword`),
+  createAction(`${name}/changeUserPasswordSuccess`),
+  createAction<string>(`${name}/changeUserPasswordFail`),
+];
+
 export const profileSlice = createSlice({
   name,
   initialState,
   reducers: {
     clearMessage(state) {
-      state.message.type = '';
+      state.message.type = AlertMessageType.default;
       state.message.text = '';
     },
   },
@@ -39,10 +49,25 @@ export const profileSlice = createSlice({
     [updateUserProfileSuccess.type](state: ProfileState) {
       state.loading = false;
       state.message.type = AlertMessageType.success;
+      state.message.text = '🚀 Update profile successfull!';
     },
     [updateUserProfileFail.type](state: ProfileState) {
       state.loading = false;
+      state.message.type = AlertMessageType.error;
+      state.message.text = '🚀 Update profile failed!';
+    },
+    [changeUserPassword.type](state: ProfileState) {
+      state.loading = true;
+    },
+    [changeUserPasswordSuccess.type](state: ProfileState) {
+      state.loading = false;
       state.message.type = AlertMessageType.success;
+      state.message.text = '🚀 Update password successfull!';
+    },
+    [changeUserPasswordFail.type](state: ProfileState, action) {
+      state.loading = false;
+      state.message.type = AlertMessageType.error;
+      state.message.text = action.payload;
     },
   },
 });

@@ -9,4 +9,5 @@ export const API_ENDPOINT = {
   assignVideo: 'video/assign',
   videoDetail: 'video/detail',
   upateProfile: 'user/update',
+  changePassword: 'user/changePassword',
 };
