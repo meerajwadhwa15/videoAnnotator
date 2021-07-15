@@ -38,6 +38,8 @@ import {
 } from './slice';
 import { UserRole } from 'models/user.model';
 import { displayVideoStatus } from 'utils/helpers';
+import CreateVideoModal from './CreateVideoModal';
+import EditVideoModal from './EditVideoModal';
 import styles from './style.module.scss';
 
 const Home = () => {
@@ -52,7 +54,8 @@ const Home = () => {
   const [tableDataState, setTableDataState] = useState(tableDataStore);
   const [pageSizeOptions] = useState([5, 10, 15, 20]);
   const [pageSize, setPageSize] = useState(10);
-  const [isModalOpen, setModal] = useState(false);
+  const [isAssignModalOpen, setAssignModal] = useState(false);
+  const [isEditModalOpen, setEditModal] = useState(false);
 
   const { roles } = currentUser;
   const isAdmin = roles.includes(UserRole.admin);
@@ -94,7 +97,7 @@ const Home = () => {
       Header: 'Status',
       accessor: 'status',
       minWidth: 150,
-      maxWidth: 250,
+      maxWidth: 300,
       className: 'text-center',
       Cell: function displayStatus(row) {
         return <span>{displayVideoStatus(row.original.status)}</span>;
@@ -116,10 +119,36 @@ const Home = () => {
                 className={styles.button}
                 onClick={(event) => {
                   event.stopPropagation();
-                  toggleModal(row.original.id);
+                  toggleAssignModal(row.original.id);
                 }}
               >
                 <i className={`${styles.icon} material-icons`}>assignment</i>
+              </Button>
+            )}
+            {isAdmin && (
+              <Button
+                title="Edit Video"
+                theme="white"
+                className={styles.button}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  toggleEditModal(row.original.id);
+                }}
+              >
+                <i className={`${styles.icon} material-icons`}>edit</i>
+              </Button>
+            )}
+            {isAdmin && (
+              <Button
+                title="Delete Video"
+                theme="white"
+                className={styles.button}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  window.confirm('Are you sure to delete?');
+                }}
+              >
+                <i className={`${styles.icon} material-icons`}>delete</i>
               </Button>
             )}
             <Button
@@ -145,13 +174,13 @@ const Home = () => {
   }, [tableDataStore]);
 
   useEffect(() => {
-    if (isModalOpen) {
+    if (isAssignModalOpen) {
       dispatch(clearMessage());
     }
 
     if (
-      isModalOpen === false &&
-      currentVideoId.current !== 0 &&
+      isAssignModalOpen === false &&
+      currentVideoId.current > 0 &&
       message.type !== 'success' &&
       message.text !== 'update_assign_success'
     ) {
@@ -166,7 +195,7 @@ const Home = () => {
       setTableDataState(tableDataTemp);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isModalOpen]);
+  }, [isAssignModalOpen]);
 
   useEffect(() => {
     if (message.type === 'success') {
@@ -190,9 +219,14 @@ const Home = () => {
     setPageSize(e.target.value);
   }
 
-  function toggleModal(videoId = 0) {
-    setModal(!isModalOpen);
+  function toggleAssignModal(videoId = 0) {
     currentVideoId.current = videoId;
+    setAssignModal(!isAssignModalOpen);
+  }
+
+  function toggleEditModal(videoId = 0) {
+    currentVideoId.current = videoId;
+    setEditModal(!isEditModalOpen);
   }
 
   function onCheckbox(event, user) {
@@ -250,7 +284,7 @@ const Home = () => {
   }
 
   function onCancel() {
-    setModal(false);
+    setAssignModal(false);
   }
 
   return (
@@ -260,9 +294,16 @@ const Home = () => {
       {/* Table */}
       <Card className={styles.card}>
         <CardHeader className="p-0">
-          <Container fluid className={styles.filterWrapper}>
+          <Container fluid className={styles.containerHeader}>
             <Row>
-              <Col className={styles.rowFilterLeft} md="6">
+              {/* Create New Video Button */}
+              {isAdmin && (
+                <Col xs="12" className={styles.newBtnWrapper}>
+                  <CreateVideoModal />
+                </Col>
+              )}
+              {/*  Show Row */}
+              <Col className={styles.rowFilterLeft} xs="6" md="6">
                 <span>Show</span>
                 <FormSelect
                   size="sm"
@@ -276,9 +317,8 @@ const Home = () => {
                   ))}
                 </FormSelect>
               </Col>
-
               {/* Search */}
-              <Col className="d-flex" md="6">
+              <Col className="d-flex" xs="6" md="6">
                 <InputGroup
                   seamless
                   size="sm"
@@ -322,12 +362,19 @@ const Home = () => {
           />
         </CardBody>
       </Card>
-      {/* Modal */}
+      {/* Modal edit video */}
+      <EditVideoModal
+        isOpen={isEditModalOpen}
+        videoId={currentVideoId.current}
+        videoData={tableDataState}
+        toggleEditModal={() => toggleEditModal()}
+      />
+      {/* Modal assign video */}
       <Modal
         centered
         size="md"
-        open={isModalOpen}
-        toggle={() => toggleModal(currentVideoId.current)}
+        open={isAssignModalOpen}
+        toggle={() => toggleAssignModal(currentVideoId.current)}
       >
         <ModalHeader>Assign/Retract this video for</ModalHeader>
         <ModalBody>

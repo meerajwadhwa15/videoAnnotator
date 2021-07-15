@@ -4,7 +4,7 @@
   width: 100%;
 }
 
-.filterWrapper {
+.containerHeader {
   padding: 10px;
   border-bottom: 1px solid #e1e5eb;
   border-top-left-radius: 4px;
@@ -39,12 +39,37 @@
   }
 }
 
+.newBtnWrapper {
+  margin-bottom: 10px;
+
+  > button {
+    display: block;
+    margin: auto;
+    background-color: #fff;
+
+    &:hover,
+    &:focus {
+      color: #007bff;
+      background-color: #fff;
+    }
+
+    @media (max-width: 767.98px) {
+      margin: initial;
+      margin-left: auto;
+    }
+  }
+}
+
 .inputGroup {
   min-width: 120px;
   width: 180px;
 
-  .input-group-prepend {
-    border-left: 1px solid #e1e5eb;
+  @media (max-width: 767.98px) {
+    width: 100%;
+  }
+
+  > div {
+    height: 31px;
   }
 
   i {
