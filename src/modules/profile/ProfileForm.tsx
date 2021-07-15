@@ -2,23 +2,47 @@ import { Row, Col, Button, Form, FormTextarea, FormGroup } from 'shards-react';
 import { useFormik } from 'formik';
 import Input from 'components/elements/Input';
 import Image from 'next/image';
-import { useAppSelector } from 'redux/hooks';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { userDataSelector } from 'redux/globalSlice';
+import { UserProfileSchema } from 'validations/UserProfileSchema';
+import {
+  clearMessage,
+  loadingSelector,
+  messageSelector,
+  updateUserProfile,
+} from './slice';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { AlertMessageType } from 'utils/types';
 
 export const ProfileForm = () => {
   const userData = useAppSelector(userDataSelector);
-  const { email, fullName } = userData;
+  const loading = useAppSelector(loadingSelector);
+  const message = useAppSelector(messageSelector);
+  const dispatch = useAppDispatch();
+  const { email, fullName, address, introduction, phone } = userData;
+
+  useEffect(() => {
+    if (message.type === AlertMessageType.success) {
+      toast.success('🚀 Update profile successfull!');
+    }
+
+    return () => {
+      dispatch(clearMessage());
+    };
+  }, [message, dispatch]);
 
   const { values, handleSubmit, handleChange, errors } = useFormik({
     initialValues: {
       fullName: fullName,
-      address: '',
-      phone: '',
-      introduction: '',
+      address: address,
+      phone: phone,
+      introduction: introduction,
     },
+    validationSchema: UserProfileSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log(values);
+      dispatch(updateUserProfile(values));
     },
   });
 
@@ -71,6 +95,7 @@ export const ProfileForm = () => {
                 <label>Introduction</label>
                 <FormTextarea
                   style={{ height: 80 }}
+                  name="introduction"
                   value={values.introduction}
                   onChange={handleChange}
                 />
@@ -96,7 +121,7 @@ export const ProfileForm = () => {
           </div>
         </Col>
         <Col nog>
-          <Button block className="d-table mr-3">
+          <Button disabled={loading} block className="d-table mr-3">
             Save
           </Button>
         </Col>
