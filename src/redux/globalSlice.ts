@@ -11,6 +11,9 @@ const initialState: AppState = {
     id: '',
     email: '',
     fullName: '',
+    introduction: '',
+    phone: '',
+    address: '',
     roles: [],
   },
   usersList: [],
@@ -21,7 +24,7 @@ export const appSlice = createSlice({
   initialState,
   reducers: {
     setCurrentLoginUser(state: AppState, action: PayloadAction<User>) {
-      state.user = action.payload;
+      state.user = { ...state.user, ...action.payload };
     },
     fetchUsersListSSR(state: AppState, action: PayloadAction<User[]>) {
       state.usersList = action.payload;
