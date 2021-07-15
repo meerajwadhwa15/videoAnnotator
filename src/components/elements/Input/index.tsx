@@ -1,5 +1,11 @@
-import React, { FC, ChangeEvent } from 'react';
-import { FormGroup, FormInput } from 'shards-react';
+import React, { FC, ChangeEvent, ReactNode } from 'react';
+import {
+  FormGroup,
+  FormInput,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+} from 'shards-react';
 import styles from './style.module.scss';
 
 interface InputProps {
@@ -12,14 +18,22 @@ interface InputProps {
   placeholder?: string;
   errorMessage?: string;
   autoComplete?: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  prefix?: ReactNode;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: FC<InputProps> = ({ label, errorMessage, ...props }) => {
+const Input: FC<InputProps> = ({ label, errorMessage, prefix, ...props }) => {
   return (
     <FormGroup className={styles.Input}>
       <label>{label}</label>
-      <FormInput {...props} invalid={!!errorMessage} />
+      <InputGroup seamless>
+        {prefix && (
+          <InputGroupAddon type="prepend">
+            <InputGroupText>{prefix}</InputGroupText>
+          </InputGroupAddon>
+        )}
+        <FormInput {...props} invalid={!!errorMessage} />
+      </InputGroup>
       {errorMessage && <p className="error-text">{errorMessage}</p>}
     </FormGroup>
   );
