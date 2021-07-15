@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Col, Card, CardBody, CardFooter, CardHeader } from 'shards-react';
 
 import DashboardLayout from 'components/layouts/DashboardLayout';
@@ -6,8 +6,27 @@ import PageTitle from 'components/elements/pageTitle';
 import { ChangePasswordForm } from './ChangePasswordForm';
 import { ProfileForm } from './ProfileForm';
 import styles from './style.module.scss';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { clearMessage, messageSelector } from './slice';
+import { toast } from 'react-toastify';
+import { AlertMessageType } from 'utils/types';
 
 const Profile = () => {
+  const message = useAppSelector(messageSelector);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (message.type === AlertMessageType.success) {
+      toast.success(message.text);
+    } else if (message.type === AlertMessageType.error) {
+      toast.error(message.text);
+    }
+
+    return () => {
+      dispatch(clearMessage());
+    };
+  }, [message, dispatch]);
+
   return (
     <DashboardLayout>
       {/* Page Title */}

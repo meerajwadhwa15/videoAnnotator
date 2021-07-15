@@ -1,16 +1,23 @@
 import { Row, Col, Button, Form } from 'shards-react';
 import Input from 'components/elements/Input';
 import { useFormik } from 'formik';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { changeUserPassword, loadingSelector } from './slice';
+import { ChangePasswordSchema } from 'validations/UserProfileSchema';
 
 export const ChangePasswordForm = () => {
+  const loading = useAppSelector(loadingSelector);
+  const dispatch = useAppDispatch();
+
   const { values, errors, handleChange, handleSubmit } = useFormik({
     initialValues: {
       oldPassword: '',
       password: '',
       matchingPassword: '',
     },
+    validationSchema: ChangePasswordSchema,
     onSubmit: (values) => {
-      console.log(values);
+      dispatch(changeUserPassword(values));
     },
   });
 
@@ -40,6 +47,7 @@ export const ChangePasswordForm = () => {
           <Input
             label="New Password"
             name="password"
+            type="password"
             errorMessage={errors.password}
             placeholder="Enter new password"
             value={values.password}
@@ -50,6 +58,7 @@ export const ChangePasswordForm = () => {
           <Input
             label="Repeat New Password"
             name="matchingPassword"
+            type="password"
             errorMessage={errors.matchingPassword}
             placeholder="Repeat new password"
             value={values.matchingPassword}
@@ -57,7 +66,12 @@ export const ChangePasswordForm = () => {
           />
         </Col>
         <Col xs="12" className="form-group">
-          <Button block className="d-table mr-3">
+          <Button
+            type="submit"
+            disabled={loading}
+            block
+            className="d-table mr-3"
+          >
             Change password
           </Button>
         </Col>

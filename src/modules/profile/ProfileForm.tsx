@@ -5,32 +5,13 @@ import Image from 'next/image';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { userDataSelector } from 'redux/globalSlice';
 import { UserProfileSchema } from 'validations/UserProfileSchema';
-import {
-  clearMessage,
-  loadingSelector,
-  messageSelector,
-  updateUserProfile,
-} from './slice';
-import { useEffect } from 'react';
-import { toast } from 'react-toastify';
-import { AlertMessageType } from 'utils/types';
+import { loadingSelector, updateUserProfile } from './slice';
 
 export const ProfileForm = () => {
   const userData = useAppSelector(userDataSelector);
   const loading = useAppSelector(loadingSelector);
-  const message = useAppSelector(messageSelector);
   const dispatch = useAppDispatch();
   const { email, fullName, address, introduction, phone } = userData;
-
-  useEffect(() => {
-    if (message.type === AlertMessageType.success) {
-      toast.success('🚀 Update profile successfull!');
-    }
-
-    return () => {
-      dispatch(clearMessage());
-    };
-  }, [message, dispatch]);
 
   const { values, handleSubmit, handleChange, errors } = useFormik({
     initialValues: {

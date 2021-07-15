@@ -11,3 +11,9 @@ export interface ProfileState {
   loading: boolean;
   message: AlertMessage;
 }
+
+export interface ChangePasswordData {
+  oldPassword: string;
+  password: string;
+  matchingPassword: string;
+}
