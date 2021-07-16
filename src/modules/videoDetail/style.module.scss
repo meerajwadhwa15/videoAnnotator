@@ -27,3 +27,27 @@
   font-size: 25px;
   color: #000;
 }
+
+.annotatorList {
+  height: 40vh;
+  overflow-y: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .annotatorList {
+    height: auto;
+    max-height: 40vh;
+  }
+}
+
+.annotatorItem {
+  cursor: pointer;
+  background-color: #fff;
+  padding: 8px 16px;
+  border-bottom: 1px solid #cacaca;
+  margin-bottom: 2px;
+
+  &:hover {
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
+  }
+}
