@@ -49,7 +49,7 @@ export const profileSlice = createSlice({
     [updateUserProfileSuccess.type](state: ProfileState) {
       state.loading = false;
       state.message.type = AlertMessageType.success;
-      state.message.text = '🚀 Update profile successfull!';
+      state.message.text = '🚀 Update profile successfully!';
     },
     [updateUserProfileFail.type](state: ProfileState) {
       state.loading = false;
@@ -62,7 +62,7 @@ export const profileSlice = createSlice({
     [changeUserPasswordSuccess.type](state: ProfileState) {
       state.loading = false;
       state.message.type = AlertMessageType.success;
-      state.message.text = '🚀 Update password successfull!';
+      state.message.text = '🚀 Update password successfully!';
     },
     [changeUserPasswordFail.type](state: ProfileState, action) {
       state.loading = false;

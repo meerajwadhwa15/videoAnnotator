@@ -32,7 +32,7 @@ import { userDataSelector, usersListDataSelector } from 'redux/globalSlice';
 import {
   videosListSelector,
   messageSelector,
-  loadingSelector,
+  assignVideoLoadingSelector,
   assignVideo,
   clearMessage,
 } from './slice';
@@ -40,6 +40,7 @@ import { UserRole } from 'models/user.model';
 import { displayVideoStatus } from 'utils/helpers';
 import CreateVideoModal from './CreateVideoModal';
 import EditVideoModal from './EditVideoModal';
+import DeleteVideoModal from './DeleteVideoModal';
 import styles from './style.module.scss';
 
 const Home = () => {
@@ -50,12 +51,13 @@ const Home = () => {
   const currentUser = useAppSelector(userDataSelector);
   const usersList = useAppSelector(usersListDataSelector);
   const message = useAppSelector(messageSelector);
-  const loading = useAppSelector(loadingSelector);
+  const assignVideoLoading = useAppSelector(assignVideoLoadingSelector);
   const [tableDataState, setTableDataState] = useState(tableDataStore);
   const [pageSizeOptions] = useState([5, 10, 15, 20]);
   const [pageSize, setPageSize] = useState(10);
   const [isAssignModalOpen, setAssignModal] = useState(false);
   const [isEditModalOpen, setEditModal] = useState(false);
+  const [isDeleteModalOpen, setDeleteModal] = useState(false);
 
   const { roles } = currentUser;
   const isAdmin = roles.includes(UserRole.admin);
@@ -145,7 +147,7 @@ const Home = () => {
                 className={styles.button}
                 onClick={(event) => {
                   event.stopPropagation();
-                  window.confirm('Are you sure to delete?');
+                  toggleDeleteModal(row.original.id);
                 }}
               >
                 <i className={`${styles.icon} material-icons`}>delete</i>
@@ -174,7 +176,7 @@ const Home = () => {
   }, [tableDataStore]);
 
   useEffect(() => {
-    if (isAssignModalOpen) {
+    if (!isAssignModalOpen && message.type) {
       dispatch(clearMessage());
     }
 
@@ -199,14 +201,14 @@ const Home = () => {
 
   useEffect(() => {
     if (message.type === 'success') {
-      if (message.text === 'update_assign_success') {
-        toast.success('🚀 Update successfully!');
+      if (message.text === 'assign_video_success') {
+        toast.success('🚀 Assign video successfully!');
       }
     }
 
     if (message.type === 'error') {
-      if (message.text === 'update_assign_error') {
-        toast.error('🚀 Update error!');
+      if (message.text === 'assign_video_error') {
+        toast.error('🚀 Assign video error!');
       }
     }
   }, [message]);
@@ -227,6 +229,11 @@ const Home = () => {
   function toggleEditModal(videoId = 0) {
     currentVideoId.current = videoId;
     setEditModal(!isEditModalOpen);
+  }
+
+  function toggleDeleteModal(videoId = 0) {
+    currentVideoId.current = videoId;
+    setDeleteModal(!isDeleteModalOpen);
   }
 
   function onCheckbox(event, user) {
@@ -369,6 +376,12 @@ const Home = () => {
         videoData={tableDataState}
         toggleEditModal={() => toggleEditModal()}
       />
+      {/* Modal edit video */}
+      <DeleteVideoModal
+        isOpen={isDeleteModalOpen}
+        videoId={currentVideoId.current}
+        toggleDeleteModal={() => toggleDeleteModal()}
+      />
       {/* Modal assign video */}
       <Modal
         centered
@@ -406,12 +419,12 @@ const Home = () => {
         <ModalFooter>
           {
             <Button
-              disabled={loading}
+              disabled={assignVideoLoading}
               onClick={() => {
                 onUpdate();
               }}
             >
-              {loading ? 'Updating...' : 'Update'}
+              {assignVideoLoading ? 'Updating...' : 'Update'}
             </Button>
           }
           <Button

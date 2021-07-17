@@ -14,7 +14,12 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { VideoSchema } from 'validations/VideoSchema';
 import Input from 'components/elements/Input';
 import { VideoInfo } from 'models/video.model';
-import styles from './style.module.scss';
+import {
+  editVideo,
+  messageSelector,
+  editVideoLoadingSelector,
+  clearMessage,
+} from './slice';
 
 interface props {
   isOpen: boolean;
@@ -29,34 +34,30 @@ const EditVideoModal: FC<props> = ({
   videoData,
   toggleEditModal,
 }) => {
-  // const message = useAppSelector(messageSelector);
+  const message = useAppSelector(messageSelector);
+  const loading = useAppSelector(editVideoLoadingSelector);
+
   const dispatch = useAppDispatch();
   const form = useFormik({
+    enableReinitialize: true,
     initialValues: {
       name: '',
       url: '',
-      format: '',
-      size: '',
       description: '',
     },
     validationSchema: VideoSchema,
     onSubmit: (values) => {
-      const { name, url, format, size, description } = values;
-      // dispatch(dispatchLogin({ email, password, remember }));
+      const { name, url, description } = values;
+      dispatch(editVideo({ id: videoId, name, url, description }));
     },
   });
-  const {
-    values,
-    errors,
-    setFieldValue,
-    setErrors,
-    handleChange,
-    handleSubmit,
-  } = form;
+  const { values, errors, setFieldValue, handleChange, handleSubmit } = form;
 
   useEffect(() => {
-    console.log('effect', isOpen, videoId, videoData);
-    setErrors({});
+    if (!isOpen && message.type) {
+      dispatch(clearMessage());
+    }
+
     if (
       Array.isArray(videoData) &&
       videoData.length > 0 &&
@@ -66,15 +67,20 @@ const EditVideoModal: FC<props> = ({
       const data: any = videoData.find((video) => video.id === videoId);
       setFieldValue('name', data.name);
       setFieldValue('url', data.url);
-      setFieldValue('format', data.format);
-      setFieldValue('size', data.size);
       setFieldValue('description', data.description);
     }
-
-    if (!isOpen) {
-      setErrors({});
-    }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (message.type === 'success' && message.text === 'edit_video_success') {
+      toast.success('Update video successfully!');
+      toggleEditModal();
+    }
+
+    if (message.type === 'error' && message.text === 'edit_video_error') {
+      toast.error('Edit video error!');
+    }
+  }, [message, dispatch]);
 
   return (
     <React.Fragment>
@@ -101,24 +107,6 @@ const EditVideoModal: FC<props> = ({
                 placeholder="Url such as youtube, vimeo,..."
                 autoComplete="url"
               />
-              <Input
-                value={values.format}
-                onChange={handleChange}
-                errorMessage={errors.format}
-                name="format"
-                label="Video Format"
-                placeholder="Format such as mp4, mkv,..."
-                autoComplete="format"
-              />
-              <Input
-                value={values.size}
-                onChange={handleChange}
-                errorMessage={errors.size}
-                name="size"
-                label="Video Size"
-                placeholder="Enter video size"
-                autoComplete="size"
-              />
               <label>Video description</label>
               <FormTextarea
                 style={{ height: 80 }}
@@ -127,19 +115,19 @@ const EditVideoModal: FC<props> = ({
                 value={values.description}
                 onChange={handleChange}
               />
+              {errors.description && (
+                <p className="error-text">{errors.description}</p>
+              )}
             </div>
           </ModalBody>
           <ModalFooter>
             <Button
               block
               type="submit"
-              // disabled={loading}
+              disabled={loading}
               className="d-table mx-auto"
             >
-              {/* {loading
-                                    ? t('login:loadingSigninTitle')
-                                    : t('login:loginFormSubmitButton')} */}
-              Update
+              {loading ? 'Updating' : 'Update'}
             </Button>
           </ModalFooter>
         </Form>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Form,
   Button,
@@ -13,10 +13,17 @@ import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { VideoSchema } from 'validations/VideoSchema';
 import Input from 'components/elements/Input';
-import styles from './style.module.scss';
+import {
+  fetchVideosList,
+  createVideo,
+  messageSelector,
+  createVideoLoadingSelector,
+  clearMessage,
+} from './slice';
 
 const CreateVideoModal = () => {
-  // const message = useAppSelector(messageSelector);
+  const message = useAppSelector(messageSelector);
+  const loading = useAppSelector(createVideoLoadingSelector);
   const dispatch = useAppDispatch();
 
   const [isCreateModalOpen, setCreateModal] = useState(false);
@@ -24,17 +31,34 @@ const CreateVideoModal = () => {
     initialValues: {
       name: '',
       url: '',
-      format: '',
-      size: '',
       description: '',
     },
     validationSchema: VideoSchema,
     onSubmit: (values) => {
-      const { name, url, format, size, description } = values;
-      // dispatch(dispatchLogin({ email, password, remember }));
+      const { name, url, description } = values;
+      dispatch(createVideo({ name, url, description }));
     },
   });
   const { values, errors, handleChange, handleSubmit } = form;
+
+  useEffect(() => {
+    if (!isCreateModalOpen && message.type) {
+      dispatch(clearMessage());
+      form.resetForm();
+    }
+  }, [isCreateModalOpen]);
+
+  useEffect(() => {
+    if (message.type === 'success' && message.text === 'create_video_success') {
+      // toast.success(t('reset-password:createNewPasswordSuccess'));
+      toast.success('Create video successfully!');
+    }
+
+    if (message.type === 'error' && message.text === 'create_video_error') {
+      dispatch(fetchVideosList());
+      toast.error('Create video error!');
+    }
+  }, [message, dispatch]);
 
   function toggleCreateModal() {
     setCreateModal(!isCreateModalOpen);
@@ -73,24 +97,6 @@ const CreateVideoModal = () => {
                 placeholder="Url such as youtube, vimeo,..."
                 autoComplete="url"
               />
-              <Input
-                value={values.format}
-                onChange={handleChange}
-                errorMessage={errors.format}
-                name="format"
-                label="Video Format"
-                placeholder="Format such as mp4, mkv,..."
-                autoComplete="format"
-              />
-              <Input
-                value={values.size}
-                onChange={handleChange}
-                errorMessage={errors.size}
-                name="size"
-                label="Video Size"
-                placeholder="Enter video size"
-                autoComplete="size"
-              />
               <label>Video description</label>
               <FormTextarea
                 style={{ height: 80 }}
@@ -99,19 +105,19 @@ const CreateVideoModal = () => {
                 value={values.description}
                 onChange={handleChange}
               />
+              {errors.description && (
+                <p className="error-text">{errors.description}</p>
+              )}
             </div>
           </ModalBody>
           <ModalFooter>
             <Button
               block
+              disabled={loading}
               type="submit"
-              // disabled={loading}
               className="d-table mx-auto"
             >
-              {/* {loading
-                                    ? t('login:loadingSigninTitle')
-                                    : t('login:loginFormSubmitButton')} */}
-              Submit
+              {loading ? 'Creating...' : 'Submit'}
             </Button>
           </ModalFooter>
         </Form>
