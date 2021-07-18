@@ -124,12 +124,12 @@ export const homeSlice = createSlice({
 
       state.message.type = 'success';
       state.message.text = 'edit_video_success';
-      state.createVideoLoading = false;
+      state.editVideoLoading = false;
     },
     editVideoError: (state) => {
       state.message.type = 'error';
       state.message.text = 'edit_video_error';
-      state.loading = false;
+      state.editVideoLoading = false;
     },
     deleteVideo(state: homeState, action: PayloadAction<number>) {
       state.deleteVideoLoading = true;

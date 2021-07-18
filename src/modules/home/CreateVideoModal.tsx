@@ -10,6 +10,7 @@ import {
 } from 'shards-react';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'next-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { VideoSchema } from 'validations/VideoSchema';
 import Input from 'components/elements/Input';
@@ -25,6 +26,7 @@ const CreateVideoModal = () => {
   const message = useAppSelector(messageSelector);
   const loading = useAppSelector(createVideoLoadingSelector);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation(['home']);
 
   const [isCreateModalOpen, setCreateModal] = useState(false);
   const form = useFormik({
@@ -33,7 +35,7 @@ const CreateVideoModal = () => {
       url: '',
       description: '',
     },
-    validationSchema: VideoSchema,
+    validationSchema: VideoSchema(t),
     onSubmit: (values) => {
       const { name, url, description } = values;
       dispatch(createVideo({ name, url, description }));
@@ -46,19 +48,19 @@ const CreateVideoModal = () => {
       dispatch(clearMessage());
       form.resetForm();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCreateModalOpen]);
 
   useEffect(() => {
     if (message.type === 'success' && message.text === 'create_video_success') {
-      // toast.success(t('reset-password:createNewPasswordSuccess'));
-      toast.success('Create video successfully!');
+      toast.success(t('createSuccessMsg'));
     }
 
     if (message.type === 'error' && message.text === 'create_video_error') {
       dispatch(fetchVideosList());
-      toast.error('Create video error!');
+      toast.error(t('createErrorMsg'));
     }
-  }, [message, dispatch]);
+  }, [message, dispatch, t]);
 
   function toggleCreateModal() {
     setCreateModal(!isCreateModalOpen);
@@ -67,7 +69,7 @@ const CreateVideoModal = () => {
   return (
     <React.Fragment>
       <Button outline size="sm" onClick={() => toggleCreateModal()}>
-        Create new <i className="material-icons">plus_one</i>
+        {t('createNewBtn')} <i className="material-icons">plus_one</i>
       </Button>
       <Modal
         centered
@@ -75,7 +77,7 @@ const CreateVideoModal = () => {
         open={isCreateModalOpen}
         toggle={() => toggleCreateModal()}
       >
-        <ModalHeader>Create Video Data</ModalHeader>
+        <ModalHeader>{t('createModalHeaderText')}</ModalHeader>
         <Form onSubmit={handleSubmit}>
           <ModalBody>
             <div className="content-wrapper">
@@ -84,8 +86,8 @@ const CreateVideoModal = () => {
                 onChange={handleChange}
                 errorMessage={errors.name}
                 name="name"
-                label="Video Name"
-                placeholder="Enter video name"
+                label={t('videoNameLabel')}
+                placeholder={t('videoNamePlaceholder')}
                 autoComplete="name"
               />
               <Input
@@ -93,15 +95,15 @@ const CreateVideoModal = () => {
                 onChange={handleChange}
                 errorMessage={errors.url}
                 name="url"
-                label="Video Url"
-                placeholder="Url such as youtube, vimeo,..."
+                label={t('videoUrlLabel')}
+                placeholder={t('videoUrlPlaceholder')}
                 autoComplete="url"
               />
-              <label>Video description</label>
+              <label>{t('videoDesLabel')}</label>
               <FormTextarea
                 style={{ height: 80 }}
                 name="description"
-                placeholder="Video description"
+                placeholder={t('videoDesPlaceholder')}
                 value={values.description}
                 onChange={handleChange}
               />
@@ -117,7 +119,7 @@ const CreateVideoModal = () => {
               type="submit"
               className="d-table mx-auto"
             >
-              {loading ? 'Creating...' : 'Submit'}
+              {loading ? t('createSubmitBtnLoading') : t('createSubmitBtn')}
             </Button>
           </ModalFooter>
         </Form>

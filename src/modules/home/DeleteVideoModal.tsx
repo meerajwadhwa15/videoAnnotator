@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody } from 'shards-react';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'next-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   deleteVideoLoadingSelector,
@@ -20,24 +21,25 @@ const EditVideoModal: FC<props> = ({ isOpen, videoId, toggleDeleteModal }) => {
   const loading = useAppSelector(deleteVideoLoadingSelector);
 
   const dispatch = useAppDispatch();
+  const { t } = useTranslation(['home']);
 
   useEffect(() => {
     if (!isOpen && message.type) {
       dispatch(clearMessage());
     }
-  }, [isOpen]);
+  }, [isOpen, dispatch, message]);
 
   useEffect(() => {
     if (message.type === 'success' && message.text === 'delete_video_success') {
-      toast.success('Delete video successfully!');
+      toast.success(t('deleteSuccessMsg'));
       toggleDeleteModal();
     }
 
     if (message.type === 'error' && message.text === 'delete_video_error') {
-      toast.error('Delete video error!');
+      toast.error(t('deleteErrorMsg'));
       toggleDeleteModal();
     }
-  }, [message, dispatch]);
+  }, [message, t, toggleDeleteModal]);
 
   function onDeleteVideo() {
     dispatch(deleteVideo(videoId));
@@ -51,8 +53,9 @@ const EditVideoModal: FC<props> = ({ isOpen, videoId, toggleDeleteModal }) => {
         open={isOpen}
         toggle={() => toggleDeleteModal()}
       >
-        <ModalHeader>Delete Video Confirmation</ModalHeader>
+        <ModalHeader>{t('deleteModalHeaderText')}</ModalHeader>
         <ModalBody style={{ textAlign: 'right' }}>
+          <p style={{ textAlign: 'center' }}>{t('deleteConfirmText')}</p>
           <Button
             type="button"
             disabled={loading}
@@ -60,7 +63,7 @@ const EditVideoModal: FC<props> = ({ isOpen, videoId, toggleDeleteModal }) => {
               onDeleteVideo();
             }}
           >
-            {loading ? 'Deleting...' : 'Confirm'}
+            {t('deleteSubmitBtn')}
           </Button>
           <Button
             type="button"
@@ -69,7 +72,7 @@ const EditVideoModal: FC<props> = ({ isOpen, videoId, toggleDeleteModal }) => {
               toggleDeleteModal();
             }}
           >
-            Cancel
+            {t('deleteCancelBtn')}
           </Button>
         </ModalBody>
       </Modal>

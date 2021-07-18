@@ -10,6 +10,7 @@ import {
 } from 'shards-react';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'next-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { VideoSchema } from 'validations/VideoSchema';
 import Input from 'components/elements/Input';
@@ -34,6 +35,7 @@ const EditVideoModal: FC<props> = ({
   videoData,
   toggleEditModal,
 }) => {
+  const { t } = useTranslation(['home']);
   const message = useAppSelector(messageSelector);
   const loading = useAppSelector(editVideoLoadingSelector);
 
@@ -45,7 +47,7 @@ const EditVideoModal: FC<props> = ({
       url: '',
       description: '',
     },
-    validationSchema: VideoSchema,
+    validationSchema: VideoSchema(t),
     onSubmit: (values) => {
       const { name, url, description } = values;
       dispatch(editVideo({ id: videoId, name, url, description }));
@@ -69,23 +71,24 @@ const EditVideoModal: FC<props> = ({
       setFieldValue('url', data.url);
       setFieldValue('description', data.description);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   useEffect(() => {
     if (message.type === 'success' && message.text === 'edit_video_success') {
-      toast.success('Update video successfully!');
+      toast.success(t('editSuccessMsg'));
       toggleEditModal();
     }
 
     if (message.type === 'error' && message.text === 'edit_video_error') {
-      toast.error('Edit video error!');
+      toast.error(t('editErrorMsg'));
     }
-  }, [message, dispatch]);
+  }, [message, t, toggleEditModal]);
 
   return (
     <React.Fragment>
       <Modal centered size="md" open={isOpen} toggle={() => toggleEditModal()}>
-        <ModalHeader>Edit Video Data</ModalHeader>
+        <ModalHeader>{t('editModalHeaderText')}</ModalHeader>
         <Form onSubmit={handleSubmit}>
           <ModalBody>
             <div className="content-wrapper">
@@ -94,8 +97,8 @@ const EditVideoModal: FC<props> = ({
                 onChange={handleChange}
                 errorMessage={errors.name}
                 name="name"
-                label="Video Name"
-                placeholder="Enter video name"
+                label={t('videoNameLabel')}
+                placeholder={t('videoNamePlaceholder')}
                 autoComplete="name"
               />
               <Input
@@ -103,15 +106,15 @@ const EditVideoModal: FC<props> = ({
                 onChange={handleChange}
                 errorMessage={errors.url}
                 name="url"
-                label="Video Url"
-                placeholder="Url such as youtube, vimeo,..."
+                label={t('videoUrlLabel')}
+                placeholder={t('videoUrlPlaceholder')}
                 autoComplete="url"
               />
-              <label>Video description</label>
+              <label>{t('videoDesLabel')}</label>
               <FormTextarea
                 style={{ height: 80 }}
                 name="description"
-                placeholder="Video description"
+                placeholder={t('videoDesPlaceholder')}
                 value={values.description}
                 onChange={handleChange}
               />
@@ -127,7 +130,7 @@ const EditVideoModal: FC<props> = ({
               disabled={loading}
               className="d-table mx-auto"
             >
-              {loading ? 'Updating' : 'Update'}
+              {loading ? t('editSubmitBtnLoading') : t('editSubmitBtn')}
             </Button>
           </ModalFooter>
         </Form>

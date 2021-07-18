@@ -25,6 +25,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import FuzzySearch from 'fuzzy-search';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'next-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import DashboardLayout from 'components/layouts/DashboardLayout';
 import PageTitle from 'components/elements/pageTitle';
@@ -46,6 +47,7 @@ import styles from './style.module.scss';
 const Home = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation(['home']);
 
   const tableDataStore = useAppSelector(videosListSelector);
   const currentUser = useAppSelector(userDataSelector);
@@ -72,31 +74,37 @@ const Home = () => {
 
   const tableColumns = [
     {
-      Header: 'Id',
+      Header: t('idColumn'),
       accessor: 'id',
       maxWidth: 60,
       className: 'text-center',
     },
     {
-      Header: 'Name',
+      Header: t('nameColumn'),
       accessor: 'name',
       className: 'text-center',
       minWidth: 250,
     },
     {
-      Header: 'Type',
+      Header: t('typeColumn'),
       accessor: 'format',
       maxWidth: 150,
       className: 'text-center',
+      Cell: function displayStatus(row) {
+        return <span>{row.original.format || 'N/A'}</span>;
+      },
     },
     {
-      Header: 'Size',
+      Header: t('sizeColumn'),
       accessor: 'size',
       maxWidth: 150,
       className: 'text-center',
+      Cell: function displayStatus(row) {
+        return <span>{row.original.size || 'N/A'}</span>;
+      },
     },
     {
-      Header: 'Status',
+      Header: t('statusColumn'),
       accessor: 'status',
       minWidth: 150,
       maxWidth: 300,
@@ -106,7 +114,7 @@ const Home = () => {
       },
     },
     {
-      Header: 'Actions',
+      Header: t('actionColumn'),
       accessor: 'action',
       minWidth: 200,
       maxWidth: 400,
@@ -116,7 +124,7 @@ const Home = () => {
           <ButtonGroup size="sm" className="d-table mx-auto">
             {isAdmin && (
               <Button
-                title="Assign Video"
+                title={t('assignBtnToolTip')}
                 theme="white"
                 className={styles.button}
                 onClick={(event) => {
@@ -129,7 +137,7 @@ const Home = () => {
             )}
             {isAdmin && (
               <Button
-                title="Edit Video"
+                title={t('editBtnToolTip')}
                 theme="white"
                 className={styles.button}
                 onClick={(event) => {
@@ -142,7 +150,7 @@ const Home = () => {
             )}
             {isAdmin && (
               <Button
-                title="Delete Video"
+                title={t('deleteBtnToolTip')}
                 theme="white"
                 className={styles.button}
                 onClick={(event) => {
@@ -156,7 +164,7 @@ const Home = () => {
             <Button
               tag={NavLink}
               href={`/video-detail/${row.original.id}`}
-              title="View Detail"
+              title={t('viewDetailBtnToolTip')}
               theme="white"
               className={styles.button}
               onClick={(event) => {
@@ -202,16 +210,16 @@ const Home = () => {
   useEffect(() => {
     if (message.type === 'success') {
       if (message.text === 'assign_video_success') {
-        toast.success('🚀 Assign video successfully!');
+        toast.success(t('assignSuccessMsg'));
       }
     }
 
     if (message.type === 'error') {
       if (message.text === 'assign_video_error') {
-        toast.error('🚀 Assign video error!');
+        toast.error(t('assignErrorMsg'));
       }
     }
-  }, [message]);
+  }, [message, t]);
 
   function onSearch(event) {
     setTableDataState(searcher.search(event.target.value));
@@ -297,7 +305,7 @@ const Home = () => {
   return (
     <DashboardLayout>
       {/* Page Title */}
-      <PageTitle title="Videos List" subtitle="Video" />
+      <PageTitle title={t('title')} subtitle={t('subTitle')} />
       {/* Table */}
       <Card className={styles.card}>
         <CardHeader className="p-0">
@@ -311,7 +319,7 @@ const Home = () => {
               )}
               {/*  Show Row */}
               <Col className={styles.rowFilterLeft} xs="6" md="6">
-                <span>Show</span>
+                <span>{t('showPageOptionText')}</span>
                 <FormSelect
                   size="sm"
                   value={pageSize}
@@ -319,7 +327,7 @@ const Home = () => {
                 >
                   {pageSizeOptions.map((size, idx) => (
                     <option key={idx} value={size}>
-                      {size} rows
+                      {`${size} ${t('rows')}`}
                     </option>
                   ))}
                 </FormSelect>
@@ -337,7 +345,7 @@ const Home = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <FormInput
-                    placeholder="Search..."
+                    placeholder={t('searchPlaceHolder')}
                     onChange={(event) => {
                       onSearch(event);
                     }}
@@ -365,7 +373,12 @@ const Home = () => {
                 },
               };
             }}
-            noDataText={'No data found'}
+            nextText={t('nextTableTextBtn')}
+            previousText={t('home:previousTableTextBtn')}
+            loadingText={t('home:loadingTableText')}
+            noDataText={t('home:noDataTableText')}
+            pageText={t('home:pageTableText')}
+            ofText={t('home:ofTableText')}
           />
         </CardBody>
       </Card>
@@ -389,7 +402,7 @@ const Home = () => {
         open={isAssignModalOpen}
         toggle={() => toggleAssignModal(currentVideoId.current)}
       >
-        <ModalHeader>Assign/Retract this video for</ModalHeader>
+        <ModalHeader>{t('assignModalHeaderText')}</ModalHeader>
         <ModalBody>
           <div className="content-wrapper">
             {Array.isArray(usersList) && usersList.length > 0 ? (
@@ -412,7 +425,7 @@ const Home = () => {
                 </div>
               ))
             ) : (
-              <p className={styles.notFoundUsers}>No users found.</p>
+              <p className={styles.notFoundUsers}>{t('noUserFound')}</p>
             )}
           </div>
         </ModalBody>
@@ -424,7 +437,9 @@ const Home = () => {
                 onUpdate();
               }}
             >
-              {assignVideoLoading ? 'Updating...' : 'Update'}
+              {assignVideoLoading
+                ? t('assignSubmitBtnLoading')
+                : t('assignSubmitBtn')}
             </Button>
           }
           <Button
@@ -433,7 +448,7 @@ const Home = () => {
               onCancel();
             }}
           >
-            Cancel
+            {t('assignCancelBtn')}
           </Button>
         </ModalFooter>
       </Modal>
