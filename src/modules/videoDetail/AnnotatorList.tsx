@@ -1,23 +1,37 @@
 import { AnnotatorItem } from './AnnotatorItem';
-import range from 'lodash/range';
 import { Button } from 'shards-react';
 
 import style from './style.module.scss';
 import { FC } from 'react';
+import { Segment } from 'models';
 
 interface Props {
   onAnnotate: () => void;
+  segments: Segment[];
+  activeSegment: number | null;
+  onSeekToSegment: (segment: Segment) => void;
 }
 
-export const AnnotatorList: FC<Props> = ({ onAnnotate }) => {
-  const annotators = range(0, 5);
-
+export const AnnotatorList: FC<Props> = ({
+  onAnnotate,
+  segments,
+  activeSegment,
+  onSeekToSegment,
+}) => {
   function renderAnnotator() {
-    if (!annotators.length) {
+    if (!segments.length) {
       return <div className="mt-2">No Data Found</div>;
     }
-    return annotators.map((it) => {
-      return <AnnotatorItem onEditeAnnotator={onAnnotate} key={it} />;
+    return segments.map((it) => {
+      return (
+        <AnnotatorItem
+          key={it.id}
+          segment={it}
+          onSeekToSegment={onSeekToSegment}
+          onEditeAnnotator={onAnnotate}
+          active={activeSegment === it.id}
+        />
+      );
     });
   }
 

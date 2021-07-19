@@ -1,7 +1,15 @@
-export interface assignedUsers {
+export interface AssignedUser {
   id: number;
   email: string;
   fullName: string;
+}
+
+export interface Segment {
+  id: number;
+  label: string;
+  startFrame: number;
+  endFrame: number;
+  user: AssignedUser;
 }
 
 export interface VideoInfo {
@@ -12,5 +20,6 @@ export interface VideoInfo {
   size: string;
   url: string;
   status: string;
-  assignedUsers: assignedUsers[];
+  segments: Segment[];
+  assignedUsers: AssignedUser[];
 }
