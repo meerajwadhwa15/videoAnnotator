@@ -46,3 +46,19 @@ export const convertSecondsToTimeString = (value: number): string => {
     minutes
   )}:${convertNumberToStringWithPadStart(seconds)}`;
 };
+
+/**
+ * @param {hour, minute, second}
+ */
+export const convertTimeValueToSecond = ({
+  hour,
+  minute,
+  second,
+}: {
+  hour: number;
+  minute: number;
+  second: number;
+}) => {
+  const result = hour * 3600 + minute * 60 + second;
+  return isNaN(result) ? null : result;
+};

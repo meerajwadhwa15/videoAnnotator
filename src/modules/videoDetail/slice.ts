@@ -1,33 +1,48 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from 'redux/store';
 import { VideoInfo } from 'models';
-import { Message } from './types';
+import { VideoDetailState } from './types';
+import { AlertMessageType } from 'utils/types';
 
-interface State {
-  videoDetail: VideoInfo;
-  message: Message;
-  loading: boolean;
-}
+const name = 'videoDetail';
 
-const initialState: State = {
+export const [
+  dispatchCreateSegment,
+  dispatchCreateSegmentSuccess,
+  dispatchCreateSegmentFail,
+] = [
+  createAction(`${name}/dispatchCreateSegment`),
+  createAction(`${name}/dispatchCreateSegmentSuccess`),
+  createAction(`${name}/dispatchCreateSegmentFail`),
+];
+
+const initialState: VideoDetailState = {
   videoDetail: {} as VideoInfo,
   loading: false,
   message: {
-    type: '',
+    type: AlertMessageType.default,
     text: '',
   },
 };
 
 export const videoDetailSlice = createSlice({
-  name: 'videoDetail',
+  name,
   initialState,
   reducers: {
-    fetchVideoDetailSSR(state: State, action: PayloadAction<VideoInfo>) {
+    fetchVideoDetailSSR(
+      state: VideoDetailState,
+      action: PayloadAction<VideoInfo>
+    ) {
       state.videoDetail = action.payload;
     },
     clearMessage: (state) => {
-      state.message.type = '';
+      state.message.type = AlertMessageType.default;
       state.message.text = '';
+    },
+  },
+  extraReducers: {
+    [dispatchCreateSegment.type](state: VideoDetailState) {
+      state.loading = true;
     },
   },
 });

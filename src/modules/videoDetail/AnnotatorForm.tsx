@@ -6,8 +6,11 @@ import {
   ModalFooter,
   Button,
 } from 'shards-react';
+import { useFormik } from 'formik';
 import Input from 'components/elements/Input';
 import { FC } from 'react';
+import { convertTimeValueToSecond } from 'utils/helpers';
+import { InputTime } from 'components/elements/InputTime';
 
 interface Props {
   open: boolean;
@@ -15,30 +18,70 @@ interface Props {
 }
 
 export const AnnotatorForm: FC<Props> = ({ open, toggleModal }) => {
+  const { handleSubmit, values, handleChange, errors } = useFormik({
+    initialValues: {
+      label: '',
+      startFrame: {
+        hour: 0,
+        minute: 0,
+        second: 0,
+      },
+      endFrame: {
+        hour: 0,
+        minute: 0,
+        second: 0,
+      },
+    },
+    validate(values) {
+      const errors: Record<string, string> = {};
+      const { label, startFrame, endFrame } = values;
+      if (!label.trim()) {
+        errors.label = 'Annotator is required';
+      }
+      const startFrameBySecond = convertTimeValueToSecond(startFrame);
+      const endFrameBySecond = convertTimeValueToSecond(endFrame);
+      console.log('startFrameBySecond', startFrameBySecond);
+      if (startFrameBySecond === null) {
+        errors.startFrame = 'Invalid start time';
+      }
+      if (endFrameBySecond === null) {
+        errors.endFrame = 'Invalid end time';
+      } else if (startFrameBySecond && startFrameBySecond >= endFrameBySecond) {
+        errors.endFrame = 'End time must be after start time';
+      }
+      return errors;
+    },
+    onSubmit(values) {
+      console.log('values', values);
+    },
+  });
+
   return (
     <Modal open={open} toggle={toggleModal}>
       <ModalHeader>Setting Annotator</ModalHeader>
       <ModalBody>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Input
             label="Annotator"
-            value=""
+            name="label"
+            errorMessage={errors.label}
+            onChange={handleChange}
+            value={values.label}
             placeholder="Annotator"
-            name="annotator"
           />
-          <Input
-            label="Start time"
-            value=""
-            type="time"
-            placeholder="Annotator"
-            name="annotator"
+          <InputTime
+            name="startFrame"
+            errorMessage={errors.startFrame}
+            value={values.startFrame}
+            handleChange={handleChange}
+            label="Start Time"
           />
-          <Input
-            label="End time"
-            value=""
-            type="time"
-            placeholder="Annotator"
-            name="annotator"
+          <InputTime
+            name="endFrame"
+            value={values.endFrame}
+            errorMessage={errors.endFrame}
+            handleChange={handleChange}
+            label="End Time"
           />
         </Form>
       </ModalBody>
@@ -46,7 +89,9 @@ export const AnnotatorForm: FC<Props> = ({ open, toggleModal }) => {
         <Button onClick={toggleModal} theme="danger">
           Cancel
         </Button>
-        <Button onClick={toggleModal}>Save</Button>
+        <Button type="submit" onClick={handleSubmit}>
+          Save
+        </Button>
       </ModalFooter>
     </Modal>
   );
