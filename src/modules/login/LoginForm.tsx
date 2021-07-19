@@ -13,7 +13,6 @@ import {
 } from './slice';
 import Input from 'components/elements/Input';
 import { useTranslation } from 'next-i18next';
-// import styles from './style.module.scss';
 
 export const LoginForm = () => {
   const loading = useAppSelector(loadingSelector);

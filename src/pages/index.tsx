@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
+import { useTranslation } from 'next-i18next';
 import Home from 'modules/home';
-import { withAuthPage } from 'utils/hoc';
 import { UserRole } from 'models';
-import { requestServer } from 'utils/apiClient';
-import { API_ENDPOINT } from 'utils/constants';
 import { useAppDispatch } from 'redux/hooks';
 import { fetchUsersListSSR } from 'redux/globalSlice';
 import { fetchVideosListSSR } from 'modules/home/slice';
+import { withAuthPage } from 'utils/hoc';
+import { requestServer } from 'utils/apiClient';
+import { API_ENDPOINT } from 'utils/constants';
 
 function Index({ usersList, videosList }) {
+  const { t } = useTranslation(['home']);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -21,7 +23,7 @@ function Index({ usersList, videosList }) {
   return (
     <React.Fragment>
       <Head>
-        <title>Video Annotator - Dashboard</title>
+        <title>{t('home:pageTitle')}</title>
       </Head>
       <Home />
     </React.Fragment>
@@ -44,7 +46,7 @@ export const getServerSideProps = withAuthPage(async (context, user) => {
   });
   return {
     props: {
-      ...(await serverSideTranslations(locale || '', ['common', 'about'])),
+      ...(await serverSideTranslations(locale || '', ['common', 'home'])),
       usersList,
       videosList,
     },

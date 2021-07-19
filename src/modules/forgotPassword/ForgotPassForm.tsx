@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Form, Button } from 'shards-react';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'next-i18next';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import Input from 'components/elements/Input';
 import { ForgotPassSchema } from 'validations/ForgotPassSchema';
@@ -13,6 +14,8 @@ import {
 } from './slice';
 
 const ForgotPassForm = () => {
+  const { t } = useTranslation(['forgot-password']);
+
   const dispatch = useAppDispatch();
   const loading = useAppSelector(loadingSelector);
   const message = useAppSelector(messageSelector);
@@ -21,7 +24,7 @@ const ForgotPassForm = () => {
     initialValues: {
       email: '',
     },
-    validationSchema: ForgotPassSchema,
+    validationSchema: ForgotPassSchema(t),
     onSubmit: (values) => {
       dispatch(dispatchForgotPassword(values));
     },
@@ -32,17 +35,17 @@ const ForgotPassForm = () => {
   useEffect(() => {
     if (message.type === 'success') {
       form.resetForm();
-      toast.success('🚀 Send email successfully!');
+      toast.success(t('forgot-password:sendSuccess'));
     }
 
     if (message.type === 'error') {
-      toast.error('🚀 Send email failed!');
+      toast.error(t('forgot-password:sendError'));
     }
 
     return () => {
       dispatch(clearMessage());
     };
-  }, [message, dispatch, form]);
+  }, [message, dispatch, form, t]);
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -50,13 +53,13 @@ const ForgotPassForm = () => {
         value={values.email}
         onChange={handleChange}
         errorMessage={errors.email}
-        placeholder="Enter email"
+        placeholder={t('forgot-password:formEmailPlaceholder')}
         autoComplete="email"
-        label="Email address"
+        label={t('forgot-password:formEmailLabel')}
         name="email"
       />
       <small className="form-text text-muted text-center mb-3">
-        You will receive an email with a unique token.
+        {t('forgot-password:textNoti')}
       </small>
       <Button
         disabled={loading}
@@ -64,7 +67,9 @@ const ForgotPassForm = () => {
         className="d-table mx-auto"
         type="submit"
       >
-        {loading ? 'Sending email...' : 'Reset Password'}
+        {loading
+          ? t('forgot-password:loadingSubmit')
+          : t('forgot-password:formSubmitButton')}
       </Button>
     </Form>
   );

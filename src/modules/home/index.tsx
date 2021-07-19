@@ -25,6 +25,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import FuzzySearch from 'fuzzy-search';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'next-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import DashboardLayout from 'components/layouts/DashboardLayout';
 import PageTitle from 'components/elements/pageTitle';
@@ -32,27 +33,33 @@ import { userDataSelector, usersListDataSelector } from 'redux/globalSlice';
 import {
   videosListSelector,
   messageSelector,
-  loadingSelector,
+  assignVideoLoadingSelector,
   assignVideo,
   clearMessage,
 } from './slice';
 import { UserRole } from 'models/user.model';
 import { displayVideoStatus } from 'utils/helpers';
+import CreateVideoModal from './CreateVideoModal';
+import EditVideoModal from './EditVideoModal';
+import DeleteVideoModal from './DeleteVideoModal';
 import styles from './style.module.scss';
 
 const Home = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation(['home']);
 
   const tableDataStore = useAppSelector(videosListSelector);
   const currentUser = useAppSelector(userDataSelector);
   const usersList = useAppSelector(usersListDataSelector);
   const message = useAppSelector(messageSelector);
-  const loading = useAppSelector(loadingSelector);
+  const assignVideoLoading = useAppSelector(assignVideoLoadingSelector);
   const [tableDataState, setTableDataState] = useState(tableDataStore);
   const [pageSizeOptions] = useState([5, 10, 15, 20]);
   const [pageSize, setPageSize] = useState(10);
-  const [isModalOpen, setModal] = useState(false);
+  const [isAssignModalOpen, setAssignModal] = useState(false);
+  const [isEditModalOpen, setEditModal] = useState(false);
+  const [isDeleteModalOpen, setDeleteModal] = useState(false);
 
   const { roles } = currentUser;
   const isAdmin = roles.includes(UserRole.admin);
@@ -67,41 +74,47 @@ const Home = () => {
 
   const tableColumns = [
     {
-      Header: 'Id',
+      Header: t('idColumn'),
       accessor: 'id',
       maxWidth: 60,
       className: 'text-center',
     },
     {
-      Header: 'Name',
+      Header: t('nameColumn'),
       accessor: 'name',
       className: 'text-center',
       minWidth: 250,
     },
     {
-      Header: 'Type',
+      Header: t('typeColumn'),
       accessor: 'format',
       maxWidth: 150,
       className: 'text-center',
+      Cell: function displayStatus(row) {
+        return <span>{row.original.format || 'N/A'}</span>;
+      },
     },
     {
-      Header: 'Size',
+      Header: t('sizeColumn'),
       accessor: 'size',
       maxWidth: 150,
       className: 'text-center',
+      Cell: function displayStatus(row) {
+        return <span>{row.original.size || 'N/A'}</span>;
+      },
     },
     {
-      Header: 'Status',
+      Header: t('statusColumn'),
       accessor: 'status',
       minWidth: 150,
-      maxWidth: 250,
+      maxWidth: 300,
       className: 'text-center',
       Cell: function displayStatus(row) {
         return <span>{displayVideoStatus(row.original.status)}</span>;
       },
     },
     {
-      Header: 'Actions',
+      Header: t('actionColumn'),
       accessor: 'action',
       minWidth: 200,
       maxWidth: 400,
@@ -111,21 +124,47 @@ const Home = () => {
           <ButtonGroup size="sm" className="d-table mx-auto">
             {isAdmin && (
               <Button
-                title="Assign Video"
+                title={t('assignBtnToolTip')}
                 theme="white"
                 className={styles.button}
                 onClick={(event) => {
                   event.stopPropagation();
-                  toggleModal(row.original.id);
+                  toggleAssignModal(row.original.id);
                 }}
               >
                 <i className={`${styles.icon} material-icons`}>assignment</i>
               </Button>
             )}
+            {isAdmin && (
+              <Button
+                title={t('editBtnToolTip')}
+                theme="white"
+                className={styles.button}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  toggleEditModal(row.original.id);
+                }}
+              >
+                <i className={`${styles.icon} material-icons`}>edit</i>
+              </Button>
+            )}
+            {isAdmin && (
+              <Button
+                title={t('deleteBtnToolTip')}
+                theme="white"
+                className={styles.button}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  toggleDeleteModal(row.original.id);
+                }}
+              >
+                <i className={`${styles.icon} material-icons`}>delete</i>
+              </Button>
+            )}
             <Button
               tag={NavLink}
               href={`/video-detail/${row.original.id}`}
-              title="View Detail"
+              title={t('viewDetailBtnToolTip')}
               theme="white"
               className={styles.button}
               onClick={(event) => {
@@ -145,13 +184,13 @@ const Home = () => {
   }, [tableDataStore]);
 
   useEffect(() => {
-    if (isModalOpen) {
+    if (!isAssignModalOpen && message.type) {
       dispatch(clearMessage());
     }
 
     if (
-      isModalOpen === false &&
-      currentVideoId.current !== 0 &&
+      isAssignModalOpen === false &&
+      currentVideoId.current > 0 &&
       message.type !== 'success' &&
       message.text !== 'update_assign_success'
     ) {
@@ -166,21 +205,21 @@ const Home = () => {
       setTableDataState(tableDataTemp);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isModalOpen]);
+  }, [isAssignModalOpen]);
 
   useEffect(() => {
     if (message.type === 'success') {
-      if (message.text === 'update_assign_success') {
-        toast.success('🚀 Update successfully!');
+      if (message.text === 'assign_video_success') {
+        toast.success(t('assignSuccessMsg'));
       }
     }
 
     if (message.type === 'error') {
-      if (message.text === 'update_assign_error') {
-        toast.error('🚀 Update error!');
+      if (message.text === 'assign_video_error') {
+        toast.error(t('assignErrorMsg'));
       }
     }
-  }, [message]);
+  }, [message, t]);
 
   function onSearch(event) {
     setTableDataState(searcher.search(event.target.value));
@@ -190,9 +229,19 @@ const Home = () => {
     setPageSize(e.target.value);
   }
 
-  function toggleModal(videoId = 0) {
-    setModal(!isModalOpen);
+  function toggleAssignModal(videoId = 0) {
     currentVideoId.current = videoId;
+    setAssignModal(!isAssignModalOpen);
+  }
+
+  function toggleEditModal(videoId = 0) {
+    currentVideoId.current = videoId;
+    setEditModal(!isEditModalOpen);
+  }
+
+  function toggleDeleteModal(videoId = 0) {
+    currentVideoId.current = videoId;
+    setDeleteModal(!isDeleteModalOpen);
   }
 
   function onCheckbox(event, user) {
@@ -250,20 +299,27 @@ const Home = () => {
   }
 
   function onCancel() {
-    setModal(false);
+    setAssignModal(false);
   }
 
   return (
     <DashboardLayout>
       {/* Page Title */}
-      <PageTitle title="Videos List" subtitle="Video" />
+      <PageTitle title={t('title')} subtitle={t('subTitle')} />
       {/* Table */}
       <Card className={styles.card}>
         <CardHeader className="p-0">
-          <Container fluid className={styles.filterWrapper}>
+          <Container fluid className={styles.containerHeader}>
             <Row>
-              <Col className={styles.rowFilterLeft} md="6">
-                <span>Show</span>
+              {/* Create New Video Button */}
+              {isAdmin && (
+                <Col xs="12" className={styles.newBtnWrapper}>
+                  <CreateVideoModal />
+                </Col>
+              )}
+              {/*  Show Row */}
+              <Col className={styles.rowFilterLeft} xs="6" md="6">
+                <span>{t('showPageOptionText')}</span>
                 <FormSelect
                   size="sm"
                   value={pageSize}
@@ -271,14 +327,13 @@ const Home = () => {
                 >
                   {pageSizeOptions.map((size, idx) => (
                     <option key={idx} value={size}>
-                      {size} rows
+                      {`${size} ${t('rows')}`}
                     </option>
                   ))}
                 </FormSelect>
               </Col>
-
               {/* Search */}
-              <Col className="d-flex" md="6">
+              <Col className="d-flex" xs="6" md="6">
                 <InputGroup
                   seamless
                   size="sm"
@@ -290,7 +345,7 @@ const Home = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <FormInput
-                    placeholder="Search..."
+                    placeholder={t('searchPlaceHolder')}
                     onChange={(event) => {
                       onSearch(event);
                     }}
@@ -318,18 +373,36 @@ const Home = () => {
                 },
               };
             }}
-            noDataText={'No data found'}
+            nextText={t('nextTableTextBtn')}
+            previousText={t('home:previousTableTextBtn')}
+            loadingText={t('home:loadingTableText')}
+            noDataText={t('home:noDataTableText')}
+            pageText={t('home:pageTableText')}
+            ofText={t('home:ofTableText')}
           />
         </CardBody>
       </Card>
-      {/* Modal */}
+      {/* Modal edit video */}
+      <EditVideoModal
+        isOpen={isEditModalOpen}
+        videoId={currentVideoId.current}
+        videoData={tableDataState}
+        toggleEditModal={() => toggleEditModal()}
+      />
+      {/* Modal edit video */}
+      <DeleteVideoModal
+        isOpen={isDeleteModalOpen}
+        videoId={currentVideoId.current}
+        toggleDeleteModal={() => toggleDeleteModal()}
+      />
+      {/* Modal assign video */}
       <Modal
         centered
         size="md"
-        open={isModalOpen}
-        toggle={() => toggleModal(currentVideoId.current)}
+        open={isAssignModalOpen}
+        toggle={() => toggleAssignModal(currentVideoId.current)}
       >
-        <ModalHeader>Assign/Retract this video for</ModalHeader>
+        <ModalHeader>{t('assignModalHeaderText')}</ModalHeader>
         <ModalBody>
           <div className="content-wrapper">
             {Array.isArray(usersList) && usersList.length > 0 ? (
@@ -352,19 +425,21 @@ const Home = () => {
                 </div>
               ))
             ) : (
-              <p className={styles.notFoundUsers}>No users found.</p>
+              <p className={styles.notFoundUsers}>{t('noUserFound')}</p>
             )}
           </div>
         </ModalBody>
         <ModalFooter>
           {
             <Button
-              disabled={loading}
+              disabled={assignVideoLoading}
               onClick={() => {
                 onUpdate();
               }}
             >
-              {loading ? 'Updating...' : 'Update'}
+              {assignVideoLoading
+                ? t('assignSubmitBtnLoading')
+                : t('assignSubmitBtn')}
             </Button>
           }
           <Button
@@ -373,7 +448,7 @@ const Home = () => {
               onCancel();
             }}
           >
-            Cancel
+            {t('assignCancelBtn')}
           </Button>
         </ModalFooter>
       </Modal>

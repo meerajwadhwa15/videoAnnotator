@@ -6,8 +6,11 @@ export const API_ENDPOINT = {
   profile: 'user/current',
   videosList: 'video/list',
   usersList: 'user/list',
-  assignVideo: 'video/assign',
-  videoDetail: 'video/detail',
   upateProfile: 'user/update',
   changePassword: 'user/changePassword',
+  assignVideo: 'video/assign',
+  createVideo: 'video/add',
+  editVideo: 'video/update',
+  deleteVideo: 'video/delete',
+  videoDetail: 'video/detail',
 };

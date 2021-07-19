@@ -5,7 +5,6 @@ import { Card } from 'shards-react';
 import { useTranslation } from 'next-i18next';
 import AuthLayout from 'components/layouts/AuthLayout';
 import { LoginForm } from './LoginForm';
-// import styles from './style.module.scss';
 
 const Login = () => {
   const { t } = useTranslation(['login']);

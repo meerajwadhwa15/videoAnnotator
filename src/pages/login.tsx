@@ -1,8 +1,8 @@
 import React from 'react';
-import Login from 'modules/login';
+import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Head from 'next/head';
+import Login from 'modules/login';
 import { withNonAuthPage } from 'utils/hoc';
 
 function Index() {
