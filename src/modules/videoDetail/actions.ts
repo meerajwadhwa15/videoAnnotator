@@ -13,3 +13,13 @@ export const [
   createAction<VideoInfo>(`${name}/dispatchCreateSegmentSuccess`),
   createAction(`${name}/dispatchCreateSegmentFail`),
 ];
+
+export const [
+  dispatchEditSegment,
+  dispatchEditSegmentSuccess,
+  dispatchEditSegmentFail,
+] = [
+  createAction<SegmentData>(`${name}/dispatchEditSegment`),
+  createAction<VideoInfo>(`${name}/dispatchEditSegmentSuccess`),
+  createAction(`${name}/dispatchEditSegmentFail`),
+];

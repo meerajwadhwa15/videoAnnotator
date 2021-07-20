@@ -9,17 +9,22 @@ import {
 import { useFormik } from 'formik';
 import Input from 'components/elements/Input';
 import { FC } from 'react';
-import { convertTimeValueToSecond, checkOverlapTimeRange } from 'utils/helpers';
+import {
+  convertTimeValueToSecond,
+  checkOverlapTimeRange,
+  convertSecondsToTime,
+} from 'utils/helpers';
 import { InputTime } from 'components/elements/InputTime';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   annotateModalSelector,
+  edittingSegmentSelector,
   loadingSelector,
   toggleAnnotateModal,
   videoDetailSelector,
 } from './slice';
 import { useRouter } from 'next/router';
-import { dispatchCreateSegment } from './actions';
+import { dispatchCreateSegment, dispatchEditSegment } from './actions';
 
 interface Props {
   videoDuration: number;
@@ -28,6 +33,7 @@ interface Props {
 export const AnnotatorForm: FC<Props> = ({ videoDuration }) => {
   const dispatch = useAppDispatch();
   const videoDetail = useAppSelector(videoDetailSelector);
+  const edittingSegment = useAppSelector(edittingSegmentSelector);
   const annotateModal = useAppSelector(annotateModalSelector);
   const loading = useAppSelector(loadingSelector);
   const {
@@ -36,18 +42,11 @@ export const AnnotatorForm: FC<Props> = ({ videoDuration }) => {
 
   const { handleSubmit, values, handleChange, errors } = useFormik({
     initialValues: {
-      label: '',
-      startFrame: {
-        hour: 0,
-        minute: 0,
-        second: 0,
-      },
-      endFrame: {
-        hour: 0,
-        minute: 0,
-        second: 0,
-      },
+      label: edittingSegment ? edittingSegment.label : '',
+      startFrame: convertSecondsToTime(edittingSegment?.startFrame),
+      endFrame: convertSecondsToTime(edittingSegment?.endFrame),
     },
+    enableReinitialize: true,
     validate(values) {
       const errors: Record<string, string> = {};
       const { label, startFrame, endFrame } = values;
@@ -62,27 +61,33 @@ export const AnnotatorForm: FC<Props> = ({ videoDuration }) => {
       if (videoDuration < endFrameBySecond) {
         errors.endFrame = 'End time cannot bigger than video duration';
       }
-      const foundOverlapSegment = videoDetail.segments.find((segment) =>
-        checkOverlapTimeRange(
-          { start: startFrameBySecond, end: endFrameBySecond },
-          { start: segment.startFrame, end: segment.endFrame }
-        )
+      const foundOverlapSegment = videoDetail.segments.find(
+        (segment) =>
+          segment.id !== edittingSegment?.id &&
+          checkOverlapTimeRange(
+            { start: startFrameBySecond, end: endFrameBySecond },
+            { start: segment.startFrame, end: segment.endFrame }
+          )
       );
       if (foundOverlapSegment) {
-        errors.endFrame = 'Time cannot overlap with other annotation';
+        errors.endFrame = "Segment's time cannot overlap with other annotation";
       }
       return errors;
     },
     onSubmit(values) {
       const { label, startFrame, endFrame } = values;
-      dispatch(
-        dispatchCreateSegment({
-          videoId,
-          label,
-          startFrame: convertTimeValueToSecond(startFrame),
-          endFrame: convertTimeValueToSecond(endFrame),
-        })
-      );
+      const data = {
+        id: edittingSegment?.id,
+        videoId,
+        label,
+        startFrame: convertTimeValueToSecond(startFrame),
+        endFrame: convertTimeValueToSecond(endFrame),
+      };
+      if (edittingSegment) {
+        dispatch(dispatchEditSegment(data));
+      } else {
+        dispatch(dispatchCreateSegment(data));
+      }
     },
   });
 

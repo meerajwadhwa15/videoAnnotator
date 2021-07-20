@@ -28,7 +28,7 @@ function Index({ videoDetail }) {
 export const getServerSideProps = withAuthPage(async (context) => {
   const { params, locale } = context;
   const videoDetail = await requestServer.get({
-    url: `${API_ENDPOINT.videoDetail}/${params?.id}`,
+    url: `${API_ENDPOINT.video}/${params?.id}`,
     context,
   });
   return {

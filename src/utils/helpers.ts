@@ -29,22 +29,39 @@ export const convertNumberToStringWithPadStart = (value: number) => {
 };
 
 /**
- * convert a seconds to time string hh:mm:ss
+ * convert a seconds to object of time { hour, minute, second }
  * @param {number} seconds
  */
-export const convertSecondsToTimeString = (value: number): string => {
-  if (value <= 0) {
-    return '00:00:00';
+export const convertSecondsToTime = (value: number | undefined) => {
+  if (!value || value <= 0) {
+    return {
+      hour: 0,
+      minute: 0,
+      second: 0,
+    };
   }
   const hour = Math.floor(value / 3600);
   const remainAfterHour = value % 3600;
-  const minutes = Math.floor(remainAfterHour / 60);
-  const seconds = remainAfterHour % 60;
+  const minute = Math.floor(remainAfterHour / 60);
+  const second = remainAfterHour % 60;
+  return {
+    hour,
+    minute,
+    second,
+  };
+};
+
+/**
+ * convert a seconds to time string hh:mm:ss
+ * @param {number} seconds
+ */
+export const convertSecondsToTimeString = (value: number) => {
+  const { hour, minute, second } = convertSecondsToTime(value);
   return `${convertNumberToStringWithPadStart(
     hour
   )}:${convertNumberToStringWithPadStart(
-    minutes
-  )}:${convertNumberToStringWithPadStart(seconds)}`;
+    minute
+  )}:${convertNumberToStringWithPadStart(second)}`;
 };
 
 /**

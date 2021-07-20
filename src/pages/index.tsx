@@ -41,7 +41,7 @@ export const getServerSideProps = withAuthPage(async (context, user) => {
   }
 
   const videosList = await requestServer.get({
-    url: API_ENDPOINT.videosList,
+    url: API_ENDPOINT.video,
     context,
   });
   return {

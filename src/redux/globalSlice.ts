@@ -8,7 +8,7 @@ interface AppState {
 
 const initialState: AppState = {
   user: {
-    id: '',
+    id: -1,
     email: '',
     fullName: '',
     introduction: '',

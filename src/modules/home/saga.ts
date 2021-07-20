@@ -23,7 +23,7 @@ import { API_ENDPOINT } from 'utils/constants';
 
 function* fetchVideosListWorker() {
   try {
-    const response = yield call(request.get, API_ENDPOINT.videosList);
+    const response = yield call(request.get, API_ENDPOINT.video);
     yield put(fetchVideosListSuccess(response));
   } catch (error) {
     yield put(fetchVideosListError());
