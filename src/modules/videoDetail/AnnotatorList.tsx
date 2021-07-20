@@ -28,7 +28,6 @@ export const AnnotatorList: FC<Props> = ({
           key={it.id}
           segment={it}
           onSeekToSegment={onSeekToSegment}
-          onEditeAnnotator={onAnnotate}
           active={activeSegment === it.id}
         />
       );
@@ -39,7 +38,9 @@ export const AnnotatorList: FC<Props> = ({
     <div>
       <h4 className="mb-2">Annotators</h4>
       <div className={style.annotatorList}>{renderAnnotator()}</div>
-      <Button onClick={onAnnotate}>Annotate</Button>
+      <Button className="mt-2" onClick={onAnnotate}>
+        Annotate
+      </Button>
     </div>
   );
 };

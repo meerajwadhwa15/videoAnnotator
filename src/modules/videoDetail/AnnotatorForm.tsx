@@ -6,39 +6,114 @@ import {
   ModalFooter,
   Button,
 } from 'shards-react';
+import { useFormik } from 'formik';
 import Input from 'components/elements/Input';
 import { FC } from 'react';
+import { convertTimeValueToSecond, checkOverlapTimeRange } from 'utils/helpers';
+import { InputTime } from 'components/elements/InputTime';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import {
+  annotateModalSelector,
+  loadingSelector,
+  toggleAnnotateModal,
+  videoDetailSelector,
+} from './slice';
+import { useRouter } from 'next/router';
+import { dispatchCreateSegment } from './actions';
 
 interface Props {
-  open: boolean;
-  toggleModal: () => void;
+  videoDuration: number;
 }
 
-export const AnnotatorForm: FC<Props> = ({ open, toggleModal }) => {
+export const AnnotatorForm: FC<Props> = ({ videoDuration }) => {
+  const dispatch = useAppDispatch();
+  const videoDetail = useAppSelector(videoDetailSelector);
+  const annotateModal = useAppSelector(annotateModalSelector);
+  const loading = useAppSelector(loadingSelector);
+  const {
+    query: { id: videoId },
+  } = useRouter();
+
+  const { handleSubmit, values, handleChange, errors } = useFormik({
+    initialValues: {
+      label: '',
+      startFrame: {
+        hour: 0,
+        minute: 0,
+        second: 0,
+      },
+      endFrame: {
+        hour: 0,
+        minute: 0,
+        second: 0,
+      },
+    },
+    validate(values) {
+      const errors: Record<string, string> = {};
+      const { label, startFrame, endFrame } = values;
+      if (!label.trim()) {
+        errors.label = 'Annotator is required';
+      }
+      const startFrameBySecond = convertTimeValueToSecond(startFrame);
+      const endFrameBySecond = convertTimeValueToSecond(endFrame);
+      if (startFrameBySecond >= endFrameBySecond) {
+        errors.endFrame = 'End time must be after start time';
+      }
+      if (videoDuration < endFrameBySecond) {
+        errors.endFrame = 'End time cannot bigger than video duration';
+      }
+      const foundOverlapSegment = videoDetail.segments.find((segment) =>
+        checkOverlapTimeRange(
+          { start: startFrameBySecond, end: endFrameBySecond },
+          { start: segment.startFrame, end: segment.endFrame }
+        )
+      );
+      if (foundOverlapSegment) {
+        errors.endFrame = 'Time cannot overlap with other annotation';
+      }
+      return errors;
+    },
+    onSubmit(values) {
+      const { label, startFrame, endFrame } = values;
+      dispatch(
+        dispatchCreateSegment({
+          videoId,
+          label,
+          startFrame: convertTimeValueToSecond(startFrame),
+          endFrame: convertTimeValueToSecond(endFrame),
+        })
+      );
+    },
+  });
+
+  const toggleModal = () => dispatch(toggleAnnotateModal());
+
   return (
-    <Modal open={open} toggle={toggleModal}>
+    <Modal open={annotateModal} toggle={toggleModal}>
       <ModalHeader>Setting Annotator</ModalHeader>
       <ModalBody>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Input
             label="Annotator"
-            value=""
+            name="label"
+            errorMessage={errors.label}
+            onChange={handleChange}
+            value={values.label}
             placeholder="Annotator"
-            name="annotator"
           />
-          <Input
-            label="Start time"
-            value=""
-            type="time"
-            placeholder="Annotator"
-            name="annotator"
+          <InputTime
+            name="startFrame"
+            errorMessage={errors.startFrame}
+            value={values.startFrame}
+            handleChange={handleChange}
+            label="Start Time"
           />
-          <Input
-            label="End time"
-            value=""
-            type="time"
-            placeholder="Annotator"
-            name="annotator"
+          <InputTime
+            name="endFrame"
+            value={values.endFrame}
+            errorMessage={errors.endFrame}
+            handleChange={handleChange}
+            label="End Time"
           />
         </Form>
       </ModalBody>
@@ -46,7 +121,9 @@ export const AnnotatorForm: FC<Props> = ({ open, toggleModal }) => {
         <Button onClick={toggleModal} theme="danger">
           Cancel
         </Button>
-        <Button onClick={toggleModal}>Save</Button>
+        <Button disabled={loading} type="submit" onClick={handleSubmit}>
+          Save
+        </Button>
       </ModalFooter>
     </Modal>
   );

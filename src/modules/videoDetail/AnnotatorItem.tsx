@@ -5,9 +5,9 @@ import { convertSecondsToTimeString } from 'utils/helpers';
 import debounce from 'lodash/debounce';
 import classnames from 'classnames';
 import style from './style.module.scss';
+import classNames from 'classnames';
 
 interface Props {
-  onEditeAnnotator: () => void;
   segment: Segment;
   active: boolean;
   onSeekToSegment: (segment: Segment) => void;
@@ -16,7 +16,6 @@ interface Props {
 export const AnnotatorItem: FC<Props> = ({
   active,
   segment,
-  onEditeAnnotator,
   onSeekToSegment,
 }) => {
   const [tooltip, setTooltip] = useState<boolean>(false);
@@ -46,8 +45,11 @@ export const AnnotatorItem: FC<Props> = ({
         </div>
       </div>
       <div className="ml-auto d-flex align-items-center">
-        <Button onClick={onEditeAnnotator} theme="secondary">
-          EDIT
+        <Button className={classNames(style.annotatorAction, 'mr-2')}>
+          <i className="material-icons">edit</i>
+        </Button>
+        <Button theme="danger" className={style.annotatorAction}>
+          <i className="material-icons">delete_outline</i>
         </Button>
       </div>
       <Tooltip
