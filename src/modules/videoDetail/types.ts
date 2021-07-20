@@ -9,4 +9,12 @@ export interface VideoDetailState {
   videoDetail: VideoInfo;
   message: AlertMessage;
   loading: boolean;
+  annotateModal: boolean;
+}
+
+export interface SegmentData {
+  videoId: string | string[] | undefined;
+  startFrame: number;
+  endFrame: number;
+  label: string;
 }

@@ -60,5 +60,20 @@ export const convertTimeValueToSecond = ({
   second: number;
 }) => {
   const result = hour * 3600 + minute * 60 + second;
-  return isNaN(result) ? null : result;
+  return isNaN(result) ? 0 : result;
+};
+
+/**
+ * @param {start, end} range: end is always bigger than start
+ */
+export const checkOverlapTimeRange = (
+  range1: { start: number; end: number },
+  range2: { start: number; end: number }
+) => {
+  if (range1.start < range2.start) {
+    return range1.end > range2.start;
+  } else if (range1.start > range2.start) {
+    return range1.start < range2.end;
+  }
+  return true;
 };

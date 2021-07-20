@@ -9,15 +9,31 @@ import {
 import { useFormik } from 'formik';
 import Input from 'components/elements/Input';
 import { FC } from 'react';
-import { convertTimeValueToSecond } from 'utils/helpers';
+import { convertTimeValueToSecond, checkOverlapTimeRange } from 'utils/helpers';
 import { InputTime } from 'components/elements/InputTime';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import {
+  annotateModalSelector,
+  loadingSelector,
+  toggleAnnotateModal,
+  videoDetailSelector,
+} from './slice';
+import { useRouter } from 'next/router';
+import { dispatchCreateSegment } from './actions';
 
 interface Props {
-  open: boolean;
-  toggleModal: () => void;
+  videoDuration: number;
 }
 
-export const AnnotatorForm: FC<Props> = ({ open, toggleModal }) => {
+export const AnnotatorForm: FC<Props> = ({ videoDuration }) => {
+  const dispatch = useAppDispatch();
+  const videoDetail = useAppSelector(videoDetailSelector);
+  const annotateModal = useAppSelector(annotateModalSelector);
+  const loading = useAppSelector(loadingSelector);
+  const {
+    query: { id: videoId },
+  } = useRouter();
+
   const { handleSubmit, values, handleChange, errors } = useFormik({
     initialValues: {
       label: '',
@@ -40,24 +56,40 @@ export const AnnotatorForm: FC<Props> = ({ open, toggleModal }) => {
       }
       const startFrameBySecond = convertTimeValueToSecond(startFrame);
       const endFrameBySecond = convertTimeValueToSecond(endFrame);
-      console.log('startFrameBySecond', startFrameBySecond);
-      if (startFrameBySecond === null) {
-        errors.startFrame = 'Invalid start time';
-      }
-      if (endFrameBySecond === null) {
-        errors.endFrame = 'Invalid end time';
-      } else if (startFrameBySecond && startFrameBySecond >= endFrameBySecond) {
+      if (startFrameBySecond >= endFrameBySecond) {
         errors.endFrame = 'End time must be after start time';
+      }
+      if (videoDuration < endFrameBySecond) {
+        errors.endFrame = 'End time cannot bigger than video duration';
+      }
+      const foundOverlapSegment = videoDetail.segments.find((segment) =>
+        checkOverlapTimeRange(
+          { start: startFrameBySecond, end: endFrameBySecond },
+          { start: segment.startFrame, end: segment.endFrame }
+        )
+      );
+      if (foundOverlapSegment) {
+        errors.endFrame = 'Time cannot overlap with other annotation';
       }
       return errors;
     },
     onSubmit(values) {
-      console.log('values', values);
+      const { label, startFrame, endFrame } = values;
+      dispatch(
+        dispatchCreateSegment({
+          videoId,
+          label,
+          startFrame: convertTimeValueToSecond(startFrame),
+          endFrame: convertTimeValueToSecond(endFrame),
+        })
+      );
     },
   });
 
+  const toggleModal = () => dispatch(toggleAnnotateModal());
+
   return (
-    <Modal open={open} toggle={toggleModal}>
+    <Modal open={annotateModal} toggle={toggleModal}>
       <ModalHeader>Setting Annotator</ModalHeader>
       <ModalBody>
         <Form onSubmit={handleSubmit}>
@@ -89,7 +121,7 @@ export const AnnotatorForm: FC<Props> = ({ open, toggleModal }) => {
         <Button onClick={toggleModal} theme="danger">
           Cancel
         </Button>
-        <Button type="submit" onClick={handleSubmit}>
+        <Button disabled={loading} type="submit" onClick={handleSubmit}>
           Save
         </Button>
       </ModalFooter>

@@ -21,29 +21,36 @@ export const InputTime: FC<Props> = ({
   value,
   handleChange,
 }) => {
+  const getValue = (value: number) => {
+    return value < 0 ? 0 : value;
+  };
+
   return (
     <div className={style.inputTime}>
       <label>{label}</label>
       <div className="d-flex">
         <FormInput
-          value={value.hour}
+          value={getValue(value.hour)}
           type="number"
+          min="0"
           onChange={handleChange}
           name={`${name}.hour`}
           className="mr-4"
           placeholder="Hour"
         />
         <FormInput
-          value={value.minute}
+          value={getValue(value.minute)}
           type="number"
+          min="0"
           onChange={handleChange}
           name={`${name}.minute`}
           className="mr-4"
           placeholder="Minute"
         />
         <FormInput
-          value={value.second}
+          value={getValue(value.second)}
           type="number"
+          min="0"
           onChange={handleChange}
           name={`${name}.second`}
           placeholder="Second"

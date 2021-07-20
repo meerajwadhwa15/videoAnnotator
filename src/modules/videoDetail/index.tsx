@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { Col, Row } from 'shards-react';
 import ReactPlayer from 'react-player/lazy';
-import { useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import DashboardLayout from 'components/layouts/DashboardLayout';
 import PageTitle from 'components/elements/pageTitle';
-import { videoDetailSelector } from './slice';
+import { toggleAnnotateModal, videoDetailSelector } from './slice';
 
 import { AnnotatorList } from './AnnotatorList';
 import { AnnotatorForm } from './AnnotatorForm';
@@ -14,19 +14,12 @@ import { Segment } from 'models';
 
 const VideoDetail = () => {
   const videoDetail = useAppSelector(videoDetailSelector);
+  const dispatch = useAppDispatch();
   const [isLoadingVideo, setLoadingVideo] = useState<boolean>(true);
-  const [open, setOpen] = useState<boolean>(false);
   const [activeSegment, setActiveSegment] = useState<number | null>(null);
+  const [videoDuration, setVideoDuration] = useState<number>(0);
 
   const videoRef = useRef<any>();
-
-  const toggleModal = () => {
-    setOpen((open) => !open);
-  };
-
-  const onAnnotate = () => {
-    toggleModal();
-  };
 
   const onSeekToSegment = ({ startFrame, id }: Segment) => {
     setActiveSegment(id);
@@ -37,6 +30,7 @@ const VideoDetail = () => {
 
   const ref = (player) => {
     videoRef.current = player;
+    console.log('player.getDuration()', player && player.getDuration());
   };
 
   const onProgress = (state: {
@@ -79,6 +73,7 @@ const VideoDetail = () => {
               ref={ref}
               width="100%"
               height="100%"
+              onDuration={(duration) => setVideoDuration(duration)}
               className={styles.playerWrapper}
               url={videoDetail.url}
               onReady={() => setLoadingVideo(false)}
@@ -90,11 +85,11 @@ const VideoDetail = () => {
               activeSegment={activeSegment}
               onSeekToSegment={onSeekToSegment}
               segments={videoDetail.segments || []}
-              onAnnotate={onAnnotate}
+              onAnnotate={() => dispatch(toggleAnnotateModal())}
             />
           </Col>
         </Row>
-        <AnnotatorForm open={open} toggleModal={toggleModal} />
+        <AnnotatorForm videoDuration={videoDuration} />
       </Col>
     </DashboardLayout>
   );
