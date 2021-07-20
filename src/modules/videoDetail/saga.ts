@@ -9,6 +9,9 @@ import {
   dispatchCreateSegment,
   dispatchCreateSegmentFail,
   dispatchCreateSegmentSuccess,
+  dispatchEditSegment,
+  dispatchEditSegmentFail,
+  dispatchEditSegmentSuccess,
 } from './actions';
 import { SegmentData } from './types';
 
@@ -33,8 +36,32 @@ function* addNewSegmentWorker({ payload }: PayloadAction<SegmentData>) {
   }
 }
 
+function* editSegmentWorkder({ payload }: PayloadAction<SegmentData>) {
+  try {
+    const { videoId, ...data } = payload;
+    const result: VideoInfo = yield call(
+      request.put,
+      `${API_ENDPOINT.editSegment}/${videoId}`,
+      data
+    );
+    yield put(dispatchEditSegmentSuccess(result));
+    yield call(toast.success, '🚀 Update segment success!');
+  } catch (error) {
+    const errorMessage = _get(
+      error,
+      'response.data.message',
+      '🚀 Update segment failed!'
+    );
+    yield call(toast.error, errorMessage);
+    yield put(dispatchEditSegmentFail());
+  }
+}
+
 function* videoDetailSaga() {
-  yield all([takeLatest(dispatchCreateSegment.type, addNewSegmentWorker)]);
+  yield all([
+    takeLatest(dispatchCreateSegment.type, addNewSegmentWorker),
+    takeLatest(dispatchEditSegment.type, editSegmentWorkder),
+  ]);
 }
 
 export default videoDetailSaga;

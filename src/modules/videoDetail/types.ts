@@ -1,4 +1,4 @@
-import { VideoInfo } from 'models';
+import { Segment, VideoInfo } from 'models';
 import { AlertMessage } from 'utils/types';
 
 export interface videoDetailRequestData {
@@ -9,10 +9,12 @@ export interface VideoDetailState {
   videoDetail: VideoInfo;
   message: AlertMessage;
   loading: boolean;
+  edittingSegment: Segment | null;
   annotateModal: boolean;
 }
 
 export interface SegmentData {
+  id?: number;
   videoId: string | string[] | undefined;
   startFrame: number;
   endFrame: number;

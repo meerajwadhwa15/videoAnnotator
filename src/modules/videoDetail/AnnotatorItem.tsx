@@ -1,4 +1,4 @@
-import { Segment } from 'models';
+import { Segment, UserRole } from 'models';
 import { FC, useState } from 'react';
 import { Button, Tooltip } from 'shards-react';
 import { convertSecondsToTimeString } from 'utils/helpers';
@@ -6,6 +6,9 @@ import debounce from 'lodash/debounce';
 import classnames from 'classnames';
 import style from './style.module.scss';
 import classNames from 'classnames';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { onEditSegment } from './slice';
+import { userDataSelector } from 'redux/globalSlice';
 
 interface Props {
   segment: Segment;
@@ -18,9 +21,18 @@ export const AnnotatorItem: FC<Props> = ({
   segment,
   onSeekToSegment,
 }) => {
+  const dispatch = useAppDispatch();
+  const { roles, id } = useAppSelector(userDataSelector);
   const [tooltip, setTooltip] = useState<boolean>(false);
-
   const segmentId = `segment_${segment.id}`;
+
+  function handleEditSegment() {
+    dispatch(onEditSegment(segment));
+  }
+
+  const canUserManageSegment = () => {
+    return roles.includes(UserRole.admin) || id === segment.user.id;
+  };
 
   return (
     <div
@@ -44,14 +56,19 @@ export const AnnotatorItem: FC<Props> = ({
           Added by: <strong>{segment.user.fullName}</strong>
         </div>
       </div>
-      <div className="ml-auto d-flex align-items-center">
-        <Button className={classNames(style.annotatorAction, 'mr-2')}>
-          <i className="material-icons">edit</i>
-        </Button>
-        <Button theme="danger" className={style.annotatorAction}>
-          <i className="material-icons">delete_outline</i>
-        </Button>
-      </div>
+      {canUserManageSegment() && (
+        <div className="ml-auto d-flex align-items-center">
+          <Button
+            onClick={handleEditSegment}
+            className={classNames(style.annotatorAction, 'mr-2')}
+          >
+            <i className="material-icons">edit</i>
+          </Button>
+          <Button theme="danger" className={style.annotatorAction}>
+            <i className="material-icons">delete_outline</i>
+          </Button>
+        </div>
+      )}
       <Tooltip
         open={tooltip}
         toggle={() => setTooltip(!tooltip)}

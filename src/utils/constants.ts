@@ -4,7 +4,7 @@ export const API_ENDPOINT = {
   forgotPassword: 'user/resetPassword',
   resetPassword: 'user/newPassword',
   profile: 'user/current',
-  videosList: 'video/list',
+  video: 'video',
   usersList: 'user/list',
   upateProfile: 'user/update',
   changePassword: 'user/changePassword',
@@ -12,6 +12,6 @@ export const API_ENDPOINT = {
   createVideo: 'video/add',
   editVideo: 'video/update',
   deleteVideo: 'video/delete',
-  videoDetail: 'video/detail',
   addSegment: 'video/addSegment',
+  editSegment: 'video/editSegment',
 };
