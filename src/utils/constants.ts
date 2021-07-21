@@ -14,4 +14,5 @@ export const API_ENDPOINT = {
   deleteVideo: 'video/delete',
   addSegment: 'video/addSegment',
   editSegment: 'video/editSegment',
+  deleteSegment: 'video/deleteSegment',
 };
