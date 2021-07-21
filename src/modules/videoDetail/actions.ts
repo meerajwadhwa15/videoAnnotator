@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { VideoInfo } from 'models';
-import { SegmentData } from './types';
+import { DeleteSegmentData, SegmentData } from './types';
 
 export const name = 'videoDetail';
 
@@ -22,4 +22,14 @@ export const [
   createAction<SegmentData>(`${name}/dispatchEditSegment`),
   createAction<VideoInfo>(`${name}/dispatchEditSegmentSuccess`),
   createAction(`${name}/dispatchEditSegmentFail`),
+];
+
+export const [
+  dispatchDeleteAnnotator,
+  dispatchDeleteAnnotatorSuccess,
+  dispatchDeleteAnnotatorFail,
+] = [
+  createAction<DeleteSegmentData>(`${name}/dispatchDeleteAnnotator`),
+  createAction<VideoInfo>(`${name}/dispatchDeleteAnnotatorSuccess`),
+  createAction(`${name}/dispatchDeleteAnnotatorFail`),
 ];

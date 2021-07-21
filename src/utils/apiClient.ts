@@ -34,6 +34,7 @@ axiosClient.interceptors.request.use(
 // intercepting response
 axiosClient.interceptors.response.use(
   function (response: AxiosResponse) {
+    console.log('response', response.data);
     return response.data ? response.data : response;
   },
   function (error) {
@@ -82,9 +83,9 @@ export class APIClient {
   /**
    * Delete data from url
    */
-  delete = (url: string, data: Record<string, any>) => {
-    axiosClient.delete(url, {
-      data,
+  delete = (url: string, params?: Record<string, any>) => {
+    return axiosClient.delete(url, {
+      params,
     });
   };
 }

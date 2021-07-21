@@ -20,3 +20,8 @@ export interface SegmentData {
   endFrame: number;
   label: string;
 }
+
+export interface DeleteSegmentData {
+  segmentId: number;
+  videoId: string | string[] | undefined;
+}

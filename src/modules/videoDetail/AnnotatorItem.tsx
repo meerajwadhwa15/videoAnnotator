@@ -7,8 +7,10 @@ import classnames from 'classnames';
 import style from './style.module.scss';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { onEditSegment } from './slice';
+import { loadingSelector, onEditSegment } from './slice';
 import { userDataSelector } from 'redux/globalSlice';
+import { dispatchDeleteAnnotator } from './actions';
+import { useRouter } from 'next/router';
 
 interface Props {
   segment: Segment;
@@ -23,15 +25,26 @@ export const AnnotatorItem: FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { roles, id } = useAppSelector(userDataSelector);
+  const loading = useAppSelector(loadingSelector);
   const [tooltip, setTooltip] = useState<boolean>(false);
   const segmentId = `segment_${segment.id}`;
+  const {
+    query: { id: videoId },
+  } = useRouter();
 
-  function handleEditSegment() {
+  const handleEditSegment = () => {
     dispatch(onEditSegment(segment));
-  }
+  };
 
   const canUserManageSegment = () => {
     return roles.includes(UserRole.admin) || id === segment.user.id;
+  };
+
+  const onDelete = () => {
+    const confirm = window.confirm('Are you sure you want to delete ?');
+    if (confirm) {
+      dispatch(dispatchDeleteAnnotator({ segmentId: segment.id, videoId }));
+    }
   };
 
   return (
@@ -59,12 +72,18 @@ export const AnnotatorItem: FC<Props> = ({
       {canUserManageSegment() && (
         <div className="ml-auto d-flex align-items-center">
           <Button
+            disabled={loading}
             onClick={handleEditSegment}
             className={classNames(style.annotatorAction, 'mr-2')}
           >
             <i className="material-icons">edit</i>
           </Button>
-          <Button theme="danger" className={style.annotatorAction}>
+          <Button
+            disabled={loading}
+            onClick={onDelete}
+            theme="danger"
+            className={style.annotatorAction}
+          >
             <i className="material-icons">delete_outline</i>
           </Button>
         </div>

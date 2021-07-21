@@ -11,6 +11,9 @@ import {
   dispatchEditSegment,
   dispatchEditSegmentFail,
   dispatchEditSegmentSuccess,
+  dispatchDeleteAnnotator,
+  dispatchDeleteAnnotatorFail,
+  dispatchDeleteAnnotatorSuccess,
 } from './actions';
 
 const initialState: VideoDetailState = {
@@ -50,7 +53,7 @@ export const videoDetailSlice = createSlice({
     },
   },
   extraReducers: {
-    [dispatchCreateSegment.type](state: VideoDetailState) {
+    [dispatchCreateSegment.type](state) {
       state.loading = true;
     },
     [dispatchCreateSegmentSuccess.type](
@@ -61,11 +64,11 @@ export const videoDetailSlice = createSlice({
       state.annotateModal = false;
       state.videoDetail = action.payload;
     },
-    [dispatchCreateSegmentFail.type](state: VideoDetailState) {
+    [dispatchCreateSegmentFail.type](state) {
       state.loading = false;
       state.annotateModal = false;
     },
-    [dispatchEditSegment.type](state: VideoDetailState) {
+    [dispatchEditSegment.type](state) {
       state.loading = true;
     },
     [dispatchEditSegmentSuccess.type](
@@ -77,10 +80,20 @@ export const videoDetailSlice = createSlice({
       state.edittingSegment = null;
       state.videoDetail = action.payload;
     },
-    [dispatchEditSegmentFail.type](state: VideoDetailState) {
+    [dispatchEditSegmentFail.type](state) {
       state.loading = false;
       state.edittingSegment = null;
       state.annotateModal = false;
+    },
+    [dispatchDeleteAnnotator.type](state) {
+      state.loading = true;
+    },
+    [dispatchDeleteAnnotatorSuccess.type](state, action) {
+      state.loading = false;
+      state.videoDetail = action.payload;
+    },
+    [dispatchDeleteAnnotatorFail.type](state) {
+      state.loading = false;
     },
   },
 });

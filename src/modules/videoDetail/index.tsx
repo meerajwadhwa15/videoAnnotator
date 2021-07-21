@@ -30,7 +30,6 @@ const VideoDetail = () => {
 
   const ref = (player) => {
     videoRef.current = player;
-    console.log('player.getDuration()', player && player.getDuration());
   };
 
   const onProgress = (state: {

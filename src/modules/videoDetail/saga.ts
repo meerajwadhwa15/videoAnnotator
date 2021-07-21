@@ -9,11 +9,14 @@ import {
   dispatchCreateSegment,
   dispatchCreateSegmentFail,
   dispatchCreateSegmentSuccess,
+  dispatchDeleteAnnotator,
+  dispatchDeleteAnnotatorFail,
+  dispatchDeleteAnnotatorSuccess,
   dispatchEditSegment,
   dispatchEditSegmentFail,
   dispatchEditSegmentSuccess,
 } from './actions';
-import { SegmentData } from './types';
+import { DeleteSegmentData, SegmentData } from './types';
 
 function* addNewSegmentWorker({ payload }: PayloadAction<SegmentData>) {
   try {
@@ -57,10 +60,32 @@ function* editSegmentWorkder({ payload }: PayloadAction<SegmentData>) {
   }
 }
 
+function* deleteSegmentWorkder({ payload }: PayloadAction<DeleteSegmentData>) {
+  try {
+    const { videoId, segmentId } = payload;
+    const result: VideoInfo = yield call(
+      request.delete,
+      `${API_ENDPOINT.deleteSegment}/${videoId}`,
+      { segmentId }
+    );
+    yield put(dispatchDeleteAnnotatorSuccess(result));
+    yield call(toast.success, '🚀 Delete segment success!');
+  } catch (error) {
+    const errorMessage = _get(
+      error,
+      'response.data.message',
+      '🚀 Delete segment failed!'
+    );
+    yield call(toast.error, errorMessage);
+    yield put(dispatchDeleteAnnotatorFail());
+  }
+}
+
 function* videoDetailSaga() {
   yield all([
     takeLatest(dispatchCreateSegment.type, addNewSegmentWorker),
     takeLatest(dispatchEditSegment.type, editSegmentWorkder),
+    takeLatest(dispatchDeleteAnnotator.type, deleteSegmentWorkder),
   ]);
 }
 
