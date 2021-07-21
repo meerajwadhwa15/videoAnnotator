@@ -7,16 +7,21 @@ import {
   deleteVideoLoadingSelector,
   messageSelector,
   deleteVideo,
-  clearMessage,
 } from './slice';
 
 interface props {
   isOpen: boolean;
   videoId: number;
   toggleDeleteModal: () => void;
+  clearSearchKeyword: () => void;
 }
 
-const EditVideoModal: FC<props> = ({ isOpen, videoId, toggleDeleteModal }) => {
+const DeleteVideoModal: FC<props> = ({
+  isOpen,
+  videoId,
+  toggleDeleteModal,
+  clearSearchKeyword,
+}) => {
   const message = useAppSelector(messageSelector);
   const loading = useAppSelector(deleteVideoLoadingSelector);
 
@@ -24,22 +29,19 @@ const EditVideoModal: FC<props> = ({ isOpen, videoId, toggleDeleteModal }) => {
   const { t } = useTranslation(['home']);
 
   useEffect(() => {
-    if (!isOpen && message.type) {
-      dispatch(clearMessage());
-    }
-  }, [isOpen, dispatch, message]);
-
-  useEffect(() => {
     if (message.type === 'success' && message.text === 'delete_video_success') {
       toast.success(t('deleteSuccessMsg'));
       toggleDeleteModal();
+      clearSearchKeyword();
     }
 
     if (message.type === 'error' && message.text === 'delete_video_error') {
       toast.error(t('deleteErrorMsg'));
       toggleDeleteModal();
+      clearSearchKeyword();
     }
-  }, [message, t, toggleDeleteModal]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [message]);
 
   function onDeleteVideo() {
     dispatch(deleteVideo(videoId));
@@ -80,4 +82,4 @@ const EditVideoModal: FC<props> = ({ isOpen, videoId, toggleDeleteModal }) => {
   );
 };
 
-export default EditVideoModal;
+export default DeleteVideoModal;

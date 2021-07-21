@@ -1,8 +1,18 @@
 {
+  "videoListLink": "Danh sách video",
+  "profileLink": "Hồ sơ",
+  "appTitle": "Video Annotator",
+  "logoutLink": "Đăng xuất",
+  "topSearch": "Tìm kiếm...",
   "hour": "Giờ",
   "minute": "Phút",
   "second": "Giây",
   "saveButton": "Lưu",
   "cancelButton": "Huỷ bỏ",
-  "submitButton": "Submit"
+  "submitButton": "Submit",
+  "footerLink1": "Trang chủ",
+  "footerLink2": "Dịch vụ",
+  "footerLink3": "Liên hệ",
+  "footerLink4": "Về ứng dụng",
+  "footerCopyright": "Copyright © 2021 Video Annotator"
 }

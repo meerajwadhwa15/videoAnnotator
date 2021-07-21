@@ -1,5 +1,6 @@
 import { Row, Col, Button, Form, FormTextarea, FormGroup } from 'shards-react';
 import { useFormik } from 'formik';
+import { useTranslation } from 'next-i18next';
 import Input from 'components/elements/Input';
 import Image from 'next/image';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
@@ -12,6 +13,7 @@ export const ProfileForm = () => {
   const loading = useAppSelector(loadingSelector);
   const dispatch = useAppDispatch();
   const { email, fullName, address, introduction, phone } = userData;
+  const { t } = useTranslation(['profile']);
 
   const { values, handleSubmit, handleChange, errors } = useFormik({
     initialValues: {
@@ -20,7 +22,7 @@ export const ProfileForm = () => {
       phone: phone,
       introduction: introduction,
     },
-    validationSchema: UserProfileSchema,
+    validationSchema: UserProfileSchema(t),
     enableReinitialize: true,
     onSubmit: (values) => {
       dispatch(updateUserProfile(values));
@@ -30,11 +32,17 @@ export const ProfileForm = () => {
   return (
     <Form className="py-4" onSubmit={handleSubmit}>
       <Row form className="mx-4">
+        <Col className="mb-3">
+          <h6 className="form-text m-0">{t('profileText1')}</h6>
+          <p className="form-text text-muted m-0">{t('profileText2')}</p>
+        </Col>
+      </Row>
+      <Row form className="mx-4">
         <Col lg="8">
           <Row form>
             <Col md="6" className="form-group">
               <Input
-                label="Email Address"
+                label={t('emailLabel')}
                 disabled
                 name="email"
                 value={email}
@@ -43,7 +51,7 @@ export const ProfileForm = () => {
             </Col>
             <Col md="6" className="form-group">
               <Input
-                label="Full Name"
+                label={t('nameLabel')}
                 name="fullName"
                 value={values.fullName}
                 onChange={handleChange}
@@ -53,7 +61,7 @@ export const ProfileForm = () => {
             </Col>
             <Col md="6" className="form-group">
               <Input
-                label="Address"
+                label={t('addressLabel')}
                 name="address"
                 value={values.address}
                 onChange={handleChange}
@@ -63,7 +71,7 @@ export const ProfileForm = () => {
             </Col>
             <Col md="6" className="form-group">
               <Input
-                label="Phone Number"
+                label={t('phoneLabel')}
                 name="phone"
                 value={values.phone}
                 onChange={handleChange}
@@ -73,7 +81,7 @@ export const ProfileForm = () => {
             </Col>
             <Col md="12">
               <FormGroup>
-                <label>Introduction</label>
+                <label>{t('introLabel')}</label>
                 <FormTextarea
                   style={{ height: 80 }}
                   name="introduction"
@@ -89,7 +97,7 @@ export const ProfileForm = () => {
             htmlFor="userProfilePicture"
             className="text-center w-100 mb-4"
           >
-            Avatar
+            {t('avatarLabel')}
           </label>
           <div className="edit-user-details__avatar">
             <Image
@@ -102,8 +110,13 @@ export const ProfileForm = () => {
           </div>
         </Col>
         <Col nog>
-          <Button disabled={loading} block className="d-table mr-3">
-            Save
+          <Button
+            type="submit"
+            disabled={loading}
+            block
+            className="d-table mr-3"
+          >
+            {loading ? t('saveProfileBtnLoading') : t('saveProfileBtn')}
           </Button>
         </Col>
       </Row>

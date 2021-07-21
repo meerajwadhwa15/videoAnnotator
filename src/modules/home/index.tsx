@@ -36,6 +36,7 @@ import {
   assignVideoLoadingSelector,
   assignVideo,
   clearMessage,
+  clearData,
 } from './slice';
 import { UserRole } from 'models/user.model';
 import { displayVideoStatus } from 'utils/helpers';
@@ -54,12 +55,14 @@ const Home = () => {
   const usersList = useAppSelector(usersListDataSelector);
   const message = useAppSelector(messageSelector);
   const assignVideoLoading = useAppSelector(assignVideoLoadingSelector);
+
   const [tableDataState, setTableDataState] = useState(tableDataStore);
   const [pageSizeOptions] = useState([5, 10, 15, 20]);
   const [pageSize, setPageSize] = useState(10);
   const [isAssignModalOpen, setAssignModal] = useState(false);
   const [isEditModalOpen, setEditModal] = useState(false);
   const [isDeleteModalOpen, setDeleteModal] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const { roles } = currentUser;
   const isAdmin = roles.includes(UserRole.admin);
@@ -76,8 +79,8 @@ const Home = () => {
     {
       Header: t('idColumn'),
       accessor: 'id',
-      maxWidth: 60,
       className: 'text-center',
+      maxWidth: 60,
     },
     {
       Header: t('nameColumn'),
@@ -88,8 +91,8 @@ const Home = () => {
     {
       Header: t('typeColumn'),
       accessor: 'format',
-      maxWidth: 150,
       className: 'text-center',
+      maxWidth: 150,
       Cell: function displayStatus(row) {
         return <span>{row.original.format || 'N/A'}</span>;
       },
@@ -97,8 +100,8 @@ const Home = () => {
     {
       Header: t('sizeColumn'),
       accessor: 'size',
-      maxWidth: 150,
       className: 'text-center',
+      maxWidth: 150,
       Cell: function displayStatus(row) {
         return <span>{row.original.size || 'N/A'}</span>;
       },
@@ -106,9 +109,9 @@ const Home = () => {
     {
       Header: t('statusColumn'),
       accessor: 'status',
+      className: 'text-center',
       minWidth: 150,
       maxWidth: 300,
-      className: 'text-center',
       Cell: function displayStatus(row) {
         return <span>{displayVideoStatus(row.original.status)}</span>;
       },
@@ -116,9 +119,9 @@ const Home = () => {
     {
       Header: t('actionColumn'),
       accessor: 'action',
+      sortable: false,
       minWidth: 200,
       maxWidth: 400,
-      sortable: false,
       Cell: function displayAction(row) {
         return (
           <ButtonGroup size="sm" className="d-table mx-auto">
@@ -184,15 +187,11 @@ const Home = () => {
   }, [tableDataStore]);
 
   useEffect(() => {
-    if (!isAssignModalOpen && message.type) {
-      dispatch(clearMessage());
-    }
-
     if (
       isAssignModalOpen === false &&
       currentVideoId.current > 0 &&
       message.type !== 'success' &&
-      message.text !== 'update_assign_success'
+      message.text !== 'assign_video_success'
     ) {
       const currentVideoIndex = tableDataState.findIndex(
         (video) => video.id === currentVideoId.current
@@ -203,6 +202,10 @@ const Home = () => {
       const tableDataTemp = JSON.parse(JSON.stringify(tableDataState));
       tableDataTemp[currentVideoIndex] = originalVideoData;
       setTableDataState(tableDataTemp);
+    }
+
+    if (!isAssignModalOpen && message.type) {
+      dispatch(clearMessage());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAssignModalOpen]);
@@ -219,9 +222,17 @@ const Home = () => {
         toast.error(t('assignErrorMsg'));
       }
     }
-  }, [message, t]);
+  }, [message, dispatch, t]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearData());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function onSearch(event) {
+    setSearchKeyword(event.target.value);
     setTableDataState(searcher.search(event.target.value));
   }
 
@@ -302,6 +313,12 @@ const Home = () => {
     setAssignModal(false);
   }
 
+  function clearSearchKeyword() {
+    if (searchKeyword) {
+      setSearchKeyword('');
+    }
+  }
+
   return (
     <DashboardLayout>
       {/* Page Title */}
@@ -314,7 +331,7 @@ const Home = () => {
               {/* Create New Video Button */}
               {isAdmin && (
                 <Col xs="12" className={styles.newBtnWrapper}>
-                  <CreateVideoModal />
+                  <CreateVideoModal clearSearchKeyword={clearSearchKeyword} />
                 </Col>
               )}
               {/*  Show Row */}
@@ -345,6 +362,7 @@ const Home = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <FormInput
+                    value={searchKeyword}
                     placeholder={t('searchPlaceHolder')}
                     onChange={(event) => {
                       onSearch(event);
@@ -363,6 +381,12 @@ const Home = () => {
             showPageSizeOptions={false}
             resizable={true}
             className="-highlight"
+            nextText={t('nextTableTextBtn')}
+            previousText={t('home:previousTableTextBtn')}
+            loadingText={t('home:loadingTableText')}
+            noDataText={t('home:noDataTableText')}
+            pageText={t('home:pageTableText')}
+            ofText={t('home:ofTableText')}
             getTrProps={(state, row) => {
               return {
                 style: {
@@ -373,12 +397,11 @@ const Home = () => {
                 },
               };
             }}
-            nextText={t('nextTableTextBtn')}
-            previousText={t('home:previousTableTextBtn')}
-            loadingText={t('home:loadingTableText')}
-            noDataText={t('home:noDataTableText')}
-            pageText={t('home:pageTableText')}
-            ofText={t('home:ofTableText')}
+            getTdProps={() => ({
+              style: {
+                minHeight: '48px',
+              },
+            })}
           />
         </CardBody>
       </Card>
@@ -387,13 +410,15 @@ const Home = () => {
         isOpen={isEditModalOpen}
         videoId={currentVideoId.current}
         videoData={tableDataState}
-        toggleEditModal={() => toggleEditModal()}
+        toggleEditModal={toggleEditModal}
+        clearSearchKeyword={clearSearchKeyword}
       />
-      {/* Modal edit video */}
+      {/* Modal delete video */}
       <DeleteVideoModal
         isOpen={isDeleteModalOpen}
         videoId={currentVideoId.current}
-        toggleDeleteModal={() => toggleDeleteModal()}
+        toggleDeleteModal={toggleDeleteModal}
+        clearSearchKeyword={clearSearchKeyword}
       />
       {/* Modal assign video */}
       <Modal

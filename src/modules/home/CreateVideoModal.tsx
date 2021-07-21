@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import {
   Form,
   Button,
@@ -15,14 +15,16 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { VideoSchema } from 'validations/VideoSchema';
 import Input from 'components/elements/Input';
 import {
-  fetchVideosList,
   createVideo,
   messageSelector,
   createVideoLoadingSelector,
-  clearMessage,
 } from './slice';
 
-const CreateVideoModal = () => {
+interface props {
+  clearSearchKeyword: () => void;
+}
+
+const CreateVideoModal: FC<props> = ({ clearSearchKeyword }) => {
   const message = useAppSelector(messageSelector);
   const loading = useAppSelector(createVideoLoadingSelector);
   const dispatch = useAppDispatch();
@@ -44,8 +46,7 @@ const CreateVideoModal = () => {
   const { values, errors, handleChange, handleSubmit } = form;
 
   useEffect(() => {
-    if (!isCreateModalOpen && message.type) {
-      dispatch(clearMessage());
+    if (!isCreateModalOpen) {
       form.resetForm();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,13 +55,14 @@ const CreateVideoModal = () => {
   useEffect(() => {
     if (message.type === 'success' && message.text === 'create_video_success') {
       toast.success(t('createSuccessMsg'));
+      clearSearchKeyword();
     }
 
     if (message.type === 'error' && message.text === 'create_video_error') {
-      dispatch(fetchVideosList());
       toast.error(t('createErrorMsg'));
     }
-  }, [message, dispatch, t]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [message]);
 
   function toggleCreateModal() {
     setCreateModal(!isCreateModalOpen);

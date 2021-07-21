@@ -1,24 +1,21 @@
 import * as Yup from 'yup';
+import { TFunction } from 'next-i18next';
 
-export const UserProfileSchema = Yup.object().shape({
-  fullName: Yup.string().required('Full name is required'),
-  address: Yup.string().required('Address is required'),
-  phone: Yup.string()
-    .required('Phone number is required')
-    .matches(/[0-9]/, 'Phone number must contain only numbers'),
-  introduction: Yup.string(),
-});
+export const UserProfileSchema = (t: TFunction) =>
+  Yup.object().shape({
+    fullName: Yup.string().required(t('requiredNameError')),
+    phone: Yup.string().matches(/[0-9]/, t('phonePatternError')),
+    introduction: Yup.string(),
+  });
 
-export const ChangePasswordSchema = Yup.object().shape({
-  oldPassword: Yup.string().required('Old password is required'),
-  password: Yup.string()
-    .required('New password is required')
-    .notOneOf(
-      [Yup.ref('oldPassword'), null],
-      'New password must be different with old password'
+export const ChangePasswordSchema = (t: TFunction) =>
+  Yup.object().shape({
+    oldPassword: Yup.string().required(t('requiredOldPwError')),
+    password: Yup.string()
+      .required(t('requiredNewPwError'))
+      .notOneOf([Yup.ref('oldPassword'), null], t('diffWithOldPwError')),
+    matchingPassword: Yup.string().oneOf(
+      [Yup.ref('password'), null],
+      t('matchConfirmPwError')
     ),
-  matchingPassword: Yup.string().oneOf(
-    [Yup.ref('password'), null],
-    'Confirm password must be match with new password'
-  ),
-});
+  });

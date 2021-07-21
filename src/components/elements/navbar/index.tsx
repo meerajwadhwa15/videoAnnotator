@@ -16,6 +16,7 @@ import {
 } from 'shards-react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { useTranslation } from 'next-i18next';
 
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { toggleSidebar } from 'components/elements/slice';
@@ -25,6 +26,7 @@ import { clientCookies } from 'utils/clientCookies';
 import styles from './style.module.scss';
 
 const MainNavbar = () => {
+  const { t } = useTranslation(['common']);
   const [visible, setVisible] = useState(false);
   const dispatch = useAppDispatch();
   const { push } = useRouter();
@@ -50,7 +52,7 @@ const MainNavbar = () => {
               <FormInput
                 style={{ border: 'none' }}
                 className="navbar-search"
-                placeholder="Search..."
+                placeholder={t('topSearch')}
               />
             </InputGroup>
           </Form>
@@ -91,11 +93,11 @@ const MainNavbar = () => {
                 className={styles.dropdownMenu}
               >
                 <DropdownItem tag={NavLink} href="/profile">
-                  Profile
+                  {t('profileLink')}
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem onClick={handleLogout} className="text-danger">
-                  Logout
+                  {t('logoutLink')}
                 </DropdownItem>
               </Collapse>
             </NavItem>
