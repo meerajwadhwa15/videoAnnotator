@@ -25,6 +25,7 @@ import {
 } from './slice';
 import { useRouter } from 'next/router';
 import { dispatchCreateSegment, dispatchEditSegment } from './actions';
+import { useTranslation } from 'next-i18next';
 
 interface Props {
   videoDuration: number;
@@ -32,6 +33,7 @@ interface Props {
 
 export const AnnotatorForm: FC<Props> = ({ videoDuration }) => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation(['video-detail', 'common']);
   const videoDetail = useAppSelector(videoDetailSelector);
   const edittingSegment = useAppSelector(edittingSegmentSelector);
   const annotateModal = useAppSelector(annotateModalSelector);
@@ -51,15 +53,17 @@ export const AnnotatorForm: FC<Props> = ({ videoDuration }) => {
       const errors: Record<string, string> = {};
       const { label, startFrame, endFrame } = values;
       if (!label.trim()) {
-        errors.label = 'Annotator is required';
+        errors.label = t('video-detail:annotationRequiredError');
       }
       const startFrameBySecond = convertTimeValueToSecond(startFrame);
       const endFrameBySecond = convertTimeValueToSecond(endFrame);
       if (startFrameBySecond >= endFrameBySecond) {
-        errors.endFrame = 'End time must be after start time';
+        errors.endFrame = t('video-detail:endTimeMustBiggerThanStartTimeError');
       }
       if (videoDuration < endFrameBySecond) {
-        errors.endFrame = 'End time cannot bigger than video duration';
+        errors.endFrame = t(
+          'video-detail:endTimeMustLimitByVideoDurationError'
+        );
       }
       const foundOverlapSegment = videoDetail.segments.find(
         (segment) =>
@@ -70,7 +74,7 @@ export const AnnotatorForm: FC<Props> = ({ videoDuration }) => {
           )
       );
       if (foundOverlapSegment) {
-        errors.endFrame = "Segment's time cannot overlap with other annotation";
+        errors.endFrame = t('video-detail:annotationTimeOverlapError');
       }
       return errors;
     },
@@ -99,35 +103,35 @@ export const AnnotatorForm: FC<Props> = ({ videoDuration }) => {
       <ModalBody>
         <Form onSubmit={handleSubmit}>
           <Input
-            label="Annotator"
+            label={t('video-detail:annotationInputLabel')}
             name="label"
             errorMessage={errors.label}
             onChange={handleChange}
             value={values.label}
-            placeholder="Annotator"
+            placeholder={t('video-detail:annotationInputPlaceholder')}
           />
           <InputTime
             name="startFrame"
             errorMessage={errors.startFrame}
             value={values.startFrame}
             handleChange={handleChange}
-            label="Start Time"
+            label={t('video-detail:startFrameInputLabel')}
           />
           <InputTime
             name="endFrame"
             value={values.endFrame}
             errorMessage={errors.endFrame}
             handleChange={handleChange}
-            label="End Time"
+            label={t('video-detail:endFrameInputLabel')}
           />
         </Form>
       </ModalBody>
       <ModalFooter>
         <Button onClick={toggleModal} theme="danger">
-          Cancel
+          {t('common:cancelButton')}
         </Button>
         <Button disabled={loading} type="submit" onClick={handleSubmit}>
-          Save
+          {t('common:saveButton')}
         </Button>
       </ModalFooter>
     </Modal>

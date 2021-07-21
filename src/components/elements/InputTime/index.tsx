@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { FC } from 'react';
 import { FormInput } from 'shards-react';
 import style from './style.module.scss';
@@ -21,6 +22,7 @@ export const InputTime: FC<Props> = ({
   value,
   handleChange,
 }) => {
+  const { t } = useTranslation(['common']);
   const getValue = (value: number) => {
     return value < 0 ? 0 : value;
   };
@@ -36,7 +38,7 @@ export const InputTime: FC<Props> = ({
           onChange={handleChange}
           name={`${name}.hour`}
           className="mr-4"
-          placeholder="Hour"
+          placeholder={t('common:hour')}
         />
         <FormInput
           value={getValue(value.minute)}
@@ -45,7 +47,7 @@ export const InputTime: FC<Props> = ({
           onChange={handleChange}
           name={`${name}.minute`}
           className="mr-4"
-          placeholder="Minute"
+          placeholder={t('common:minute')}
         />
         <FormInput
           value={getValue(value.second)}
@@ -53,7 +55,7 @@ export const InputTime: FC<Props> = ({
           min="0"
           onChange={handleChange}
           name={`${name}.second`}
-          placeholder="Second"
+          placeholder={t('common:second')}
         />
       </div>
       {errorMessage && <p className="error-text">{errorMessage}</p>}

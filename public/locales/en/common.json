@@ -1,3 +1,8 @@
 {
-  "greeting": "Hello"
+  "hour": "Hour",
+  "minute": "Minute",
+  "second": "Second",
+  "saveButton": "Save",
+  "cancelButton": "Cancel",
+  "submitButton": "Submit"
 }
