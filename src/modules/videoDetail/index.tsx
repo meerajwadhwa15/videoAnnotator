@@ -11,10 +11,12 @@ import { AnnotatorForm } from './AnnotatorForm';
 
 import styles from './style.module.scss';
 import { Segment } from 'models';
+import { useTranslation } from 'next-i18next';
 
 const VideoDetail = () => {
   const videoDetail = useAppSelector(videoDetailSelector);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation(['video-detail']);
   const [isLoadingVideo, setLoadingVideo] = useState<boolean>(true);
   const [activeSegment, setActiveSegment] = useState<number | null>(null);
   const [videoDuration, setVideoDuration] = useState<number>(0);
@@ -52,7 +54,10 @@ const VideoDetail = () => {
 
   return (
     <DashboardLayout>
-      <PageTitle title={videoDetail.name} subtitle="Video infomation" />
+      <PageTitle
+        title={videoDetail.name}
+        subtitle={t('video-detail:pageTitle')}
+      />
       <Col lg="12" md="12">
         <Row
           style={{
@@ -63,7 +68,9 @@ const VideoDetail = () => {
         >
           <Col lg="7" md="12" className={styles.col}>
             {isLoadingVideo && (
-              <div className={styles.videoPlaceHoldler}>Loading Video...</div>
+              <div className={styles.videoPlaceHoldler}>
+                {t('video-detail:loadingVideoTitle')}
+              </div>
             )}
             <ReactPlayer
               controls

@@ -4,6 +4,7 @@ import { Button } from 'shards-react';
 import style from './style.module.scss';
 import { FC } from 'react';
 import { Segment } from 'models';
+import { useTranslation } from 'next-i18next';
 
 interface Props {
   onAnnotate: () => void;
@@ -18,6 +19,7 @@ export const AnnotatorList: FC<Props> = ({
   activeSegment,
   onSeekToSegment,
 }) => {
+  const { t } = useTranslation(['video-detail']);
   function renderAnnotator() {
     if (!segments.length) {
       return <div className="mt-2">No Data Found</div>;
@@ -36,10 +38,10 @@ export const AnnotatorList: FC<Props> = ({
 
   return (
     <div>
-      <h4 className="mb-2">Annotators</h4>
+      <h4 className="mb-2">{t('video-detail:annotatorListTitle')}</h4>
       <div className={style.annotatorList}>{renderAnnotator()}</div>
       <Button className="mt-2" onClick={onAnnotate}>
-        Annotate
+        {t('video-detail:addNewAnnotatationButton')}
       </Button>
     </div>
   );

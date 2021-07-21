@@ -11,6 +11,7 @@ import { loadingSelector, onEditSegment } from './slice';
 import { userDataSelector } from 'redux/globalSlice';
 import { dispatchDeleteAnnotator } from './actions';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 interface Props {
   segment: Segment;
@@ -31,6 +32,7 @@ export const AnnotatorItem: FC<Props> = ({
   const {
     query: { id: videoId },
   } = useRouter();
+  const { t } = useTranslation(['video-detail']);
 
   const handleEditSegment = () => {
     dispatch(onEditSegment(segment));
@@ -41,7 +43,9 @@ export const AnnotatorItem: FC<Props> = ({
   };
 
   const onDelete = () => {
-    const confirm = window.confirm('Are you sure you want to delete ?');
+    const confirm = window.confirm(
+      t('video-detail:deleteAnnotationConfirmMessage')
+    );
     if (confirm) {
       dispatch(dispatchDeleteAnnotator({ segmentId: segment.id, videoId }));
     }
@@ -66,7 +70,8 @@ export const AnnotatorItem: FC<Props> = ({
           {convertSecondsToTimeString(segment.endFrame)}
         </div>
         <div>
-          Added by: <strong>{segment.user.fullName}</strong>
+          {t('video-detail:annotatorAddedBy')}:{' '}
+          <strong>{segment.user.fullName}</strong>
         </div>
       </div>
       {canUserManageSegment() && (
@@ -93,7 +98,7 @@ export const AnnotatorItem: FC<Props> = ({
         toggle={() => setTooltip(!tooltip)}
         target={`#${segmentId}`}
       >
-        Click To Go To Segment
+        {t('video-detail:annotationOnHoverTooltipLabel')}
       </Tooltip>
     </div>
   );

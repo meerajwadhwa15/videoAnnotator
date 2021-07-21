@@ -33,7 +33,10 @@ export const getServerSideProps = withAuthPage(async (context) => {
   });
   return {
     props: {
-      ...(await serverSideTranslations(locale || '', ['common'])),
+      ...(await serverSideTranslations(locale || '', [
+        'common',
+        'video-detail',
+      ])),
       videoDetail,
     },
   };

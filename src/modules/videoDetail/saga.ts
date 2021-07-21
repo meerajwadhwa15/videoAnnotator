@@ -17,6 +17,7 @@ import {
   dispatchEditSegmentSuccess,
 } from './actions';
 import { DeleteSegmentData, SegmentData } from './types';
+import { i18n } from 'next-i18next';
 
 function* addNewSegmentWorker({ payload }: PayloadAction<SegmentData>) {
   try {
@@ -27,12 +28,15 @@ function* addNewSegmentWorker({ payload }: PayloadAction<SegmentData>) {
       data
     );
     yield put(dispatchCreateSegmentSuccess(result));
-    yield call(toast.success, '🚀 Create new segment success!');
+    yield call(
+      toast.success,
+      i18n?.t('video-detail:createNewAnnotationSuccess')
+    );
   } catch (error) {
     const errorMessage = _get(
       error,
       'response.data.message',
-      '🚀 Create new segment failed!'
+      i18n?.t('video-detail:createNewAnnotationFail')
     );
     yield call(toast.error, errorMessage);
     yield put(dispatchCreateSegmentFail());
@@ -48,12 +52,12 @@ function* editSegmentWorkder({ payload }: PayloadAction<SegmentData>) {
       data
     );
     yield put(dispatchEditSegmentSuccess(result));
-    yield call(toast.success, '🚀 Update segment success!');
+    yield call(toast.success, i18n?.t('video-detail:updateAnnotationSuccess'));
   } catch (error) {
     const errorMessage = _get(
       error,
       'response.data.message',
-      '🚀 Update segment failed!'
+      i18n?.t('video-detail:updateAnnotationFail')
     );
     yield call(toast.error, errorMessage);
     yield put(dispatchEditSegmentFail());
@@ -69,12 +73,12 @@ function* deleteSegmentWorkder({ payload }: PayloadAction<DeleteSegmentData>) {
       { segmentId }
     );
     yield put(dispatchDeleteAnnotatorSuccess(result));
-    yield call(toast.success, '🚀 Delete segment success!');
+    yield call(toast.success, i18n?.t('video-detail:deleteAnnotationSuccess'));
   } catch (error) {
     const errorMessage = _get(
       error,
       'response.data.message',
-      '🚀 Delete segment failed!'
+      i18n?.t('video-detail:deleteAnnotationFail')
     );
     yield call(toast.error, errorMessage);
     yield put(dispatchDeleteAnnotatorFail());
