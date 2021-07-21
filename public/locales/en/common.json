@@ -1,8 +1,18 @@
 {
+  "videoListLink": "Videos List",
+  "profileLink": "Profile",
+  "appTitle": "Video Annotator",
+  "logoutLink": "Logout",
+  "topSearch": "Search...",
   "hour": "Hour",
   "minute": "Minute",
   "second": "Second",
   "saveButton": "Save",
   "cancelButton": "Cancel",
-  "submitButton": "Submit"
+  "submitButton": "Submit",
+  "footerLink1": "Home",
+  "footerLink2": "Services",
+  "footerLink3": "Contacts",
+  "footerLink4": "About Us",
+  "footerCopyright": "Copyright © 2021 Video Annotator"
 }

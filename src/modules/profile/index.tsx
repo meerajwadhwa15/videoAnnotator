@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Col, Card, CardBody, CardFooter, CardHeader } from 'shards-react';
+import { useTranslation } from 'next-i18next';
 
 import DashboardLayout from 'components/layouts/DashboardLayout';
 import PageTitle from 'components/elements/pageTitle';
@@ -14,6 +15,7 @@ import { AlertMessageType } from 'utils/types';
 const Profile = () => {
   const message = useAppSelector(messageSelector);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation(['profile']);
 
   useEffect(() => {
     if (message.type === AlertMessageType.success) {
@@ -30,7 +32,7 @@ const Profile = () => {
   return (
     <DashboardLayout>
       {/* Page Title */}
-      <PageTitle title="User Profile" subtitle="Profile" />
+      <PageTitle title={t('title')} subtitle={t('subTitle')} />
       {/* User Profile */}
       <Col lg="8" className="mt-4">
         <Card small className="edit-user-details mb-4">

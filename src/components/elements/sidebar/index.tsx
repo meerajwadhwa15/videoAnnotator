@@ -2,11 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 import { Col, Nav, Navbar, NavbarBrand, NavItem, NavLink } from 'shards-react';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
+import { useTranslation } from 'next-i18next';
 
 import { isSidebarOpen, toggleSidebar } from 'components/elements/slice';
 import styles from './style.module.scss';
 
 const Sidebar = () => {
+  const { t } = useTranslation(['common']);
   const sidebarVisible = useAppSelector(isSidebarOpen);
   const dispatch = useAppDispatch();
   const classes = classNames(
@@ -20,13 +22,13 @@ const Sidebar = () => {
       title: 'Dashboards',
       items: [
         {
-          title: 'Videos List',
+          title: t('videoListLink'),
           to: '/',
           htmlBefore: '<i class="material-icons">videocam</i>',
           htmlAfter: '',
         },
         {
-          title: 'Profile',
+          title: t('profileLink'),
           to: '/profile',
           htmlBefore: '<i class="material-icons">person</i>',
           htmlAfter: '',
@@ -44,7 +46,7 @@ const Sidebar = () => {
       {/* Navbar brand */}
       <Navbar className={styles.navbar} type="light">
         <NavbarBrand className={styles.navbarBrand} href="/">
-          <span>Video Annotator</span>
+          <span>{t('appTitle')}</span>
         </NavbarBrand>
         <a
           className={`${styles.toggleSidebar} d-sm-inline d-md-none d-lg-none`}

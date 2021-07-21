@@ -47,8 +47,12 @@ function* createVideoWorker(
   action: PayloadAction<createAndEditVideoRequestData>
 ) {
   try {
-    yield call(request.post, API_ENDPOINT.createVideo, action.payload);
-    yield put(createVideoSuccess());
+    const response = yield call(
+      request.post,
+      API_ENDPOINT.createVideo,
+      action.payload
+    );
+    yield put(createVideoSuccess(response));
   } catch (error) {
     yield put(createVideoError());
   }

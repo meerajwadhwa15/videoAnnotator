@@ -93,7 +93,8 @@ export const homeSlice = createSlice({
       };
       console.log('action', action);
     },
-    createVideoSuccess: (state, action: PayloadAction) => {
+    createVideoSuccess: (state, action: PayloadAction<VideoInfo>) => {
+      state.videosList.push(action.payload);
       state.message.type = 'success';
       state.message.text = 'create_video_success';
       state.createVideoLoading = false;
@@ -159,6 +160,18 @@ export const homeSlice = createSlice({
       state.message.type = '';
       state.message.text = '';
     },
+    clearData: (state) => {
+      state.videosList = [];
+      state.loading = false;
+      state.assignVideoLoading = false;
+      state.createVideoLoading = false;
+      state.editVideoLoading = false;
+      state.deleteVideoLoading = false;
+      state.message = {
+        type: '',
+        text: '',
+      };
+    },
   },
 });
 
@@ -180,6 +193,7 @@ export const {
   deleteVideoSuccess,
   deleteVideoError,
   clearMessage,
+  clearData,
 } = homeSlice.actions;
 
 export const videosListSelector = (state: RootState) => state.home.videosList;

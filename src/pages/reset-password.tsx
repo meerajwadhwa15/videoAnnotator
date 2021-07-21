@@ -28,7 +28,10 @@ export const getServerSideProps = async (context) => {
   } = context;
   const result = {
     props: {
-      ...(await serverSideTranslations(locale || '', ['reset-password'])),
+      ...(await serverSideTranslations(locale || '', [
+        'common',
+        'reset-password',
+      ])),
       isTokenValid: true,
     },
   };

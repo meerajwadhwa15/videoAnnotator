@@ -15,18 +15,14 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { VideoSchema } from 'validations/VideoSchema';
 import Input from 'components/elements/Input';
 import { VideoInfo } from 'models/video.model';
-import {
-  editVideo,
-  messageSelector,
-  editVideoLoadingSelector,
-  clearMessage,
-} from './slice';
+import { editVideo, messageSelector, editVideoLoadingSelector } from './slice';
 
 interface props {
   isOpen: boolean;
   videoId: number;
   videoData: VideoInfo[];
   toggleEditModal: () => void;
+  clearSearchKeyword: () => void;
 }
 
 const EditVideoModal: FC<props> = ({
@@ -34,6 +30,7 @@ const EditVideoModal: FC<props> = ({
   videoId,
   videoData,
   toggleEditModal,
+  clearSearchKeyword,
 }) => {
   const { t } = useTranslation(['home']);
   const message = useAppSelector(messageSelector);
@@ -56,10 +53,6 @@ const EditVideoModal: FC<props> = ({
   const { values, errors, setFieldValue, handleChange, handleSubmit } = form;
 
   useEffect(() => {
-    if (!isOpen && message.type) {
-      dispatch(clearMessage());
-    }
-
     if (
       Array.isArray(videoData) &&
       videoData.length > 0 &&
@@ -78,12 +71,14 @@ const EditVideoModal: FC<props> = ({
     if (message.type === 'success' && message.text === 'edit_video_success') {
       toast.success(t('editSuccessMsg'));
       toggleEditModal();
+      clearSearchKeyword();
     }
 
     if (message.type === 'error' && message.text === 'edit_video_error') {
       toast.error(t('editErrorMsg'));
     }
-  }, [message, t, toggleEditModal]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [message]);
 
   return (
     <React.Fragment>
