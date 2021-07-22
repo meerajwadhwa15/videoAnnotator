@@ -109,7 +109,7 @@ export const ProfileForm = () => {
             />
           </div>
         </Col>
-        <Col nog>
+        <Col>
           <Button
             type="submit"
             disabled={loading.profile}
