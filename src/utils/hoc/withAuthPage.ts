@@ -2,14 +2,14 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { requestServer } from 'utils/apiClient';
 import { ACCESS_TOKEN } from 'utils/clientCookies';
 import { parseContextCookie } from 'utils/helpers';
-import { API_ENDPOINT } from 'utils/constants';
+import { API_ENDPOINT, ADMIN_ROUTING } from 'utils/constants';
 
 export function withAuthPage(
   gssp: (context: GetServerSidePropsContext, user?: any) => any
 ): GetServerSideProps {
   const redirectPayload = {
     redirect: {
-      destination: '/login',
+      destination: ADMIN_ROUTING.login,
       permanent: false,
     },
   };

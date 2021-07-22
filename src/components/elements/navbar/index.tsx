@@ -23,13 +23,14 @@ import { toggleSidebar } from 'components/elements/slice';
 import { userDataSelector } from 'redux/globalSlice';
 import { removeAuthorizationHeader } from 'utils/apiClient';
 import { clientCookies } from 'utils/clientCookies';
+import { ADMIN_ROUTING } from 'utils/constants';
 import styles from './style.module.scss';
 
 const MainNavbar = () => {
   const { t } = useTranslation(['common']);
   const [visible, setVisible] = useState(false);
   const dispatch = useAppDispatch();
-  const { push } = useRouter();
+  const router = useRouter();
   const { fullName } = useAppSelector(userDataSelector);
 
   function onToggleSidebar() {
@@ -39,7 +40,7 @@ const MainNavbar = () => {
   function handleLogout() {
     clientCookies.deleteSession();
     removeAuthorizationHeader();
-    push('/login');
+    router.push(ADMIN_ROUTING.login);
   }
 
   return (
@@ -92,7 +93,7 @@ const MainNavbar = () => {
                 open={visible}
                 className={styles.dropdownMenu}
               >
-                <DropdownItem tag={NavLink} href="/profile">
+                <DropdownItem tag={NavLink} href={ADMIN_ROUTING.profile}>
                   {t('profileLink')}
                 </DropdownItem>
                 <DropdownItem divider />

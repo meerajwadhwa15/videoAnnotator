@@ -9,7 +9,7 @@ import {
   dispatchLogin,
 } from './slice';
 import { LoginData } from './types';
-import { API_ENDPOINT } from 'utils/constants';
+import { API_ENDPOINT, ADMIN_ROUTING } from 'utils/constants';
 
 export function* loginWorker({ payload }: PayloadAction<LoginData>) {
   try {
@@ -19,7 +19,7 @@ export function* loginWorker({ payload }: PayloadAction<LoginData>) {
     clientCookies.saveToken({ token, remember });
     setAuthorizationHeader();
     yield put(dispatchLoginSuccess());
-    yield call(router.push, '/');
+    yield call(router.push, ADMIN_ROUTING.home);
   } catch (error) {
     yield put(dispatchLoginFail());
   }

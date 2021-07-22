@@ -43,6 +43,15 @@ const EditVideoModal: FC<props> = ({
   const dispatch = useAppDispatch();
 
   const data = videoData.find((video) => video.id === videoId);
+  // let data: VideoInfo | undefined = {} as VideoInfo;
+  // if (
+  //   Array.isArray(videoData) &&
+  //   videoData.length > 0 &&
+  //   videoId > 0 &&
+  //   isOpen
+  // ) {
+  //   data = videoData.find((video) => video.id === videoId);
+  // }
   const isEditVideo = !!data;
 
   const form = useFormik({

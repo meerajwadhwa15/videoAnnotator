@@ -5,6 +5,7 @@ import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { useTranslation } from 'next-i18next';
 
 import { isSidebarOpen, toggleSidebar } from 'components/elements/slice';
+import { ADMIN_ROUTING } from 'utils/constants';
 import styles from './style.module.scss';
 
 const Sidebar = () => {
@@ -23,13 +24,13 @@ const Sidebar = () => {
       items: [
         {
           title: t('videoListLink'),
-          to: '/',
+          to: ADMIN_ROUTING.home,
           htmlBefore: '<i class="material-icons">videocam</i>',
           htmlAfter: '',
         },
         {
           title: t('profileLink'),
-          to: '/profile',
+          to: ADMIN_ROUTING.profile,
           htmlBefore: '<i class="material-icons">person</i>',
           htmlAfter: '',
         },
@@ -45,7 +46,7 @@ const Sidebar = () => {
     <Col tag="aside" className={classes} lg={{ size: 2 }} md={{ size: 3 }}>
       {/* Navbar brand */}
       <Navbar className={styles.navbar} type="light">
-        <NavbarBrand className={styles.navbarBrand} href="/">
+        <NavbarBrand className={styles.navbarBrand} href={ADMIN_ROUTING.home}>
           <span>{t('appTitle')}</span>
         </NavbarBrand>
         <a

@@ -4,6 +4,7 @@ import { Card, CardBody } from 'shards-react';
 import { useTranslation } from 'next-i18next';
 import AuthLayout from 'components/layouts/AuthLayout';
 import ForgotPassForm from './ForgotPassForm';
+import { ADMIN_ROUTING } from 'utils/constants';
 
 const ForgotPassword = () => {
   const { t } = useTranslation(['forgot-password']);
@@ -23,7 +24,7 @@ const ForgotPassword = () => {
 
       {/* Meta Details */}
       <div className="mt-4 text-center">
-        <Link href="/login">
+        <Link href={ADMIN_ROUTING.login}>
           <a className="mx-auto">{t('forgot-password:toLogin')}</a>
         </Link>
       </div>

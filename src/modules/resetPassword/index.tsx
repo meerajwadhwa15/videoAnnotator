@@ -5,6 +5,7 @@ import { Card, CardBody } from 'shards-react';
 import AuthLayout from 'components/layouts/AuthLayout';
 import { ResetForm } from './ResetForm';
 import { useTranslation } from 'next-i18next';
+import { ADMIN_ROUTING } from 'utils/constants';
 
 const ResetPassword: FC<{ isTokenValid: boolean }> = ({ isTokenValid }) => {
   const { t } = useTranslation(['reset-password']);
@@ -31,7 +32,7 @@ const ResetPassword: FC<{ isTokenValid: boolean }> = ({ isTokenValid }) => {
     <AuthLayout>
       {renderContent()}
       <div className="mt-4 text-center">
-        <Link href="/login">
+        <Link href={ADMIN_ROUTING.login}>
           <a className="mx-auto">{t('toLoginLink')}</a>
         </Link>
       </div>

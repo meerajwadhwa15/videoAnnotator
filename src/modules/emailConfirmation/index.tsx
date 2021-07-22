@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
 import AuthLayout from 'components/layouts/AuthLayout';
+import { ADMIN_ROUTING } from 'utils/constants';
 
 const ForgotPassword: FC<{ isTokenValid: boolean }> = ({ isTokenValid }) => {
   const { t } = useTranslation(['email-confirmation']);
@@ -17,7 +18,7 @@ const ForgotPassword: FC<{ isTokenValid: boolean }> = ({ isTokenValid }) => {
 
       {/* Meta Details */}
       <div className="mt-4 text-center">
-        <Link href="/login">
+        <Link href={ADMIN_ROUTING.login}>
           <a className="mx-auto">{t('email-confirmation:toLoginLink')}</a>
         </Link>
       </div>

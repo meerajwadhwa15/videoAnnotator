@@ -16,7 +16,7 @@ import { setCurrentLoginUser } from 'redux/globalSlice';
 
 function* updateProfileWorker({ payload }: PayloadAction<ProfileUpdateData>) {
   try {
-    const result = yield call(request.put, API_ENDPOINT.upateProfile, payload);
+    const result = yield call(request.put, API_ENDPOINT.updateProfile, payload);
     yield put(setCurrentLoginUser(result));
     yield put(updateUserProfileSuccess());
   } catch (error) {

@@ -35,6 +35,7 @@ import { displayVideoStatus } from 'utils/helpers';
 import EditVideoModal from './EditVideoModal';
 import DeleteVideoModal from './DeleteVideoModal';
 import { AssignVideoModal } from './AssignVideoModal';
+import { ADMIN_ROUTING } from 'utils/constants';
 import styles from './style.module.scss';
 
 const Home = () => {
@@ -156,7 +157,7 @@ const Home = () => {
             )}
             <Button
               tag={NavLink}
-              href={`/video-detail/${row.original.id}`}
+              href={`${ADMIN_ROUTING.videoDetail}/${row.original.id}`}
               title={t('viewDetailBtnToolTip')}
               theme="white"
               className={styles.button}
