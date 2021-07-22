@@ -8,7 +8,10 @@ export interface ProfileUpdateData {
 }
 
 export interface ProfileState {
-  loading: boolean;
+  loading: {
+    profile: boolean;
+    password: boolean;
+  };
   message: AlertMessage;
 }
 
