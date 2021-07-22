@@ -4,7 +4,10 @@ import { AlertMessageType } from 'utils/types';
 import { ChangePasswordData, ProfileState, ProfileUpdateData } from './types';
 
 const initialState: ProfileState = {
-  loading: false,
+  loading: {
+    password: false,
+    profile: false,
+  },
   message: {
     type: AlertMessageType.default,
     text: '',
@@ -44,28 +47,28 @@ export const profileSlice = createSlice({
   },
   extraReducers: {
     [updateUserProfile.type](state: ProfileState) {
-      state.loading = true;
+      state.loading.profile = true;
     },
     [updateUserProfileSuccess.type](state: ProfileState) {
-      state.loading = false;
+      state.loading.profile = false;
       state.message.type = AlertMessageType.success;
       state.message.text = '🚀 Update profile successfully!';
     },
     [updateUserProfileFail.type](state: ProfileState) {
-      state.loading = false;
+      state.loading.profile = false;
       state.message.type = AlertMessageType.error;
       state.message.text = '🚀 Update profile failed!';
     },
     [changeUserPassword.type](state: ProfileState) {
-      state.loading = true;
+      state.loading.password = true;
     },
     [changeUserPasswordSuccess.type](state: ProfileState) {
-      state.loading = false;
+      state.loading.password = false;
       state.message.type = AlertMessageType.success;
       state.message.text = '🚀 Update password successfully!';
     },
     [changeUserPasswordFail.type](state: ProfileState, action) {
-      state.loading = false;
+      state.loading.password = false;
       state.message.type = AlertMessageType.error;
       state.message.text = action.payload;
     },

@@ -65,11 +65,13 @@ export const ChangePasswordForm = () => {
         <Col xs="12" className="form-group">
           <Button
             type="submit"
-            disabled={loading}
+            disabled={loading.password}
             block
             className="d-table mr-3"
           >
-            {loading ? t('changePasswordBtnLoading') : t('changePasswordBtn')}
+            {loading.password
+              ? t('changePasswordBtnLoading')
+              : t('changePasswordBtn')}
           </Button>
         </Col>
       </Row>

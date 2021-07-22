@@ -112,11 +112,11 @@ export const ProfileForm = () => {
         <Col nog>
           <Button
             type="submit"
-            disabled={loading}
+            disabled={loading.profile}
             block
             className="d-table mr-3"
           >
-            {loading ? t('saveProfileBtnLoading') : t('saveProfileBtn')}
+            {loading.profile ? t('saveProfileBtnLoading') : t('saveProfileBtn')}
           </Button>
         </Col>
       </Row>

@@ -24,7 +24,7 @@ function* addNewSegmentWorker({ payload }: PayloadAction<SegmentData>) {
     const { videoId, ...data } = payload;
     const result: VideoInfo = yield call(
       request.post,
-      `${API_ENDPOINT.addSegment}/${videoId}`,
+      `${API_ENDPOINT.videoSegment({ videoId })}`,
       data
     );
     yield put(dispatchCreateSegmentSuccess(result));
@@ -48,7 +48,7 @@ function* editSegmentWorkder({ payload }: PayloadAction<SegmentData>) {
     const { videoId, ...data } = payload;
     const result: VideoInfo = yield call(
       request.put,
-      `${API_ENDPOINT.editSegment}/${videoId}`,
+      `${API_ENDPOINT.videoSegment({ videoId })}/${data.id}`,
       data
     );
     yield put(dispatchEditSegmentSuccess(result));
@@ -69,7 +69,7 @@ function* deleteSegmentWorkder({ payload }: PayloadAction<DeleteSegmentData>) {
     const { videoId, segmentId } = payload;
     const result: VideoInfo = yield call(
       request.delete,
-      `${API_ENDPOINT.deleteSegment}/${videoId}`,
+      `${API_ENDPOINT.videoSegment({ videoId })}/${segmentId}`,
       { segmentId }
     );
     yield put(dispatchDeleteAnnotatorSuccess(result));

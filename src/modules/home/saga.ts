@@ -30,12 +30,14 @@ function* fetchVideosListWorker() {
   }
 }
 
-function* assignVideoWorker(action: PayloadAction<assignVideoRequestData>) {
+function* assignVideoWorker({
+  payload,
+}: PayloadAction<assignVideoRequestData>) {
   try {
     const response = yield call(
       request.update,
-      API_ENDPOINT.assignVideo,
-      action.payload
+      `${API_ENDPOINT.video}/${payload.id}`,
+      payload
     );
     yield put(assignVideoSuccess(response));
   } catch (error) {
@@ -43,30 +45,26 @@ function* assignVideoWorker(action: PayloadAction<assignVideoRequestData>) {
   }
 }
 
-function* createVideoWorker(
-  action: PayloadAction<createAndEditVideoRequestData>
-) {
+function* createVideoWorker({
+  payload,
+}: PayloadAction<createAndEditVideoRequestData>) {
   try {
-    const response = yield call(
-      request.post,
-      API_ENDPOINT.createVideo,
-      action.payload
-    );
+    const response = yield call(request.post, API_ENDPOINT.video, payload);
     yield put(createVideoSuccess(response));
   } catch (error) {
     yield put(createVideoError());
   }
 }
 
-function* editVideoWorker(
-  action: PayloadAction<createAndEditVideoRequestData>
-) {
+function* editVideoWorker({
+  payload,
+}: PayloadAction<createAndEditVideoRequestData>) {
   try {
-    const { id, name, url, description } = action.payload;
+    const { id, ...data } = payload;
     const response = yield call(
       request.put,
-      `${API_ENDPOINT.editVideo}/${id}`,
-      { name, url, description }
+      `${API_ENDPOINT.video}/${id}`,
+      data
     );
     yield put(editVideoSuccess(response));
   } catch (error) {
@@ -74,14 +72,10 @@ function* editVideoWorker(
   }
 }
 
-function* deleteVideoWorker(action: PayloadAction<any>) {
+function* deleteVideoWorker({ payload }: PayloadAction<any>) {
   try {
-    yield call(
-      request.delete,
-      `${API_ENDPOINT.deleteVideo}/${action.payload}`,
-      action.payload
-    );
-    yield put(deleteVideoSuccess(action.payload));
+    yield call(request.delete, `${API_ENDPOINT.video}/${payload}`);
+    yield put(deleteVideoSuccess(payload));
   } catch (error) {
     yield put(deleteVideoError());
   }
