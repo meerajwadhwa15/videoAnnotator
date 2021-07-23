@@ -44,10 +44,10 @@ export const getServerSideProps = async (context) => {
 
     await requestServer.post({
       url: API_ENDPOINT.confirmEmail,
-      data: { token },
+      params: { token },
       context,
     });
-  } catch {
+  } catch (error) {
     result.props.isTokenValid = false;
   } finally {
     return result;
