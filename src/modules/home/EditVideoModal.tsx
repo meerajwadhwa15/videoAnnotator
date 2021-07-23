@@ -15,7 +15,12 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { VideoSchema } from 'validations/VideoSchema';
 import Input from 'components/elements/Input';
 import { VideoInfo } from 'models/video.model';
-import { editVideo, messageSelector, editVideoLoadingSelector } from './slice';
+import {
+  editVideo,
+  messageSelector,
+  createVideo,
+  updateVideoLoadingSelector,
+} from './slice';
 
 interface props {
   isOpen: boolean;
@@ -34,38 +39,30 @@ const EditVideoModal: FC<props> = ({
 }) => {
   const { t } = useTranslation(['home']);
   const message = useAppSelector(messageSelector);
-  const loading = useAppSelector(editVideoLoadingSelector);
-
+  const loading = useAppSelector(updateVideoLoadingSelector);
   const dispatch = useAppDispatch();
+
+  const data = videoData.find((video) => video.id === videoId);
+  const isEditVideo = !!data;
+
   const form = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: '',
-      url: '',
-      description: '',
+      name: data?.name || '',
+      url: data?.url || '',
+      description: data?.description || '',
     },
     validationSchema: VideoSchema(t),
     onSubmit: (values) => {
       const { name, url, description } = values;
-      dispatch(editVideo({ id: videoId, name, url, description }));
+      if (isEditVideo) {
+        dispatch(editVideo({ id: videoId, name, url, description }));
+      } else {
+        dispatch(createVideo(values));
+      }
     },
   });
-  const { values, errors, setFieldValue, handleChange, handleSubmit } = form;
-
-  useEffect(() => {
-    if (
-      Array.isArray(videoData) &&
-      videoData.length > 0 &&
-      videoId > 0 &&
-      isOpen
-    ) {
-      const data: any = videoData.find((video) => video.id === videoId);
-      setFieldValue('name', data.name);
-      setFieldValue('url', data.url);
-      setFieldValue('description', data.description);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
+  const { values, errors, handleChange, handleSubmit } = form;
 
   useEffect(() => {
     if (message.type === 'success' && message.text === 'edit_video_success') {
@@ -77,13 +74,23 @@ const EditVideoModal: FC<props> = ({
     if (message.type === 'error' && message.text === 'edit_video_error') {
       toast.error(t('editErrorMsg'));
     }
+    if (message.type === 'success' && message.text === 'create_video_success') {
+      toast.success(t('createSuccessMsg'));
+      clearSearchKeyword();
+    }
+
+    if (message.type === 'error' && message.text === 'create_video_error') {
+      toast.error(t('createErrorMsg'));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [message]);
 
   return (
     <React.Fragment>
       <Modal centered size="md" open={isOpen} toggle={() => toggleEditModal()}>
-        <ModalHeader>{t('editModalHeaderText')}</ModalHeader>
+        <ModalHeader>
+          {t(isEditVideo ? 'editModalHeaderText' : 'createModalHeaderText')}
+        </ModalHeader>
         <Form onSubmit={handleSubmit}>
           <ModalBody>
             <div className="content-wrapper">
