@@ -1,0 +1,6 @@
+{
+  "successfullMessage": "Email đã được xác nhận thành công",
+  "failedMessage": "Email không thể được xác nhận",
+  "toLoginLink": "Trở về màn hình đăng nhập.",
+  "pageTitle": "Xác nhận email"
+}

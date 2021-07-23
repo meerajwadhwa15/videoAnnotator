@@ -1,6 +1,7 @@
 export const API_ENDPOINT = {
   login: 'user/signin',
   signup: 'user/signup',
+  confirmEmail: 'user/confirmEmail',
   forgotPassword: 'user/resetPassword',
   resetPassword: 'user/newPassword',
   profile: 'user/profile',

@@ -1,0 +1,6 @@
+{
+  "successfullMessage": "Your registration is completed",
+  "failedMessage": "Your email can't be verified",
+  "toLoginLink": "Back to login page",
+  "pageTitle": "Email confirmation"
+}
