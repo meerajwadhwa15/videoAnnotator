@@ -1,30 +1,18 @@
-import React, { useEffect } from 'react';
+import { FC } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import AuthLayout from 'components/layouts/AuthLayout';
-import { request } from 'utils/apiClient';
-import { API_ENDPOINT } from 'utils/constants';
 
-const ForgotPassword = () => {
-  const router = useRouter();
+const ForgotPassword: FC<{ isTokenValid: boolean }> = ({ isTokenValid }) => {
   const { t } = useTranslation(['email-confirmation']);
-
-  useEffect(() => {
-    const { query } = router;
-
-    if (!query?.token) {
-      router.push('/login');
-    } else {
-      request.post(API_ENDPOINT.confirmEmail, { token: query.token });
-    }
-  }, []);
 
   return (
     <AuthLayout>
       <h5 className="auth-form__title text-center mb-4">
-        {t('email-confirmation:successfullMessage')}
+        {isTokenValid
+          ? t('email-confirmation:successfullMessage')
+          : t('email-confirmation:failedMessage')}
       </h5>
 
       {/* Meta Details */}
