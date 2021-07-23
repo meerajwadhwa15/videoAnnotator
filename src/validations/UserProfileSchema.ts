@@ -4,7 +4,7 @@ import { TFunction } from 'next-i18next';
 export const UserProfileSchema = (t: TFunction) =>
   Yup.object().shape({
     fullName: Yup.string().required(t('requiredNameError')),
-    phone: Yup.string().matches(/[0-9]/, t('phonePatternError')),
+    phone: Yup.string().matches(/^\d+$/g, t('phonePatternError')),
     introduction: Yup.string(),
   });
 

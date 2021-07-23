@@ -34,7 +34,11 @@ const Input: FC<InputProps> = ({ label, errorMessage, prefix, ...props }) => {
         )}
         <FormInput {...props} invalid={!!errorMessage} />
       </InputGroup>
-      {errorMessage && <p className="error-text">{errorMessage}</p>}
+      {errorMessage && (
+        <p data-testid="inputError" className="error-text">
+          {errorMessage}
+        </p>
+      )}
     </FormGroup>
   );
 };

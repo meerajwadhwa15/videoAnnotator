@@ -10,22 +10,21 @@ const initialState: LoginState = {
   },
 };
 
-export const [
-  dispatchLogin,
-  dispatchLoginSuccess,
-  dispatchLoginFail,
-  clearMessage,
-] = [
+export const [dispatchLogin, dispatchLoginSuccess, dispatchLoginFail] = [
   createAction<LoginData>('login/dispatchLogin'),
   createAction('login/dispatchLoginSuccess'),
   createAction('login/dispatchLoginFail'),
-  createAction('login/clearMessage'),
 ];
 
 export const loginSlice = createSlice({
   name: 'login',
   initialState,
-  reducers: {},
+  reducers: {
+    clearMessage(state) {
+      state.message.type = '';
+      state.message.text = '';
+    },
+  },
   extraReducers: {
     [dispatchLogin.type](state: LoginState) {
       state.loading = true;
@@ -42,14 +41,11 @@ export const loginSlice = createSlice({
       state.message.type = 'error';
       state.message.text = 'login_error';
     },
-    [clearMessage.type](state: LoginState) {
-      state.message.type = '';
-      state.message.text = '';
-    },
   },
 });
 
 export const loadingSelector = (state: RootState) => state.login.loading;
 export const messageSelector = (state: RootState) => state.login.message;
+export const { clearMessage } = loginSlice.actions;
 
 export default loginSlice.reducer;
