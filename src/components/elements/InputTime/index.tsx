@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next';
 import { FC } from 'react';
-import { FormInput } from 'shards-react';
 import style from './style.module.scss';
+import { TimeUnitInput } from './TimeUnitInput';
 
 interface Props {
   label: string;
@@ -23,37 +23,32 @@ export const InputTime: FC<Props> = ({
   handleChange,
 }) => {
   const { t } = useTranslation(['common']);
-  const getValue = (value: number) => {
-    return value < 0 ? 0 : value;
-  };
 
   return (
     <div className={style.inputTime}>
       <label>{label}</label>
       <div className="d-flex">
-        <FormInput
-          value={getValue(value.hour)}
-          type="number"
-          min="0"
-          onChange={handleChange}
+        <TimeUnitInput
+          label={t('common:hour')}
+          value={value.hour}
+          handleChange={handleChange}
           name={`${name}.hour`}
-          className="mr-4"
+          className="mr-2"
           placeholder={t('common:hour')}
         />
-        <FormInput
-          value={getValue(value.minute)}
-          type="number"
-          min="0"
-          onChange={handleChange}
+
+        <TimeUnitInput
+          label={t('common:minute')}
+          value={value.minute}
+          handleChange={handleChange}
           name={`${name}.minute`}
-          className="mr-4"
+          className="mr-2"
           placeholder={t('common:minute')}
         />
-        <FormInput
-          value={getValue(value.second)}
-          type="number"
-          min="0"
-          onChange={handleChange}
+        <TimeUnitInput
+          label={t('common:second')}
+          value={value.second}
+          handleChange={handleChange}
           name={`${name}.second`}
           placeholder={t('common:second')}
         />
