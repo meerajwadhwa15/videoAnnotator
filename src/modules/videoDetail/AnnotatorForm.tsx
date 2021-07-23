@@ -99,7 +99,7 @@ export const AnnotatorForm: FC<Props> = ({ videoDuration }) => {
 
   return (
     <Modal open={annotateModal} toggle={toggleModal}>
-      <ModalHeader>Setting Annotator</ModalHeader>
+      <ModalHeader>{t('video-detail:annotationFormTitle')}</ModalHeader>
       <ModalBody>
         <Form onSubmit={handleSubmit}>
           <Input
