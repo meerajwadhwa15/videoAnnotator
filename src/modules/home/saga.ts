@@ -2,9 +2,6 @@ import { all, takeLatest, fork, put, call } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { request } from 'utils/apiClient';
 import {
-  fetchVideosList,
-  fetchVideosListSuccess,
-  fetchVideosListError,
   assignVideo,
   assignVideoSuccess,
   assignVideoError,
@@ -20,6 +17,11 @@ import {
 } from './slice';
 import { assignVideoRequestData, createAndEditVideoRequestData } from './types';
 import { API_ENDPOINT } from 'utils/constants';
+import {
+  fetchVideosList,
+  fetchVideosListError,
+  fetchVideosListSuccess,
+} from './actions';
 
 function* fetchVideosListWorker() {
   try {

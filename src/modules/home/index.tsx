@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
 import ReactTable from 'react-table';
 import {
   Container,
@@ -12,37 +12,29 @@ import {
   InputGroupAddon,
   InputGroupText,
   FormInput,
-  FormCheckbox,
   ButtonGroup,
   Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   NavLink,
 } from 'shards-react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import FuzzySearch from 'fuzzy-search';
-import { toast } from 'react-toastify';
 import { useTranslation } from 'next-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import DashboardLayout from 'components/layouts/DashboardLayout';
 import PageTitle from 'components/elements/pageTitle';
-import { userDataSelector, usersListDataSelector } from 'redux/globalSlice';
+import { userDataSelector } from 'redux/globalSlice';
 import {
   videosListSelector,
   messageSelector,
-  assignVideoLoadingSelector,
   assignVideo,
   clearMessage,
   clearData,
 } from './slice';
-import { UserRole } from 'models/user.model';
+import { User, UserRole } from 'models/user.model';
 import { displayVideoStatus } from 'utils/helpers';
-import CreateVideoModal from './CreateVideoModal';
 import EditVideoModal from './EditVideoModal';
 import DeleteVideoModal from './DeleteVideoModal';
+import { AssignVideoModal } from './AssignVideoModal';
 import styles from './style.module.scss';
 
 const Home = () => {
@@ -52,9 +44,7 @@ const Home = () => {
 
   const tableDataStore = useAppSelector(videosListSelector);
   const currentUser = useAppSelector(userDataSelector);
-  const usersList = useAppSelector(usersListDataSelector);
   const message = useAppSelector(messageSelector);
-  const assignVideoLoading = useAppSelector(assignVideoLoadingSelector);
 
   const [tableDataState, setTableDataState] = useState(tableDataStore);
   const [pageSizeOptions] = useState([5, 10, 15, 20]);
@@ -211,20 +201,6 @@ const Home = () => {
   }, [isAssignModalOpen]);
 
   useEffect(() => {
-    if (message.type === 'success') {
-      if (message.text === 'assign_video_success') {
-        toast.success(t('assignSuccessMsg'));
-      }
-    }
-
-    if (message.type === 'error') {
-      if (message.text === 'assign_video_error') {
-        toast.error(t('assignErrorMsg'));
-      }
-    }
-  }, [message, dispatch, t]);
-
-  useEffect(() => {
     return () => {
       dispatch(clearData());
     };
@@ -255,7 +231,7 @@ const Home = () => {
     setDeleteModal(!isDeleteModalOpen);
   }
 
-  function onCheckbox(event, user) {
+  function onCheckbox(event: ChangeEvent<HTMLInputElement>, user: User) {
     const currentVideoIndex = tableDataState.findIndex(
       (video) => video.id === currentVideoId.current
     );
@@ -275,7 +251,7 @@ const Home = () => {
     }
   }
 
-  function calculateChecked(user) {
+  function calculateChecked(user: User) {
     if (Array.isArray(tableDataState) && tableDataState.length > 0) {
       const currentVideoIndex = tableDataState.findIndex(
         (video) => video.id === currentVideoId.current
@@ -294,6 +270,7 @@ const Home = () => {
       }
       return false;
     }
+    return false;
   }
 
   function onUpdate() {
@@ -328,12 +305,11 @@ const Home = () => {
         <CardHeader className="p-0">
           <Container fluid className={styles.containerHeader}>
             <Row>
-              {/* Create New Video Button */}
-              {isAdmin && (
-                <Col xs="12" className={styles.newBtnWrapper}>
-                  <CreateVideoModal clearSearchKeyword={clearSearchKeyword} />
-                </Col>
-              )}
+              <Col xs="12" className={styles.newBtnWrapper}>
+                <Button outline size="sm" onClick={() => toggleEditModal()}>
+                  {t('createNewBtn')} <i className="material-icons">plus_one</i>
+                </Button>
+              </Col>
               {/*  Show Row */}
               <Col className={styles.rowFilterLeft} xs="6" md="6">
                 <span>{t('showPageOptionText')}</span>
@@ -421,62 +397,14 @@ const Home = () => {
         clearSearchKeyword={clearSearchKeyword}
       />
       {/* Modal assign video */}
-      <Modal
-        centered
-        size="md"
+      <AssignVideoModal
+        onCancel={onCancel}
+        onUpdate={onUpdate}
         open={isAssignModalOpen}
-        toggle={() => toggleAssignModal(currentVideoId.current)}
-      >
-        <ModalHeader>{t('assignModalHeaderText')}</ModalHeader>
-        <ModalBody>
-          <div className="content-wrapper">
-            {Array.isArray(usersList) && usersList.length > 0 ? (
-              usersList.map((user) => (
-                <div key={user.id} className={styles.modalCheckbox}>
-                  <FormCheckbox
-                    className={styles.checkLabel}
-                    checked={calculateChecked(user)}
-                    onChange={(event) => onCheckbox(event, user)}
-                  >
-                    <Image
-                      className="user-avatar rounded-circle"
-                      src="/images/avatar-default.jpg"
-                      width={45}
-                      height={45}
-                      alt="Avatar"
-                    />
-                    <span>{`${user.fullName} - ${user.email}`}</span>
-                  </FormCheckbox>
-                </div>
-              ))
-            ) : (
-              <p className={styles.notFoundUsers}>{t('noUserFound')}</p>
-            )}
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          {
-            <Button
-              disabled={assignVideoLoading}
-              onClick={() => {
-                onUpdate();
-              }}
-            >
-              {assignVideoLoading
-                ? t('assignSubmitBtnLoading')
-                : t('assignSubmitBtn')}
-            </Button>
-          }
-          <Button
-            theme="white"
-            onClick={() => {
-              onCancel();
-            }}
-          >
-            {t('assignCancelBtn')}
-          </Button>
-        </ModalFooter>
-      </Modal>
+        onCheckbox={onCheckbox}
+        calculateChecked={calculateChecked}
+        toggleModal={() => toggleAssignModal(currentVideoId.current)}
+      />
     </DashboardLayout>
   );
 };
