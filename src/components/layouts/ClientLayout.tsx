@@ -1,15 +1,19 @@
-import { Container, Row, Col } from 'shards-react';
+import { Container, Row, Col, Navbar } from 'shards-react';
 
 const ClientLayout = ({ children }) => (
   <Container fluid className="h-100 pl-0 pr-0">
-    <Row noGutters className="h-100">
-      <Col lg="3" md="5" className="mx-auto my-auto">
-        {children}
+    <Row noGutters>
+      <Col xs="12">
+        <div className="client-navbar">
+          <Navbar style={{ justifyContent: 'center' }} type="light">
+            Sample User Homepage
+          </Navbar>
+        </div>
       </Col>
+      <Col xs="12">{children}</Col>
     </Row>
     <footer
       style={{
-        position: 'fixed',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',

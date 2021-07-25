@@ -2,7 +2,7 @@ import React from 'react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
-import Home from 'modules/client';
+import Home from 'modules/client/home';
 
 function Index() {
   const { t } = useTranslation(['client-home']);

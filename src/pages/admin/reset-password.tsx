@@ -1,8 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
-import ResetPassword from 'modules/admin/resetPassword';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
+import ResetPassword from 'modules/admin/resetPassword';
 import { requestServer } from 'utils/apiClient';
 
 function Index({ isTokenValid }) {
