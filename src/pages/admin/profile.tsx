@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
-import Profile from 'modules/profile';
+import Profile from 'modules/admin/profile';
 import { withAuthPage } from 'utils/hoc';
 
 function Index() {

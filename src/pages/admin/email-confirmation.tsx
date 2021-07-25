@@ -3,7 +3,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
 
-import EmailConfirmation from 'modules/emailConfirmation';
+import EmailConfirmation from 'modules/admin/emailConfirmation';
 import { requestServer } from 'utils/apiClient';
 import { API_ENDPOINT } from 'utils/constants';
 
