@@ -1,3 +1,6 @@
+import { VideoInfo } from 'models';
+import { Category } from 'models/category.modle';
+
 export interface assignVideoRequestData {
   id: number;
   userId: number[];
@@ -13,4 +16,14 @@ export interface createAndEditVideoRequestData {
 export interface Message {
   type: string;
   text: string;
+}
+
+export interface HomeState {
+  videosList: VideoInfo[];
+  categories: Category[];
+  loading: boolean;
+  assignVideoLoading: boolean;
+  updateVideoLoading: boolean;
+  deleteVideoLoading: boolean;
+  message: Message;
 }

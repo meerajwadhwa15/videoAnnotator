@@ -6,19 +6,19 @@ import Home from 'modules/admin/home';
 import { UserRole } from 'models';
 import { useAppDispatch } from 'redux/hooks';
 import { fetchUsersListSSR } from 'redux/globalSlice';
-import { fetchVideosListSSR } from 'modules/admin/home/slice';
+import { fetchServerSideProps } from 'modules/admin/home/slice';
 import { withAuthPage } from 'utils/hoc';
 import { requestServer } from 'utils/apiClient';
 import { API_ENDPOINT } from 'utils/constants';
 
-function Index({ usersList, videosList }) {
+function Index({ usersList, videosList, categories }) {
   const { t } = useTranslation(['home']);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchUsersListSSR(usersList));
-    dispatch(fetchVideosListSSR(videosList));
-  }, [usersList, videosList, dispatch]);
+    dispatch(fetchServerSideProps({ videosList, categories }));
+  }, [usersList, videosList, dispatch, categories]);
 
   return (
     <React.Fragment>
@@ -39,16 +39,22 @@ export const getServerSideProps = withAuthPage(async (context, user) => {
       context,
     });
   }
-
-  const videosList = await requestServer.get({
-    url: API_ENDPOINT.video,
-    context,
-  });
+  const [videosList, categories] = await Promise.all([
+    requestServer.get({
+      url: API_ENDPOINT.video,
+      context,
+    }),
+    requestServer.get({
+      url: API_ENDPOINT.category,
+      context,
+    }),
+  ]);
   return {
     props: {
       ...(await serverSideTranslations(locale || '', ['common', 'home'])),
       usersList,
       videosList,
+      categories,
     },
   };
 });

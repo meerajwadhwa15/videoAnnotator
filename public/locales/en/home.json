@@ -27,6 +27,8 @@
   "videoUrlPlaceholder": "Url such as youtube, vimeo,...",
   "videoDesLabel": "Video description",
   "videoDesPlaceholder": "Enter description",
+  "videoCategoryLabel": "Category",
+  "videoSubCategoryLabel": "Sub Category",
   "assignModalHeaderText": "Assign/Retract this video for",
   "assignSubmitBtn": "Update",
   "assignSubmitBtnLoading": "Updating...",
@@ -55,5 +57,7 @@
   "maxCharNameError": "Must be under 30 characters",
   "minCharDesError": "Must be at least 5 characters",
   "maxCharDesError": "Must be under 100 characters",
-  "wrongUrlPatternError": "Must be an url pattern"
+  "wrongUrlPatternError": "Must be an url pattern",
+  "requiredCategoryError": "Category is required",
+  "requiredSubCategoryError": "Sub category is required"
 }

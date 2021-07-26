@@ -15,7 +15,7 @@ interface Props {
   errorMessage?: any;
 }
 
-export const InputTime: FC<Props> = ({
+const InputTime: FC<Props> = ({
   errorMessage,
   label,
   name,
@@ -57,3 +57,5 @@ export const InputTime: FC<Props> = ({
     </div>
   );
 };
+
+export default InputTime;

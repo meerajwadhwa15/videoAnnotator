@@ -16,7 +16,7 @@ interface InputProps {
   disabled?: boolean;
   required?: boolean;
   placeholder?: string;
-  errorMessage?: string;
+  errorMessage?: ReactNode;
   autoComplete?: string;
   prefix?: ReactNode;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;

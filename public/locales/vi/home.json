@@ -27,6 +27,8 @@
   "videoUrlPlaceholder": "Có thể là youtube, vimeo,...",
   "videoDesLabel": "Mô tả",
   "videoDesPlaceholder": "Nhập mô tả",
+  "videoCategoryLabel": "Thể loại",
+  "videoSubCategoryLabel": "Thể loại chi tiết",
   "assignModalHeaderText": "Gán/Bỏ gán video",
   "assignSubmitBtn": "Cập nhật",
   "assignSubmitBtnLoading": "Đang cập nhật...",
@@ -55,5 +57,7 @@
   "maxCharNameError": "Phải dưới 30 ký tự",
   "minCharDesError": "Ít nhất là 5 ký tự",
   "maxCharDesError": "Phải dưới 100 ký tự",
-  "wrongUrlPatternError": "Sai định dạng đường dẫn"
+  "wrongUrlPatternError": "Sai định dạng đường dẫn",
+  "requiredCategoryError": "Thể loại là trường bắt buộc",
+  "requiredSubCategoryError": "Thể loại chi tiết là trường bắt buộc"
 }
