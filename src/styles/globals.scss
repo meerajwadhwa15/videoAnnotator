@@ -203,3 +203,14 @@ h6 {
   max-height: 600px;
   overflow: auto;
 }
+
+/*********************
+*****CLIENT PAGES*****
+*********************/
+
+.client-navbar {
+  -webkit-box-shadow: 0 0.125rem 0.625rem rgb(90 97 105 / 12%);
+  box-shadow: 0 0.125rem 0.625rem rgb(90 97 105 / 12%);
+  border-bottom: 1px solid #e1e5eb !important;
+  height: 50px;
+}

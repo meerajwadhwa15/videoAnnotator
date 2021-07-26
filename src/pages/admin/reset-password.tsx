@@ -1,21 +1,22 @@
 import React from 'react';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
-
-import EmailConfirmation from 'modules/emailConfirmation';
+import ResetPassword from 'modules/admin/resetPassword';
 import { requestServer } from 'utils/apiClient';
-import { API_ENDPOINT } from 'utils/constants';
 
-function EmailConfirmationPage({ isTokenValid }) {
-  const { t } = useTranslation(['email-confirmation']);
-
+function Index({ isTokenValid }) {
+  const { t } = useTranslation(['reset-password']);
   return (
     <React.Fragment>
       <Head>
-        <title>{t('email-confirmation:pageTitle')}</title>
+        <title>
+          {isTokenValid
+            ? t('reset-password:pageTitle')
+            : t('reset-password:pageTitleFailed')}
+        </title>
       </Head>
-      <EmailConfirmation isTokenValid={isTokenValid} />
+      <ResetPassword isTokenValid={!!isTokenValid} />
     </React.Fragment>
   );
 }
@@ -29,29 +30,22 @@ export const getServerSideProps = async (context) => {
     props: {
       ...(await serverSideTranslations(locale || '', [
         'common',
-        'email-confirmation',
+        'reset-password',
       ])),
       isTokenValid: true,
     },
   };
-
   try {
     await requestServer.post({
       url: 'user/verifyToken',
       params: { token },
       context,
     });
-
-    await requestServer.post({
-      url: API_ENDPOINT.confirmEmail,
-      params: { token },
-      context,
-    });
-  } catch (error) {
+  } catch {
     result.props.isTokenValid = false;
   } finally {
     return result;
   }
 };
 
-export default EmailConfirmationPage;
+export default Index;

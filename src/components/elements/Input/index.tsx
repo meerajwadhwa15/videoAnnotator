@@ -9,7 +9,7 @@ import {
 import styles from './style.module.scss';
 
 interface InputProps {
-  label: string;
+  label?: string;
   value: string;
   name: string;
   type?: string;

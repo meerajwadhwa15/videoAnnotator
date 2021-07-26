@@ -4,11 +4,26 @@ export const API_ENDPOINT = {
   confirmEmail: 'user/confirmEmail',
   forgotPassword: 'user/resetPassword',
   resetPassword: 'user/newPassword',
+  changePassword: 'user/changePassword',
   profile: 'user/profile',
   video: 'video',
   usersList: 'user/list',
-  upateProfile: 'user/update',
-  changePassword: 'user/changePassword',
+  updateProfile: 'user/update',
   videoSegment: ({ videoId }: { videoId: string | string[] | undefined }) =>
     `video/${videoId}/segment`,
+};
+
+export const ADMIN_ROUTING = {
+  home: '/admin',
+  login: '/admin/login',
+  signup: '/admin/signup',
+  confirmEmail: '/admin/email-confirmation',
+  forgotPassword: '/admin/forgot-password',
+  resetPassword: '/admin/reset-password',
+  profile: '/admin/profile',
+  videoDetail: '/admin/video-detail',
+};
+
+export const CLIENT_ROUTING = {
+  home: '/',
 };

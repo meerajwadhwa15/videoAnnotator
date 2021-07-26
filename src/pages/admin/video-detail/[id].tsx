@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import VideoDetail from 'modules/videoDetail';
+import VideoDetail from 'modules/admin/videoDetail';
 import { withAuthPage } from 'utils/hoc';
 import { requestServer } from 'utils/apiClient';
 import { API_ENDPOINT } from 'utils/constants';
 import { useAppDispatch } from 'redux/hooks';
-import { fetchVideoDetailSSR } from 'modules/videoDetail/slice';
+import { fetchVideoDetailSSR } from 'modules/admin/videoDetail/slice';
 
 function Index({ videoDetail }) {
   const dispatch = useAppDispatch();

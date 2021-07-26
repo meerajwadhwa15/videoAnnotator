@@ -6,7 +6,7 @@ import Link from 'next/link';
 import AuthLayout from 'components/layouts/AuthLayout';
 import SignupForm from './SignupForm';
 import { useTranslation } from 'next-i18next';
-// import styles from './style.module.scss';
+import { ADMIN_ROUTING } from 'utils/constants';
 
 const Signup = () => {
   const { t } = useTranslation(['signup']);
@@ -23,8 +23,10 @@ const Signup = () => {
 
       {/* Meta Details */}
       <div className="mt-4 text-center">
-        <Link href="/forgot-password">{t('signup:forgotPasswordLink')}</Link>
-        <Link href="/login">
+        <Link href={ADMIN_ROUTING.forgotPassword}>
+          {t('signup:forgotPasswordLink')}
+        </Link>
+        <Link href={ADMIN_ROUTING.login}>
           <a className="ml-2">{t('signup:toSigninLink')}</a>
         </Link>
       </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import ForgotPassword from 'modules/forgotPassword';
+import ForgotPassword from 'modules/admin/forgotPassword';
 import { withNonAuthPage } from 'utils/hoc';
 
 function Index() {

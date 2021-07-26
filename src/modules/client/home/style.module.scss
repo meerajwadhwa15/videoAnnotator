@@ -1,0 +1,91 @@
+.homeWrapper {
+  min-height: calc(100vh - 100px);
+}
+
+.searchWrapper {
+  padding: 20px 0;
+
+  input {
+    max-width: 500px;
+    margin: auto;
+  }
+}
+
+.listWrapper {
+  padding: 0 20px;
+}
+
+.videoItem {
+  display: block;
+  margin-bottom: 20px;
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+  -moz-transform: translateY(0);
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+
+  &:hover {
+    text-decoration: none;
+    -moz-transform: translateY(-5px);
+    -webkit-transform: translateY(-5px);
+    transform: translateY(-5px);
+  }
+}
+
+.watchVMWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 1;
+  border: 1px solid #007bff;
+  -moz-transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+
+.watchVMWrapperOpen {
+  -moz-transform: translateX(0);
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  background-color: #007bff;
+  color: white;
+  border-bottom: 1px solid #007bff;
+  margin-bottom: 20px;
+}
+
+.modalTitle {
+  flex: 1 0 auto;
+  text-align: center;
+}
+
+.modalContent {
+  display: block;
+}
+
+.playerWrapper {
+  margin: auto;
+}
+
+.modalCloseBtn {
+  width: 50px;
+  height: 49px;
+  line-height: 50px;
+  color: #007bff;
+  background-color: #fff;
+  border: none;
+  text-align: center;
+}

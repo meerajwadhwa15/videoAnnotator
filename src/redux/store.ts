@@ -3,14 +3,14 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from './rootSaga';
 
 import appReducer from './globalSlice';
-import homeReducer from 'modules/home/slice';
-import loginReducer from 'modules/login/slice';
-import signupReducer from 'modules/signup/slice';
-import resetPasswordReducer from 'modules/resetPassword/slice';
-import forgotPassReducer from 'modules/forgotPassword/slice';
-import videoDetailReducer from 'modules/videoDetail/slice';
+import homeReducer from 'modules/admin/home/slice';
+import loginReducer from 'modules/admin/login/slice';
+import signupReducer from 'modules/admin/signup/slice';
+import resetPasswordReducer from 'modules/admin/resetPassword/slice';
+import forgotPassReducer from 'modules/admin/forgotPassword/slice';
+import videoDetailReducer from 'modules/admin/videoDetail/slice';
+import profileReducer from 'modules/admin/profile/slice';
 import elementReducer from 'components/elements/slice';
-import profileReducer from 'modules/profile/slice';
 
 const sagaMiddleware = createSagaMiddleware();
 

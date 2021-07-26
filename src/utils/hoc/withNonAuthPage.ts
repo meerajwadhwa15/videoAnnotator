@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { requestServer } from 'utils/apiClient';
 import { ACCESS_TOKEN } from 'utils/clientCookies';
-import { API_ENDPOINT } from 'utils/constants';
+import { API_ENDPOINT, ADMIN_ROUTING } from 'utils/constants';
 import { parseContextCookie } from 'utils/helpers';
 
 export function withNonAuthPage(gssp: GetServerSideProps): GetServerSideProps {
@@ -16,7 +16,7 @@ export function withNonAuthPage(gssp: GetServerSideProps): GetServerSideProps {
       if (accessToken && user) {
         return {
           redirect: {
-            destination: '/',
+            destination: ADMIN_ROUTING.home,
             permanent: false,
           },
           props: {},
