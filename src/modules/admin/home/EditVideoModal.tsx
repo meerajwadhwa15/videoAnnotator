@@ -10,7 +10,7 @@ import {
 } from 'shards-react';
 import { useTranslation } from 'next-i18next';
 import { useAppSelector } from 'redux/hooks';
-import { Input, Select } from 'components/elements';
+import { Input, InputImage, Select } from 'components/elements';
 import { VideoInfo } from 'models/video.model';
 import { categoriesSelector, updateVideoLoadingSelector } from './slice';
 import { useVideoFormik } from './useVideoFormik';
@@ -38,10 +38,11 @@ const EditVideoModal: FC<props> = ({
   const data = videoData.find((video) => video.id === videoId);
   const isEditVideo = !!data;
   useVideoToastMessage({ clearSearchKeyword, toggleEditModal });
-  const { values, errors, handleChange, handleSubmit } = useVideoFormik({
-    data,
-    videoId,
-  });
+  const { values, errors, handleChange, handleSubmit, setFieldValue } =
+    useVideoFormik({
+      data,
+      videoId,
+    });
   const { category } = values;
   const { subs, loadingSubs } = useManageCategory({ category });
 
@@ -93,6 +94,10 @@ const EditVideoModal: FC<props> = ({
                 value={values.subcategoryId}
                 onChange={handleChange}
                 errorMessage={errors.subcategoryId}
+              />
+              <InputImage
+                onChange={(url) => setFieldValue('thumbnail', url)}
+                label="Video Thumbnail"
               />
               <div>
                 <label>{t('videoDesLabel')}</label>

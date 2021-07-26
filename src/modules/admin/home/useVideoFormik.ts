@@ -14,6 +14,7 @@ export function useVideoFormik({ data, videoId }) {
       name: data?.name || '',
       url: data?.url || '',
       category: '',
+      thumbnail: '',
       subcategoryId: '',
       description: data?.description || '',
     },

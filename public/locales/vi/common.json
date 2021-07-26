@@ -14,5 +14,7 @@
   "footerLink2": "Dịch vụ",
   "footerLink3": "Liên hệ",
   "footerLink4": "Về ứng dụng",
-  "footerCopyright": "Copyright © 2021 Video Annotator"
+  "footerCopyright": "Copyright © 2021 Video Annotator",
+  "thumbnailImageSizeTooBigError": "Kích thước ảnh phải nhỏ hơn hoặc bằng 5MB",
+  "thumbnailWrongExtensionError": "Chỉ cho phép ảnh có định dạng jpg, jpeg, png"
 }

@@ -24,8 +24,8 @@ const Select: FC<Props> = ({
   return (
     <FormGroup className={className}>
       <label>{label}</label>
-      <FormSelect onChange={onChange} name={name}>
-        <option selected disabled style={{ display: 'none' }} />
+      <FormSelect defaultValue={null} onChange={onChange} name={name}>
+        <option style={{ display: 'none' }} />
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

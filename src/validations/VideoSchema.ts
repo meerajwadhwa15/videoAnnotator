@@ -10,6 +10,7 @@ export const VideoSchema = (t: TFunction) =>
     url: Yup.string()
       .required(t('requiredUrlError'))
       .url(t('wrongUrlPatternError')),
+    thumbnail: Yup.string(),
     category: Yup.string().required(t('requiredCategoryError')),
     subcategoryId: Yup.string().required(t('requiredSubCategoryError')),
     description: Yup.string()
