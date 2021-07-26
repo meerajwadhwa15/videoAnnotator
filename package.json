@@ -28,6 +28,7 @@
     "axios-mock-adapter": "^1.19.0",
     "classnames": "^2.3.1",
     "cookie": "^0.4.1",
+    "firebase": "^8.8.0",
     "formik": "^2.2.9",
     "fuzzy-search": "^3.2.1",
     "js-cookie": "^2.2.1",
