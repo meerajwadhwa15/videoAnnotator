@@ -27,7 +27,12 @@ const VideoDetail = () => {
     setActiveSegment(id);
     videoRef.current.seekTo(startFrame, 'seconds');
     // on works for youtube player
-    videoRef.current.getInternalPlayer().playVideo();
+    const player = videoRef.current.getInternalPlayer();
+    if (player.playVideo) {
+      player.playVideo();
+    } else if (player.play) {
+      player.play();
+    }
   };
 
   const ref = (player) => {

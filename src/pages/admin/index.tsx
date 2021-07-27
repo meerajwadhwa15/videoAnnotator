@@ -31,24 +31,26 @@ function Index({ usersList, videosList, categories }) {
 }
 
 export const getServerSideProps = withAuthPage(async (context, user) => {
-  let usersList: any = null;
+  let usersList: any = [];
+  let categories: any = [];
   const { locale } = context;
   if (Array.isArray(user['roles']) && user['roles'].includes(UserRole.admin)) {
-    usersList = await requestServer.get({
-      url: API_ENDPOINT.usersList,
-      context,
-    });
+    [usersList, categories] = await Promise.all([
+      requestServer.get({
+        url: API_ENDPOINT.usersList,
+        context,
+      }),
+      requestServer.get({
+        url: API_ENDPOINT.category,
+        context,
+      }),
+    ]);
   }
-  const [videosList, categories] = await Promise.all([
-    requestServer.get({
-      url: API_ENDPOINT.video,
-      context,
-    }),
-    requestServer.get({
-      url: API_ENDPOINT.category,
-      context,
-    }),
-  ]);
+  const videosList = await requestServer.get({
+    url: API_ENDPOINT.video,
+    context,
+  });
+
   return {
     props: {
       ...(await serverSideTranslations(locale || '', ['common', 'home'])),

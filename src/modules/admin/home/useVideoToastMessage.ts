@@ -21,6 +21,7 @@ export function useVideoToastMessage({ toggleEditModal, clearSearchKeyword }) {
     if (message.type === 'success' && message.text === 'create_video_success') {
       toast.success(t('createSuccessMsg'));
       clearSearchKeyword();
+      toggleEditModal();
     }
 
     if (message.type === 'error' && message.text === 'create_video_error') {

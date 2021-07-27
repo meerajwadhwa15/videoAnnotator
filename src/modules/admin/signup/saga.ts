@@ -8,13 +8,13 @@ import {
   dispatchSignupSuccess,
 } from './slice';
 import { SignupData } from './types';
-import { API_ENDPOINT } from 'utils/constants';
+import { ADMIN_ROUTING, API_ENDPOINT } from 'utils/constants';
 
 function* signupWorker({ payload }: PayloadAction<SignupData>) {
   try {
     yield call(request.post, API_ENDPOINT.signup, payload);
     yield put(dispatchSignupSuccess());
-    yield delay(1000), yield call(Router.push, '/login');
+    yield delay(1000), yield call(Router.push, ADMIN_ROUTING.login);
   } catch (error) {
     yield put(dispatchSignupFail());
   }
