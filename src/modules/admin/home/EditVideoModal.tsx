@@ -96,6 +96,7 @@ const EditVideoModal: FC<props> = ({
                 errorMessage={errors.subcategoryId}
               />
               <InputImage
+                fileUrl={values.thumbnail}
                 onChange={(url) => setFieldValue('thumbnail', url)}
                 label="Video Thumbnail"
               />

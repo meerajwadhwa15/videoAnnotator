@@ -4,11 +4,12 @@ import { FormGroup, FormInput } from 'shards-react';
 
 interface Props {
   label: string;
-  onChange: (url: ArrayBuffer | string) => void;
+  fileUrl: string | Record<string, any>;
+  onChange: (file: File) => void;
   errorMessage?: ReactNode;
 }
 
-const InputImage: FC<Props> = ({ label, errorMessage, onChange }) => {
+const InputImage: FC<Props> = ({ label, errorMessage, onChange, fileUrl }) => {
   const [imgUrl, setImgUrl] = useState<any>();
   const { t } = useTranslation('common');
 
@@ -35,7 +36,7 @@ const InputImage: FC<Props> = ({ label, errorMessage, onChange }) => {
         reader.addEventListener('load', function (e) {
           const url = e.target?.result || '';
           setImgUrl(url);
-          onChange(url);
+          onChange(file);
         });
         reader.readAsDataURL(file);
       } else {
@@ -44,14 +45,16 @@ const InputImage: FC<Props> = ({ label, errorMessage, onChange }) => {
     }
   };
 
+  const imageUrl = typeof fileUrl === 'object' ? imgUrl : fileUrl || imgUrl;
+
   return (
     <FormGroup>
       <label>{label}</label>
       <FormInput onChange={handleChange} type="file" accept="image/*" />
       {errorMessage && <p className="error-text">{errorMessage}</p>}
-      {imgUrl && (
+      {imageUrl && (
         <div className="mt-2 img-wrapper">
-          <img src={imgUrl} alt="upload image" className="img-fluid" />
+          <img src={imageUrl} alt="upload image" className="img-fluid" />
         </div>
       )}
       <style jsx>{`

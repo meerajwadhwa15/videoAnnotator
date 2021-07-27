@@ -10,6 +10,8 @@ export interface createAndEditVideoRequestData {
   id?: number;
   name: string;
   url: string;
+  thumbnail: string;
+  subcategoryId: number | string;
   description?: string;
 }
 

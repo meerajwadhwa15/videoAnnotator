@@ -13,16 +13,20 @@ export function useVideoFormik({ data, videoId }) {
     initialValues: {
       name: data?.name || '',
       url: data?.url || '',
-      category: '',
-      thumbnail: '',
-      subcategoryId: '',
+      category: data?.subCategory?.category?.id || '',
+      thumbnail: data?.thumbnail || '',
+      subcategoryId: data?.subCategory?.id || '',
       description: data?.description || '',
     },
     validationSchema: VideoSchema(t),
     onSubmit: (values) => {
-      const { name, url, description } = values;
       if (data) {
-        dispatch(editVideo({ id: videoId, name, url, description }));
+        dispatch(
+          editVideo({
+            id: videoId,
+            ...values,
+          })
+        );
       } else {
         dispatch(createVideo(values));
       }
