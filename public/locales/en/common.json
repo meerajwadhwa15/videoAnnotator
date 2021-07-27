@@ -14,5 +14,7 @@
   "footerLink2": "Services",
   "footerLink3": "Contacts",
   "footerLink4": "About Us",
-  "footerCopyright": "Copyright © 2021 Video Annotator"
+  "footerCopyright": "Copyright © 2021 Video Annotator",
+  "thumbnailImageSizeTooBigError": "File size must smaller or equal 5MB",
+  "thumbnailWrongExtensionError": "Only accept jpg, png, jpeg image"
 }

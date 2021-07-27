@@ -1,5 +1,7 @@
 import { GetServerSidePropsContext } from 'next';
 import Cookie from 'cookie';
+import { v4 as uuidv4 } from 'uuid';
+import { storage } from './firebase';
 
 export const parseContextCookie = (context: GetServerSidePropsContext<any>) => {
   const { req } = context;
@@ -93,4 +95,16 @@ export const checkOverlapTimeRange = (
     return range1.start < range2.end;
   }
   return true;
+};
+
+export const uploadImage = async (file: File) => {
+  try {
+    const snap = await storage
+      .ref(`annotation/${uuidv4()}-${file.name}`)
+      .put(file);
+    const url = snap.ref.getDownloadURL();
+    return url;
+  } catch (error) {
+    return null;
+  }
 };

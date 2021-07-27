@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import {
   Form,
   Button,
@@ -8,19 +8,14 @@ import {
   ModalFooter,
   FormTextarea,
 } from 'shards-react';
-import { useFormik } from 'formik';
-import { toast } from 'react-toastify';
 import { useTranslation } from 'next-i18next';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { VideoSchema } from 'validations/VideoSchema';
-import Input from 'components/elements/Input';
+import { useAppSelector } from 'redux/hooks';
+import { Input, InputImage, Select } from 'components/elements';
 import { VideoInfo } from 'models/video.model';
-import {
-  editVideo,
-  messageSelector,
-  createVideo,
-  updateVideoLoadingSelector,
-} from './slice';
+import { categoriesSelector, updateVideoLoadingSelector } from './slice';
+import { useVideoFormik } from './useVideoFormik';
+import { useVideoToastMessage } from './useVideoToastMessage';
+import { useManageCategory } from './useManageCategory';
 
 interface props {
   isOpen: boolean;
@@ -37,62 +32,19 @@ const EditVideoModal: FC<props> = ({
   toggleEditModal,
   clearSearchKeyword,
 }) => {
-  const { t } = useTranslation(['home']);
-  const message = useAppSelector(messageSelector);
+  const { t } = useTranslation('home');
   const loading = useAppSelector(updateVideoLoadingSelector);
-  const dispatch = useAppDispatch();
-
+  const categories = useAppSelector(categoriesSelector);
   const data = videoData.find((video) => video.id === videoId);
-  // let data: VideoInfo | undefined = {} as VideoInfo;
-  // if (
-  //   Array.isArray(videoData) &&
-  //   videoData.length > 0 &&
-  //   videoId > 0 &&
-  //   isOpen
-  // ) {
-  //   data = videoData.find((video) => video.id === videoId);
-  // }
   const isEditVideo = !!data;
-
-  const form = useFormik({
-    enableReinitialize: true,
-    initialValues: {
-      name: data?.name || '',
-      url: data?.url || '',
-      description: data?.description || '',
-    },
-    validationSchema: VideoSchema(t),
-    onSubmit: (values) => {
-      const { name, url, description } = values;
-      if (isEditVideo) {
-        dispatch(editVideo({ id: videoId, name, url, description }));
-      } else {
-        dispatch(createVideo(values));
-      }
-    },
-  });
-  const { values, errors, handleChange, handleSubmit } = form;
-
-  useEffect(() => {
-    if (message.type === 'success' && message.text === 'edit_video_success') {
-      toast.success(t('editSuccessMsg'));
-      toggleEditModal();
-      clearSearchKeyword();
-    }
-
-    if (message.type === 'error' && message.text === 'edit_video_error') {
-      toast.error(t('editErrorMsg'));
-    }
-    if (message.type === 'success' && message.text === 'create_video_success') {
-      toast.success(t('createSuccessMsg'));
-      clearSearchKeyword();
-    }
-
-    if (message.type === 'error' && message.text === 'create_video_error') {
-      toast.error(t('createErrorMsg'));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [message]);
+  useVideoToastMessage({ clearSearchKeyword, toggleEditModal });
+  const { values, errors, handleChange, handleSubmit, setFieldValue } =
+    useVideoFormik({
+      data,
+      videoId,
+    });
+  const { category } = values;
+  const { subs, loadingSubs } = useManageCategory({ category });
 
   return (
     <React.Fragment>
@@ -121,24 +73,53 @@ const EditVideoModal: FC<props> = ({
                 placeholder={t('videoUrlPlaceholder')}
                 autoComplete="url"
               />
-              <label>{t('videoDesLabel')}</label>
-              <FormTextarea
-                style={{ height: 80 }}
-                name="description"
-                placeholder={t('videoDesPlaceholder')}
-                value={values.description}
+              <Select
+                label={t('videoCategoryLabel')}
+                name="category"
+                options={categories.map((it) => ({
+                  value: it.id,
+                  label: it.name,
+                }))}
+                value={category}
                 onChange={handleChange}
+                errorMessage={errors.category}
               />
-              {errors.description && (
-                <p className="error-text">{errors.description}</p>
-              )}
+              <Select
+                label={t('videoSubCategoryLabel')}
+                name="subcategoryId"
+                options={(subs[values.category] || []).map((it) => ({
+                  label: it.name,
+                  value: it.id,
+                }))}
+                value={values.subcategoryId}
+                onChange={handleChange}
+                errorMessage={errors.subcategoryId}
+              />
+              <InputImage
+                fileUrl={values.thumbnail}
+                onChange={(url) => setFieldValue('thumbnail', url)}
+                label="Video Thumbnail"
+              />
+              <div>
+                <label>{t('videoDesLabel')}</label>
+                <FormTextarea
+                  style={{ height: 80 }}
+                  name="description"
+                  placeholder={t('videoDesPlaceholder')}
+                  value={values.description}
+                  onChange={handleChange}
+                />
+                {errors.description && (
+                  <p className="error-text">{errors.description}</p>
+                )}
+              </div>
             </div>
           </ModalBody>
           <ModalFooter>
             <Button
               block
               type="submit"
-              disabled={loading}
+              disabled={loading || loadingSubs}
               className="d-table mx-auto"
             >
               {loading ? t('editSubmitBtnLoading') : t('editSubmitBtn')}

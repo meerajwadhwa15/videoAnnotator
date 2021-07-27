@@ -22,6 +22,7 @@ import {
   fetchVideosListError,
   fetchVideosListSuccess,
 } from './actions';
+import { uploadImage } from 'utils/helpers';
 
 function* fetchVideosListWorker() {
   try {
@@ -51,6 +52,10 @@ function* createVideoWorker({
   payload,
 }: PayloadAction<createAndEditVideoRequestData>) {
   try {
+    const { thumbnail } = payload;
+    if (typeof thumbnail === 'object') {
+      payload.thumbnail = yield call(uploadImage, thumbnail);
+    }
     const response = yield call(request.post, API_ENDPOINT.video, payload);
     yield put(createVideoSuccess(response));
   } catch (error) {
@@ -63,6 +68,10 @@ function* editVideoWorker({
 }: PayloadAction<createAndEditVideoRequestData>) {
   try {
     const { id, ...data } = payload;
+    const { thumbnail } = data;
+    if (typeof thumbnail === 'object') {
+      data.thumbnail = yield call(uploadImage, thumbnail);
+    }
     const response = yield call(
       request.put,
       `${API_ENDPOINT.video}/${id}`,

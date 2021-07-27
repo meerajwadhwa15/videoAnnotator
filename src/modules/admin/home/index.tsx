@@ -370,7 +370,9 @@ const Home = () => {
                   cursor: 'pointer',
                 },
                 onClick: () => {
-                  router.push(`video-detail/${row.original.id}`);
+                  router.push(
+                    `${ADMIN_ROUTING.videoDetail}/${row.original.id}`
+                  );
                 },
               };
             }}

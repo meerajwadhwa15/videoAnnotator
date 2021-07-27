@@ -7,14 +7,13 @@ import {
   Button,
 } from 'shards-react';
 import { useFormik } from 'formik';
-import Input from 'components/elements/Input';
 import { FC } from 'react';
 import {
   convertTimeValueToSecond,
   checkOverlapTimeRange,
   convertSecondsToTime,
 } from 'utils/helpers';
-import { InputTime } from 'components/elements/InputTime';
+import { InputTime, Input } from 'components/elements';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   annotateModalSelector,

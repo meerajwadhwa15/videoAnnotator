@@ -4,25 +4,18 @@ import { VideoInfo } from 'models';
 import {
   assignVideoRequestData,
   createAndEditVideoRequestData,
-  Message,
+  HomeState,
 } from './types';
 import {
   fetchVideosList,
   fetchVideosListError,
   fetchVideosListSuccess,
 } from './actions';
-
-interface HomeState {
-  videosList: VideoInfo[];
-  loading: boolean;
-  assignVideoLoading: boolean;
-  updateVideoLoading: boolean;
-  deleteVideoLoading: boolean;
-  message: Message;
-}
+import { Category } from 'models/category.modle';
 
 const initialState: HomeState = {
   videosList: [],
+  categories: [],
   loading: false,
   assignVideoLoading: false,
   updateVideoLoading: false,
@@ -37,8 +30,12 @@ export const homeSlice = createSlice({
   name: 'home',
   initialState,
   reducers: {
-    fetchVideosListSSR(state: HomeState, action: PayloadAction<VideoInfo[]>) {
-      state.videosList = action.payload;
+    fetchServerSideProps(
+      state: HomeState,
+      action: PayloadAction<{ videosList: VideoInfo[]; categories: Category[] }>
+    ) {
+      state.videosList = action.payload.videosList;
+      state.categories = action.payload.categories;
     },
     assignVideo(
       state: HomeState,
@@ -180,7 +177,7 @@ export const homeSlice = createSlice({
 });
 
 export const {
-  fetchVideosListSSR,
+  fetchServerSideProps,
   assignVideo,
   assignVideoSuccess,
   assignVideoError,
@@ -206,5 +203,6 @@ export const updateVideoLoadingSelector = (state: RootState) =>
 export const deleteVideoLoadingSelector = (state: RootState) =>
   state.home.deleteVideoLoading;
 export const messageSelector = (state: RootState) => state.home.message;
+export const categoriesSelector = (state: RootState) => state.home.categories;
 
 export default homeSlice.reducer;

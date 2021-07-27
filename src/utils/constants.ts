@@ -11,6 +11,7 @@ export const API_ENDPOINT = {
   updateProfile: 'user/update',
   videoSegment: ({ videoId }: { videoId: string | string[] | undefined }) =>
     `video/${videoId}/segment`,
+  category: 'category',
 };
 
 export const ADMIN_ROUTING = {
