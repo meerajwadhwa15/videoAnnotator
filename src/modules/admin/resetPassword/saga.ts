@@ -8,7 +8,7 @@ import {
   resetPasswordFail,
 } from './slice';
 import { ResetData } from './types';
-import { API_ENDPOINT } from 'utils/constants';
+import { ADMIN_ROUTING, API_ENDPOINT } from 'utils/constants';
 
 function* resetPasswordWorker({ payload }: PayloadAction<ResetData>) {
   try {
@@ -20,7 +20,7 @@ function* resetPasswordWorker({ payload }: PayloadAction<ResetData>) {
     );
     yield put(resetPasswordSuccess());
     yield delay(1000);
-    yield call(Router.push, '/login');
+    yield call(Router.push, ADMIN_ROUTING.login);
   } catch (error) {
     yield put(resetPasswordFail());
   }

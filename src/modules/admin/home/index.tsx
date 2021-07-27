@@ -306,11 +306,14 @@ const Home = () => {
         <CardHeader className="p-0">
           <Container fluid className={styles.containerHeader}>
             <Row>
-              <Col xs="12" className={styles.newBtnWrapper}>
-                <Button outline size="sm" onClick={() => toggleEditModal()}>
-                  {t('createNewBtn')} <i className="material-icons">plus_one</i>
-                </Button>
-              </Col>
+              {isAdmin && (
+                <Col xs="12" className={styles.newBtnWrapper}>
+                  <Button outline size="sm" onClick={() => toggleEditModal()}>
+                    {t('createNewBtn')}{' '}
+                    <i className="material-icons">plus_one</i>
+                  </Button>
+                </Col>
+              )}
               {/*  Show Row */}
               <Col className={styles.rowFilterLeft} xs="6" md="6">
                 <span>{t('showPageOptionText')}</span>
