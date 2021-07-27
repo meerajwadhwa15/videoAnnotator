@@ -7,6 +7,7 @@ import forgotPassSaga from 'modules/admin/forgotPassword/saga';
 import resetPasswordSaga from 'modules/admin/resetPassword/saga';
 import videoDetailSaga from 'modules/admin/videoDetail/saga';
 import profileSaga from 'modules/admin/profile/saga';
+import clientHomeSaga from 'modules/client/home/saga';
 
 export default function* rootSaga() {
   yield all([
@@ -17,5 +18,6 @@ export default function* rootSaga() {
     resetPasswordSaga(),
     videoDetailSaga(),
     profileSaga(),
+    clientHomeSaga(),
   ]);
 }
