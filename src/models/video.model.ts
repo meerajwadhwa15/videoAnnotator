@@ -11,6 +11,7 @@ export interface Segment {
   label: string;
   startFrame: number;
   endFrame: number;
+  thumbnail: string;
   user: AssignedUser;
 }
 

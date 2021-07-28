@@ -18,6 +18,7 @@ export interface SegmentData {
   videoId: string | string[] | undefined;
   startFrame: number;
   endFrame: number;
+  thumbnail: string | File;
   label: string;
 }
 
