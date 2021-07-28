@@ -19,7 +19,7 @@ export const ProfileForm = () => {
     initialValues: {
       fullName: fullName,
       address: address,
-      phone: phone,
+      phone: phone || '',
       introduction: introduction,
     },
     validationSchema: UserProfileSchema(t),

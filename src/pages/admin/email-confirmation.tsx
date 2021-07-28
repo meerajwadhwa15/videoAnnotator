@@ -37,12 +37,6 @@ export const getServerSideProps = async (context) => {
 
   try {
     await requestServer.post({
-      url: 'user/verifyToken',
-      params: { token },
-      context,
-    });
-
-    await requestServer.post({
       url: API_ENDPOINT.confirmEmail,
       params: { token },
       context,

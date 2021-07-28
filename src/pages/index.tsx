@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 import { useAppDispatch } from 'redux/hooks';
 import { fetchVideosListSSR } from 'modules/client/home/slice';
 import { requestServer } from 'utils/apiClient';
-import { API_ENDPOINT } from 'utils/constants';
+import { ADMIN_ROUTING, API_ENDPOINT } from 'utils/constants';
 import Home from 'modules/client/home';
 
 function Index({ videosList }) {
@@ -35,6 +35,9 @@ export const getServerSideProps = async (context) => {
   });
 
   return {
+    redirect: {
+      destination: ADMIN_ROUTING.home,
+    },
     props: {
       ...(await serverSideTranslations(locale || '', [
         'common',
