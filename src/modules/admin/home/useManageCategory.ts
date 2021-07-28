@@ -1,5 +1,5 @@
-import { Category } from 'models/category.modle';
 import { useEffect, useState } from 'react';
+import { Category } from 'models/category.model';
 import { request } from 'utils/apiClient';
 
 export function useManageCategory({ category }) {

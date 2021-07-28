@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Row,
   Col,
@@ -8,18 +8,37 @@ import {
   CardTitle,
   CardImg,
   CardBody,
+  Button,
 } from 'shards-react';
 import ReactPlayer from 'react-player/lazy';
 import ClientLayout from 'components/layouts/ClientLayout';
+import {
+  getVideoDetail,
+  videosListSelector,
+  videoDetailSelector,
+  loadingSelector,
+} from './slice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { convertSecondsToTimeString } from 'utils/helpers';
 import styles from './style.module.scss';
-import { sampleData } from './sampleData';
 
 const Home = () => {
+  const dispatch = useAppDispatch();
+
+  const videosListStore = useAppSelector(videosListSelector);
+  const videoDetail = useAppSelector(videoDetailSelector);
+  const isLoading = useAppSelector(loadingSelector);
+
+  const [videoData, setVideoData] = useState(videosListStore);
   const [search, setSearch] = useState('');
-  const [videoData, setVideoData] = useState(sampleData);
   const [watchVideoModal, setWatchVideoModal] = useState(false);
-  const [isLoadingVideo, setLoadingVideo] = useState<boolean>(true);
+  const [isLoadingVideo, setLoadingVideo] = useState<boolean>(false);
+  const [activeSection, setActiveSection] = useState<number | null>(null);
   const videoRef = useRef<any>();
+
+  useEffect(() => {
+    setVideoData(videosListStore);
+  }, [videosListStore]);
 
   function ref(player) {
     videoRef.current = player;
@@ -28,27 +47,58 @@ const Home = () => {
   function onChange(event) {
     const name = event.target.value;
     if (name) {
-      const temp = sampleData.filter((data) => {
-        if (data.name.includes(name)) {
+      const temp = videosListStore.filter((data) => {
+        if (data.name.toLowerCase().includes(name.toLowerCase())) {
           return data;
         }
       });
       setVideoData(temp);
     } else {
-      setVideoData(sampleData);
+      setVideoData(videosListStore);
     }
     setSearch(event.target.value);
   }
 
-  function onOpenModal() {
-    if (!isLoadingVideo) {
-      setWatchVideoModal(true);
-    }
+  function onOpenModal(videoId) {
+    setWatchVideoModal(true);
+    setLoadingVideo(true);
+    dispatch(getVideoDetail(videoId));
   }
 
   function onCloseModal() {
+    const player = videoRef.current.getInternalPlayer();
+    if (player && player.stopVideo) {
+      player.stopVideo();
+    }
+
+    setActiveSection(null);
     setWatchVideoModal(false);
   }
+
+  function onSeekToSection(id, frame) {
+    setActiveSection(id);
+    videoRef.current.seekTo(frame, 'seconds');
+
+    const player = videoRef.current.getInternalPlayer();
+    if (player.playVideo) {
+      player.playVideo();
+    } else if (player.play) {
+      player.play();
+    }
+  }
+
+  const onProgress = (state) => {
+    const { playedSeconds } = state;
+    const foundSegments = videoDetail.segments.find((segment) => {
+      return (
+        playedSeconds >= segment.startFrame && playedSeconds < segment.endFrame
+      );
+    });
+    const newActive = foundSegments ? foundSegments.id : null;
+    if (newActive !== activeSection) {
+      setActiveSection(newActive);
+    }
+  };
 
   return (
     <ClientLayout>
@@ -66,11 +116,21 @@ const Home = () => {
         <div className={styles.listWrapper}>
           <Row>
             {videoData.map((data) => (
-              <Col xl="2" lg="2" md="3" sm="4" xs="12" key={data.id}>
-                <a href="#" onClick={onOpenModal} className={styles.videoItem}>
-                  <Card>
-                    <CardImg src={data.thumbnail} />
-                    <CardBody>
+              <Col xl="2" lg="3" sm="4" xs="12" key={data.id}>
+                <a
+                  href="#"
+                  onClick={() => {
+                    onOpenModal(data.id);
+                  }}
+                  className={styles.videoItem}
+                >
+                  <Card className={styles.card}>
+                    <div className={styles.imgWrapper}>
+                      <CardImg
+                        src={data.thumbnail || 'https://place-hold.it/300x300'}
+                      />
+                    </div>
+                    <CardBody className={styles.cardBody}>
                       <CardTitle>{data.name}</CardTitle>
                       <p>{data.description}</p>
                     </CardBody>
@@ -89,7 +149,9 @@ const Home = () => {
           }`}
         >
           <div className={styles.modalHeader}>
-            <div className={styles.modalTitle}>Pip | Short Animated Film</div>
+            <div className={styles.modalTitle}>
+              {!isLoading && !isLoadingVideo ? videoDetail.name : ''}
+            </div>
             <div>
               <button
                 type="button"
@@ -101,28 +163,88 @@ const Home = () => {
             </div>
           </div>
           <div className={styles.modalContent}>
-            {isLoadingVideo && (
-              <div className={styles.videoPlaceHoldler}>Loading video...</div>
+            {isLoading ? (
+              <p className={styles.loadingPlaceholder}>Loading video...</p>
+            ) : (
+              <React.Fragment>
+                {isLoadingVideo && (
+                  <p className={styles.loadingPlaceholder}>Loading video...</p>
+                )}
+                <Row>
+                  <Col lg="8" sm="6" xs="12">
+                    <ReactPlayer
+                      controls
+                      pip
+                      ref={ref}
+                      width="100%"
+                      height="500px"
+                      className={styles.playerWrapper}
+                      url={videoDetail.url}
+                      onReady={() => setLoadingVideo(false)}
+                      onProgress={onProgress}
+                    />
+                  </Col>
+                  {!isLoadingVideo && (
+                    <Col lg="4" sm="6" xs="12">
+                      <div className={styles.videoSection}>
+                        <div className={styles.sectionHeader}>
+                          Video Section
+                        </div>
+                        <div className={styles.sectionContent}>
+                          {Array.isArray(videoDetail.segments) &&
+                          videoDetail.segments.length > 0 ? (
+                            videoDetail.segments.map((item) => (
+                              <div
+                                key={item.id}
+                                className={`${styles.sectionItem} ${
+                                  activeSection == item.id
+                                    ? styles.sectionItemActive
+                                    : ''
+                                }`}
+                                onClick={() => {
+                                  onSeekToSection(item.id, item.startFrame);
+                                }}
+                              >
+                                <div className={styles.sectionLabel}>
+                                  {item.label}
+                                </div>
+                                <div className={styles.sectionTime}>
+                                  {convertSecondsToTimeString(item.startFrame)}{' '}
+                                  - {convertSecondsToTimeString(item.endFrame)}
+                                </div>
+                              </div>
+                            ))
+                          ) : (
+                            <div className={styles.noSection}>
+                              No video section found.
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </Col>
+                  )}
+                </Row>
+                {!isLoadingVideo && (
+                  <div className={styles.videoInforWrapper}>
+                    <div>
+                      <span>Video name:</span> {videoDetail.name}
+                    </div>
+                    <div>
+                      <span>Category:</span> {videoDetail.subCategory?.name}
+                    </div>
+                    <div>
+                      <span>Sub-category:</span>{' '}
+                      {videoDetail.subCategory?.category?.name}
+                    </div>
+                    <div>
+                      <Button type="button" onClick={onCloseModal}>
+                        Close
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </React.Fragment>
             )}
-            <ReactPlayer
-              controls
-              pip
-              ref={ref}
-              width="60%"
-              height="500px"
-              className={styles.playerWrapper}
-              url="https://youtube.com/watch?v=07d2dXHYb94"
-              onReady={() => setLoadingVideo(false)}
-            />
-            <div
-              style={{
-                textAlign: 'center',
-                marginTop: '30px',
-                fontSize: '30px',
-              }}
-            >
-              Annotation goes here.
-            </div>
           </div>
         </div>
       }

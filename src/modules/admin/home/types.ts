@@ -1,5 +1,5 @@
 import { VideoInfo } from 'models';
-import { Category } from 'models/category.modle';
+import { Category } from 'models/category.model';
 
 export interface assignVideoRequestData {
   id: number;

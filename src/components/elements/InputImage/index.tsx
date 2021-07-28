@@ -20,7 +20,7 @@ const InputImage: FC<Props> = ({ label, errorMessage, onChange, fileUrl }) => {
       return false;
     }
     const acceptExtensions = ['png', 'jpg', 'jpeg'];
-    const fileExt = file.name.split('.').reverse()[0];
+    const fileExt = file.name.split('.').reverse()[0].toLowerCase();
     if (!acceptExtensions.includes(fileExt)) {
       alert(t('thumbnailWrongExtensionError'));
       return false;

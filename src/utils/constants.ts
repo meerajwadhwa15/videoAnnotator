@@ -12,6 +12,7 @@ export const API_ENDPOINT = {
   videoSegment: ({ videoId }: { videoId: string | string[] | undefined }) =>
     `video/${videoId}/segment`,
   category: 'category',
+  clientVideoList: 'video/public',
 };
 
 export const ADMIN_ROUTING = {

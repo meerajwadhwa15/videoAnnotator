@@ -11,7 +11,7 @@ import {
   fetchVideosListError,
   fetchVideosListSuccess,
 } from './actions';
-import { Category } from 'models/category.modle';
+import { Category } from 'models/category.model';
 
 const initialState: HomeState = {
   videosList: [],
