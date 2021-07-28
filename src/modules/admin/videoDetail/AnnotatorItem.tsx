@@ -57,6 +57,9 @@ export const AnnotatorItem: FC<Props> = ({
         [style.activeAnnotator]: active,
       })}
     >
+      <div className={style.annotationThumbnail}>
+        {segment.thumbnail && <img src={segment.thumbnail} alt="thumbnail" />}
+      </div>
       <div
         className="flex-grow-1"
         onClick={debounce(() => onSeekToSegment(segment), 200)}

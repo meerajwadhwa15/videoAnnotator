@@ -18,10 +18,15 @@ import {
 } from './actions';
 import { DeleteSegmentData, SegmentData } from './types';
 import { i18n } from 'next-i18next';
+import { uploadImage } from 'utils/helpers';
 
 function* addNewSegmentWorker({ payload }: PayloadAction<SegmentData>) {
   try {
     const { videoId, ...data } = payload;
+    const { thumbnail } = data;
+    if (typeof thumbnail === 'object') {
+      data.thumbnail = yield call(uploadImage, thumbnail);
+    }
     const result: VideoInfo = yield call(
       request.post,
       `${API_ENDPOINT.videoSegment({ videoId })}`,
@@ -46,6 +51,10 @@ function* addNewSegmentWorker({ payload }: PayloadAction<SegmentData>) {
 function* editSegmentWorkder({ payload }: PayloadAction<SegmentData>) {
   try {
     const { videoId, ...data } = payload;
+    const { thumbnail } = data;
+    if (typeof thumbnail === 'object') {
+      data.thumbnail = yield call(uploadImage, thumbnail);
+    }
     const result: VideoInfo = yield call(
       request.put,
       `${API_ENDPOINT.videoSegment({ videoId })}/${data.id}`,
