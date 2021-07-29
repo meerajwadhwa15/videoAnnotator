@@ -4,8 +4,20 @@ import { initReactI18next } from 'react-i18next';
 
 // mock next
 jest.mock('next/config');
-jest.mock('next/router');
 import next from 'next/config';
+
+jest.mock('next/router', () => ({
+  push: jest.fn(),
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: '',
+      push: jest.fn(),
+    };
+  },
+}));
 
 next.mockReturnValue({
   getConfig: () => ({

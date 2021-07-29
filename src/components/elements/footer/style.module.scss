@@ -2,10 +2,30 @@
   margin: auto;
 }
 
-.nav {
-  margin: auto;
+.toggleLanguages {
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 2px;
+  border: 1px solid gray;
+}
 
-  @media (max-width: 767.98px) {
-    margin-bottom: 5px;
+.languagePopup {
+  padding: 8px 12px;
+
+  a {
+    font-size: 1rem;
+  }
+}
+
+.selectBody {
+  & > div:first-of-type {
+    border-bottom: 1px solid gray;
+    padding-bottom: 4px;
+  }
+}
+
+.active {
+  a {
+    color: #007bff;
   }
 }

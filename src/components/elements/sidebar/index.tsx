@@ -1,15 +1,18 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Col, Nav, Navbar, NavbarBrand, NavItem, NavLink } from 'shards-react';
+import { Col, Nav, Navbar, NavbarBrand, NavItem } from 'shards-react';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { useTranslation } from 'next-i18next';
 
 import { isSidebarOpen, toggleSidebar } from 'components/elements/slice';
 import { ADMIN_ROUTING } from 'utils/constants';
 import styles from './style.module.scss';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const Sidebar = () => {
   const { t } = useTranslation(['common']);
+  const { locale } = useRouter();
   const sidebarVisible = useAppSelector(isSidebarOpen);
   const dispatch = useAppDispatch();
   const classes = classNames(
@@ -60,20 +63,23 @@ const Sidebar = () => {
       <div className={styles.navWrapper}>
         {items.map((nav, index) => (
           <div key={index}>
-            <h6 className={styles.navTitle}>{nav.title}</h6>
             {typeof nav.items !== 'undefined' && nav.items.length && (
               <Nav className={styles.navUlWrapper}>
                 {nav.items.map((item, index) => (
                   <NavItem key={index} style={{ position: 'relative' }}>
-                    <NavLink href={item.to} className={styles.navLink}>
-                      {item.htmlBefore && (
-                        <div
-                          className={styles.itemIconWrapper}
-                          dangerouslySetInnerHTML={{ __html: item.htmlBefore }}
-                        />
-                      )}
-                      {item.title && <span>{item.title}</span>}
-                    </NavLink>
+                    <Link href={item.to} locale={locale}>
+                      <a className="nav-link">
+                        {item.htmlBefore && (
+                          <div
+                            className={styles.itemIconWrapper}
+                            dangerouslySetInnerHTML={{
+                              __html: item.htmlBefore,
+                            }}
+                          />
+                        )}
+                        {item.title && <span>{item.title}</span>}
+                      </a>
+                    </Link>
                   </NavItem>
                 ))}
               </Nav>
