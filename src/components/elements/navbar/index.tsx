@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import {
   Container,
   Navbar,
-  Form,
-  InputGroup,
-  FormInput,
   Nav,
   Dropdown,
   DropdownToggle,
@@ -25,6 +22,8 @@ import { removeAuthorizationHeader } from 'utils/apiClient';
 import { clientCookies } from 'utils/clientCookies';
 import { ADMIN_ROUTING } from 'utils/constants';
 import styles from './style.module.scss';
+import classNames from 'classnames';
+import Link from 'next/link';
 
 const MainNavbar = () => {
   const { t } = useTranslation(['common']);
@@ -40,24 +39,13 @@ const MainNavbar = () => {
   function handleLogout() {
     clientCookies.deleteSession();
     removeAuthorizationHeader();
-    router.push(ADMIN_ROUTING.login);
+    router.push(ADMIN_ROUTING.login, undefined, { locale: router.locale });
   }
 
   return (
     <div className={styles.mainNavbar}>
-      <Container fluid className="p-0">
-        <Navbar type="light" className={styles.navbar}>
-          {/* Navbar search */}
-          <Form className={`d-none d-md-flex d-lg-flex ${styles.form}`}>
-            <InputGroup seamless>
-              <FormInput
-                style={{ border: 'none' }}
-                className="navbar-search"
-                placeholder={t('topSearch')}
-              />
-            </InputGroup>
-          </Form>
-          {/* Navbar user actions */}
+      <Container fluid className="p-0 d-flex">
+        <Navbar type="light" className={classNames(styles.navbar, 'ml-auto')}>
           <Nav
             navbar
             className="border-left flex-row"
@@ -93,9 +81,11 @@ const MainNavbar = () => {
                 open={visible}
                 className={styles.dropdownMenu}
               >
-                <DropdownItem tag={NavLink} href={ADMIN_ROUTING.profile}>
-                  {t('profileLink')}
-                </DropdownItem>
+                <div className="dropdown-item">
+                  <Link href={ADMIN_ROUTING.profile} locale={router.locale}>
+                    <a className="d-block">{t('profileLink')}</a>
+                  </Link>
+                </div>
                 <DropdownItem divider />
                 <DropdownItem onClick={handleLogout} className="text-danger">
                   {t('logoutLink')}
