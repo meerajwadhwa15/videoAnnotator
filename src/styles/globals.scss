@@ -214,3 +214,15 @@ h6 {
   border-bottom: 1px solid #e1e5eb !important;
   height: 50px;
 }
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.page-title {
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 40px;
+  letter-spacing: 2px;
+}

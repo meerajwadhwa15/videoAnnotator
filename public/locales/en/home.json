@@ -1,9 +1,10 @@
 {
   "pageTitle": "Video Annotator - Dashboard",
   "title": "Videos List",
-  "subTitle": "Video",
+  "addVideoButton": "Create video",
   "idColumn": "Id",
   "nameColumn": "Name",
+  "descriptionColumn": "Description",
   "typeColumn": "Type",
   "sizeColumn": "Size",
   "statusColumn": "Status",

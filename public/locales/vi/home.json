@@ -1,9 +1,10 @@
 {
   "pageTitle": "Video Annotator - Dashboard",
   "title": "Danh sách Video",
-  "subTitle": "Video",
+  "addVideoButton": "tạo video",
   "idColumn": "Id",
   "nameColumn": "Tên",
+  "descriptionColumn": "Mô tả",
   "typeColumn": "Định dạng",
   "sizeColumn": "Kích cỡ",
   "statusColumn": "Trạng thái",
