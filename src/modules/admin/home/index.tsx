@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { useTranslation } from 'next-i18next';
-import { Button, Col } from 'shards-react';
+import { Button } from 'shards-react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import DashboardLayout from 'components/layouts/DashboardLayout';
 import { videosListSelector, assignVideo, clearData } from './slice';
@@ -9,6 +9,7 @@ import EditVideoModal from './EditVideoModal';
 import DeleteVideoModal from './DeleteVideoModal';
 import { AssignVideoModal } from './AssignVideoModal';
 import { VideoList } from './VideoList';
+import { VideoSearchBar } from './VideoSearchBar';
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -115,12 +116,13 @@ const Home = () => {
 
   return (
     <DashboardLayout>
-      <Col md="12" className="d-flex mb-4 mt-4">
+      <div className="d-flex mb-2 mt-4">
         <h3 className="page-title">{t('title')}</h3>
         <Button onClick={toggleEditModal} className="ml-auto">
           {t('addVideoButton')}
         </Button>
-      </Col>
+      </div>
+      <VideoSearchBar />
       <VideoList
         toggleAssignModal={toggleAssignModal}
         toggleEditModal={toggleEditModal}

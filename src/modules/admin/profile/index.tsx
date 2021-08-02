@@ -31,16 +31,12 @@ const Profile = () => {
 
   return (
     <DashboardLayout>
-      {/* Page Title */}
-      <PageTitle title={t('title')} subtitle={t('subTitle')} />
-      {/* User Profile */}
+      <PageTitle title={t('title')} />
       <Col lg="8" className="mt-4">
         <Card small className="edit-user-details mb-4">
-          {/* Profile Photo */}
           <CardHeader className="p-0">
             <div className={styles.editProfileheadbg}></div>
           </CardHeader>
-
           <CardBody className="p-0">
             <ProfileForm />
             <hr />

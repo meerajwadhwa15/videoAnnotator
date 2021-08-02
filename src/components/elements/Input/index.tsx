@@ -25,7 +25,7 @@ interface InputProps {
 const Input: FC<InputProps> = ({ label, errorMessage, prefix, ...props }) => {
   return (
     <FormGroup className={styles.Input}>
-      <label>{label}</label>
+      {label && <label>{label}</label>}
       <InputGroup seamless>
         {prefix && (
           <InputGroupAddon type="prepend">

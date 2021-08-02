@@ -215,6 +215,7 @@ h6 {
 .table td,
 .table th {
   vertical-align: middle;
+  padding: 0.6em;
 }
 
 .page-title {
@@ -222,4 +223,8 @@ h6 {
   font-weight: 500;
   line-height: 40px;
   letter-spacing: 2px;
+}
+
+i.material-icons {
+  font-size: 16px;
 }

@@ -60,5 +60,8 @@
   "maxCharDesError": "Phải dưới 100 ký tự",
   "wrongUrlPatternError": "Sai định dạng đường dẫn",
   "requiredCategoryError": "Thể loại là trường bắt buộc",
-  "requiredSubCategoryError": "Thể loại chi tiết là trường bắt buộc"
+  "requiredSubCategoryError": "Thể loại chi tiết là trường bắt buộc",
+  "searchForVideosLabel": "Tìm kiếm video",
+  "searchVideosByCategoryLabel": "Thể loại",
+  "searchVideosBySubCategoryLabel": "Thể loại nhỏ"
 }

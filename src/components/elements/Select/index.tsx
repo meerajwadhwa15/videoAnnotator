@@ -1,16 +1,14 @@
 import { ChangeEvent, FC, ReactNode } from 'react';
 import { FormSelect, FormGroup } from 'shards-react';
 
-type ValueType = string | number;
-
 interface Props {
   label: string;
   name: string;
   errorMessage?: ReactNode;
-  value: ValueType;
+  value: any;
   className?: string;
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
-  options: Array<{ label: string; value: ValueType }>;
+  options: Array<{ label: string; value: any }>;
 }
 
 const Select: FC<Props> = ({

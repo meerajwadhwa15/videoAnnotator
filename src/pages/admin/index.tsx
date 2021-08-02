@@ -10,6 +10,7 @@ import { fetchServerSideProps } from 'modules/admin/home/slice';
 import { withAuthPage } from 'utils/hoc';
 import { requestServer } from 'utils/apiClient';
 import { API_ENDPOINT } from 'utils/constants';
+import { fetchVideoList } from 'services';
 
 function Index({ usersList, videosList, categories }) {
   const { t } = useTranslation(['home']);
@@ -46,16 +47,14 @@ export const getServerSideProps = withAuthPage(async (context, user) => {
       }),
     ]);
   }
-  const videosList = await requestServer.get({
-    url: API_ENDPOINT.video,
-    context,
-  });
+
+  const result = await fetchVideoList({ context });
 
   return {
     props: {
       ...(await serverSideTranslations(locale || '', ['common', 'home'])),
       usersList,
-      videosList,
+      videosList: result,
       categories,
     },
   };

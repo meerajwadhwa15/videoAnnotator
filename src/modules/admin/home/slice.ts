@@ -5,16 +5,15 @@ import {
   assignVideoRequestData,
   createAndEditVideoRequestData,
   HomeState,
+  VideoList,
 } from './types';
-import {
-  fetchVideosList,
-  fetchVideosListError,
-  fetchVideosListSuccess,
-} from './actions';
 import { Category } from 'models/category.model';
 
 const initialState: HomeState = {
-  videosList: [],
+  videosList: {
+    videoList: [],
+    totalPage: 0,
+  },
   categories: [],
   loading: false,
   assignVideoLoading: false,
@@ -32,7 +31,7 @@ export const homeSlice = createSlice({
   reducers: {
     fetchServerSideProps(
       state: HomeState,
-      action: PayloadAction<{ videosList: VideoInfo[]; categories: Category[] }>
+      action: PayloadAction<{ videosList: VideoList; categories: Category[] }>
     ) {
       state.videosList = action.payload.videosList;
       state.categories = action.payload.categories;
@@ -50,11 +49,11 @@ export const homeSlice = createSlice({
     },
     assignVideoSuccess: (state, action: PayloadAction<VideoInfo>) => {
       const videoId = action.payload.id;
-      const currentVideoIndex = state.videosList.findIndex(
+      const currentVideoIndex = state.videosList.videoList.findIndex(
         (video) => video.id === videoId
       );
 
-      state.videosList[currentVideoIndex] = action.payload;
+      state.videosList.videoList[currentVideoIndex] = action.payload;
       state.message.type = 'success';
       state.message.text = 'assign_video_success';
       state.assignVideoLoading = false;
@@ -76,7 +75,7 @@ export const homeSlice = createSlice({
       console.log('action', action);
     },
     createVideoSuccess: (state, action: PayloadAction<VideoInfo>) => {
-      state.videosList.push(action.payload);
+      state.videosList.videoList.push(action.payload);
       state.message.type = 'success';
       state.message.text = 'create_video_success';
       state.updateVideoLoading = false;
@@ -100,10 +99,10 @@ export const homeSlice = createSlice({
     },
     editVideoSuccess: (state, action: PayloadAction<VideoInfo>) => {
       const videoId = action.payload.id;
-      const currentVideoIndex = state.videosList.findIndex(
+      const currentVideoIndex = state.videosList.videoList.findIndex(
         (video) => video.id === videoId
       );
-      state.videosList[currentVideoIndex] = action.payload;
+      state.videosList.videoList[currentVideoIndex] = action.payload;
 
       state.message.type = 'success';
       state.message.text = 'edit_video_success';
@@ -124,10 +123,10 @@ export const homeSlice = createSlice({
     },
     deleteVideoSuccess: (state, action: PayloadAction<any>) => {
       const videoId = action.payload;
-      const currentVideoIndex = state.videosList.findIndex(
+      const currentVideoIndex = state.videosList.videoList.findIndex(
         (video) => video.id === videoId
       );
-      state.videosList.splice(currentVideoIndex, 1);
+      state.videosList.videoList.splice(currentVideoIndex, 1);
 
       state.message.type = 'success';
       state.message.text = 'delete_video_success';
@@ -143,7 +142,8 @@ export const homeSlice = createSlice({
       state.message.text = '';
     },
     clearData: (state) => {
-      state.videosList = [];
+      state.videosList.videoList = [];
+      state.videosList.totalPage = 0;
       state.loading = false;
       state.assignVideoLoading = false;
       state.updateVideoLoading = false;
@@ -152,26 +152,6 @@ export const homeSlice = createSlice({
         type: '',
         text: '',
       };
-    },
-  },
-  extraReducers: {
-    [fetchVideosList.type](state) {
-      state.loading = true;
-      state.message = {
-        type: '',
-        text: '',
-      };
-    },
-    [fetchVideosListSuccess.type](state, action: PayloadAction<VideoInfo[]>) {
-      state.videosList = action.payload;
-      state.message.type = 'success';
-      state.message.text = 'fetch_video_success';
-      state.loading = false;
-    },
-    [fetchVideosListError.type](state) {
-      state.message.type = 'error';
-      state.message.text = 'fetch_video_error';
-      state.loading = false;
     },
   },
 });
@@ -194,7 +174,8 @@ export const {
   clearData,
 } = homeSlice.actions;
 
-export const videosListSelector = (state: RootState) => state.home.videosList;
+export const videosListSelector = (state: RootState) =>
+  state.home.videosList.videoList;
 export const loadingSelector = (state: RootState) => state.home.loading;
 export const assignVideoLoadingSelector = (state: RootState) =>
   state.home.assignVideoLoading;
