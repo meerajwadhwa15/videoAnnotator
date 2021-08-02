@@ -11,6 +11,8 @@
   "savingButton": "Saving...",
   "cancelButton": "Cancel",
   "submitButton": "Submit",
+  "applyButton": "Apply",
+  "clearButton": "Clear",
   "footerLink1": "Home",
   "footerLink2": "Services",
   "footerLink3": "Contacts",

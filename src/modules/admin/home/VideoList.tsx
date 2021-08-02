@@ -45,7 +45,7 @@ export const VideoList = ({
             <td>{displayVideoStatus(video.status)}</td>
             <td>
               {isAdmin && (
-                <div>
+                <div className={styles.actions}>
                   <Button
                     title={t('assignBtnToolTip')}
                     theme="success"
@@ -55,9 +55,7 @@ export const VideoList = ({
                       toggleAssignModal(video.id);
                     }}
                   >
-                    <i className={`${styles.icon} material-icons`}>
-                      assignment
-                    </i>
+                    <i className="material-icons">assignment</i>
                   </Button>
                   <span className="mr-2" />
                   <Button
@@ -67,7 +65,7 @@ export const VideoList = ({
                       toggleEditModal(video.id);
                     }}
                   >
-                    <i className={`${styles.icon} material-icons`}>edit</i>
+                    <i className="material-icons">edit</i>
                   </Button>
                   <span className="mr-2" />
                   <Button

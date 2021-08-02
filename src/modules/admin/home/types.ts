@@ -20,8 +20,13 @@ export interface Message {
   text: string;
 }
 
+export interface VideoList {
+  totalPage: number;
+  videoList: VideoInfo[];
+}
+
 export interface HomeState {
-  videosList: VideoInfo[];
+  videosList: VideoList;
   categories: Category[];
   loading: boolean;
   assignVideoLoading: boolean;

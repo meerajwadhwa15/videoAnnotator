@@ -60,5 +60,8 @@
   "maxCharDesError": "Must be under 100 characters",
   "wrongUrlPatternError": "Must be an url pattern",
   "requiredCategoryError": "Category is required",
-  "requiredSubCategoryError": "Sub category is required"
+  "requiredSubCategoryError": "Sub category is required",
+  "searchForVideosLabel": "Search for videos",
+  "searchVideosByCategoryLabel": "Category",
+  "searchVideosBySubCategoryLabel": "Sub Category"
 }
