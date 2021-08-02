@@ -3,11 +3,12 @@ import { Button } from 'shards-react';
 import { userDataSelector } from 'redux/globalSlice';
 import { useAppSelector } from 'redux/hooks';
 import { displayVideoStatus } from 'utils/helpers';
-import { videosListSelector } from './slice';
+import { videoListTotalPageSelector, videosListSelector } from './slice';
 import styles from './style.module.scss';
 import { useTranslation } from 'react-i18next';
 import { ADMIN_ROUTING } from 'utils/constants';
 import { useRouter } from 'next/router';
+import { Pagination } from 'components/elements/Pagination';
 
 export const VideoList = ({
   toggleAssignModal,
@@ -17,10 +18,12 @@ export const VideoList = ({
   const videos = useAppSelector(videosListSelector);
   const { t } = useTranslation('home');
   const { push } = useRouter();
+  const totalPages = useAppSelector(videoListTotalPageSelector);
   const tableHeader = [
     '#',
     t('nameColumn'),
     t('descriptionColumn'),
+    'Category',
     t('statusColumn'),
     t('actionColumn'),
   ];
@@ -42,6 +45,9 @@ export const VideoList = ({
             </td>
             <td>{video.name}</td>
             <td>{video.description}</td>
+            <td>
+              {video.subCategory?.category?.name} / {video.subCategory?.name}
+            </td>
             <td>{displayVideoStatus(video.status)}</td>
             <td>
               {isAdmin && (
@@ -102,6 +108,7 @@ export const VideoList = ({
       {!videos.length && (
         <h6 className="text-center mt-4">{t('noDataTableText')}</h6>
       )}
+      <Pagination totalPages={totalPages} />
     </div>
   );
 };
