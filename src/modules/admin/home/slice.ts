@@ -185,5 +185,7 @@ export const deleteVideoLoadingSelector = (state: RootState) =>
   state.home.deleteVideoLoading;
 export const messageSelector = (state: RootState) => state.home.message;
 export const categoriesSelector = (state: RootState) => state.home.categories;
+export const videoListTotalPageSelector = (state: RootState) =>
+  state.home.videosList.totalPage;
 
 export default homeSlice.reducer;

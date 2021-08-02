@@ -9,11 +9,12 @@ export const fetchVideoList = ({
 }) => {
   const { query } = context;
   const { page, search, categoryId, subcategoryId } = query;
+  const pageNo = isNaN(Number(page)) ? 0 : Number(page) - 1;
   return requestServer.get({
     url: API_ENDPOINT.video,
     context,
     params: {
-      pageNo: page || 0,
+      pageNo,
       keyword: search || '',
       categoryId,
       subcategoryId,
