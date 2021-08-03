@@ -11,12 +11,7 @@
   "savingButton": "Saving...",
   "cancelButton": "Cancel",
   "submitButton": "Submit",
-  "applyButton": "Apply",
-  "clearButton": "Clear",
-  "footerLink1": "Home",
-  "footerLink2": "Services",
-  "footerLink3": "Contacts",
-  "footerLink4": "About Us",
+  "totalItem": "Total: {{count}}",
   "footerCopyright": "Copyright © 2021 Video Annotator",
   "thumbnailImageSizeTooBigError": "File size must smaller or equal 5MB",
   "thumbnailWrongExtensionError": "Only accept jpg, png, jpeg image"

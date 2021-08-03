@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import { Button, FormInput, Row, Col, Collapse } from 'shards-react';
-import { Select } from 'components/elements';
+import { Row, Col, Form } from 'shards-react';
+import { IconButton, Input, Select } from 'components/elements';
 import { useManageCategory } from './useManageCategory';
 import { useAppSelector } from 'redux/hooks';
 import { categoriesSelector } from './slice';
@@ -8,10 +7,10 @@ import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+import style from './style.module.scss';
+
 export const VideoSearchBar = () => {
   const { pathname, query } = useRouter();
-  const [open, setOpen] = useState<boolean>();
-  const toggleOpen = () => setOpen((last) => !last);
   const categories = useAppSelector(categoriesSelector);
   const { t } = useTranslation(['common', 'home']);
 
@@ -45,77 +44,58 @@ export const VideoSearchBar = () => {
   const { loadingSubs, subs } = useManageCategory({ category });
 
   return (
-    <Row className="mt-4 mb-2">
-      <Col className="d-flex" lg="6">
-        <FormInput
-          placeholder={t('home:searchForVideosLabel')}
-          name="search"
-          value={values.search}
-          onChange={handleChange}
-        />
-        <span className="mr-2" />
-        <Button onClick={handleSubmit} style={{ padding: '8px 16px' }}>
-          <i className="material-icons">search</i>
-        </Button>
-        <span className="mr-2" />
-        <Button
-          style={{ padding: '8px 16px' }}
-          onClick={toggleOpen}
-          theme={open ? 'link' : 'white'}
-          className={open ? 'border-primary' : 'border'}
-        >
-          <i className="material-icons">menu</i>
-        </Button>
-      </Col>
-      <Col lg="6"></Col>
-      <Col lg="12">
-        <Collapse className="mt-2 mb-2" open={open}>
-          <div className="border p-3 rounded pl-4">
-            <Row>
-              <Col lg="3">
-                <Select
-                  name="category"
-                  value={values.category}
-                  label={t('home:searchVideosByCategoryLabel')}
-                  onChange={handleChange}
-                  options={categories.map((it) => ({
-                    value: it.id,
-                    label: it.name,
-                  }))}
-                />
-              </Col>
-              <Col lg="3">
-                <Select
-                  onChange={handleChange}
-                  name="subCategory"
-                  value={values.subCategory}
-                  label={t('home:searchVideosBySubCategoryLabel')}
-                  options={(subs[category] || []).map((it) => ({
-                    label: it.name,
-                    value: it.id,
-                  }))}
-                />
-              </Col>
-              <div className="d-flex flex-column mr-2">
-                <label className="invisible">.</label>
-                <Button onClick={handleSubmit} disabled={loadingSubs}>
-                  {t('common:applyButton')}
-                </Button>
-              </div>
-              <div className="d-flex flex-column">
-                <label className="invisible">.</label>
-                <Button
-                  className="border"
-                  theme="white"
-                  onClick={clearFormData}
-                >
-                  {t('common:clearButton')}
-                </Button>
-              </div>
-            </Row>
-          </div>
-        </Collapse>
-      </Col>
-    </Row>
+    <Form onSubmit={handleSubmit}>
+      <Row>
+        <Col lg="3">
+          <Input
+            label={t('home:searchForVideosLabel')}
+            placeholder={t('home:searchForVideosPlaceholder')}
+            name="search"
+            value={values.search}
+            onChange={handleChange}
+          />
+        </Col>
+        <Col lg="2">
+          <Select
+            name="category"
+            value={values.category}
+            label={t('home:searchVideosByCategoryLabel')}
+            onChange={handleChange}
+            options={categories.map((it) => ({
+              value: it.id,
+              label: it.name,
+            }))}
+          />
+        </Col>
+        <Col lg="2">
+          <Select
+            onChange={handleChange}
+            name="subCategory"
+            value={values.subCategory}
+            label={t('home:searchVideosBySubCategoryLabel')}
+            options={(subs[category] || []).map((it) => ({
+              label: it.name,
+              value: it.id,
+            }))}
+          />
+        </Col>
+        <Col lg="2" className={style.filterBarButtons}>
+          <IconButton
+            type="submit"
+            title="filter"
+            iconName="filter_alt"
+            onClick={handleSubmit}
+            disabled={loadingSubs}
+          />
+          <IconButton
+            title="clear"
+            iconName="clear"
+            theme="danger"
+            onClick={clearFormData}
+            disabled={loadingSubs}
+          />
+        </Col>
+      </Row>
+    </Form>
   );
 };

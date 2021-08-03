@@ -10,7 +10,7 @@ import styles from './style.module.scss';
 
 interface InputProps {
   label?: string;
-  value: string;
+  value: string | number | string[];
   name: string;
   type?: string;
   disabled?: boolean;

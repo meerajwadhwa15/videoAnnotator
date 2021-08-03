@@ -1,5 +1,4 @@
 import { UserRole } from 'models';
-import { Button } from 'shards-react';
 import { userDataSelector } from 'redux/globalSlice';
 import { useAppSelector } from 'redux/hooks';
 import { displayVideoStatus } from 'utils/helpers';
@@ -9,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { ADMIN_ROUTING } from 'utils/constants';
 import { useRouter } from 'next/router';
 import { Pagination } from 'components/elements/Pagination';
+import { IconButton } from 'components/elements';
 
 export const VideoList = ({
   toggleAssignModal,
@@ -18,12 +18,12 @@ export const VideoList = ({
   const videos = useAppSelector(videosListSelector);
   const { t } = useTranslation('home');
   const { push } = useRouter();
-  const totalPages = useAppSelector(videoListTotalPageSelector);
+  const { totalPage, totalRecord } = useAppSelector(videoListTotalPageSelector);
   const tableHeader = [
     '#',
     t('nameColumn'),
     t('descriptionColumn'),
-    'Category',
+    t('categoryColumn'),
     t('statusColumn'),
     t('actionColumn'),
   ];
@@ -52,38 +52,34 @@ export const VideoList = ({
             <td>
               {isAdmin && (
                 <div className={styles.actions}>
-                  <Button
+                  <IconButton
+                    className="mr-2"
+                    iconName="assignment"
                     title={t('assignBtnToolTip')}
                     theme="success"
-                    className={styles.button}
                     onClick={(event) => {
                       event.stopPropagation();
                       toggleAssignModal(video.id);
                     }}
-                  >
-                    <i className="material-icons">assignment</i>
-                  </Button>
-                  <span className="mr-2" />
-                  <Button
+                  />
+                  <IconButton
+                    iconName="edit"
+                    className="mr-2"
                     title={t('editBtnToolTip')}
                     onClick={(event) => {
                       event.stopPropagation();
                       toggleEditModal(video.id);
                     }}
-                  >
-                    <i className="material-icons">edit</i>
-                  </Button>
-                  <span className="mr-2" />
-                  <Button
+                  />
+                  <IconButton
                     title={t('deleteBtnToolTip')}
                     theme="danger"
+                    iconName="delete"
                     onClick={(event) => {
                       event.stopPropagation();
                       toggleDeleteModal(video.id);
                     }}
-                  >
-                    <i className="material-icons">delete</i>
-                  </Button>
+                  />
                 </div>
               )}
             </td>
@@ -108,7 +104,11 @@ export const VideoList = ({
       {!videos.length && (
         <h6 className="text-center mt-4">{t('noDataTableText')}</h6>
       )}
-      <Pagination totalPages={totalPages} />
+      <Pagination
+        unit="videos"
+        totalRecord={totalRecord}
+        totalPage={totalPage}
+      />
     </div>
   );
 };

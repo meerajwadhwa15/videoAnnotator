@@ -2,14 +2,17 @@ import { FC } from 'react';
 import { useRouter } from 'next/router';
 import range from 'lodash/range';
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 
 interface Props {
-  totalPages: number;
+  unit: string;
+  totalPage: number;
+  totalRecord: number;
 }
 
-export const Pagination: FC<Props> = ({ totalPages }) => {
+export const Pagination: FC<Props> = ({ totalPage, totalRecord, unit }) => {
   const { query, pathname } = useRouter();
-
+  const { t } = useTranslation('common');
   const currentPage = Number(query.page || 1);
 
   const setNewPage = (page: number) => {
@@ -24,38 +27,45 @@ export const Pagination: FC<Props> = ({ totalPages }) => {
     window.location.href = `${pathname}${queryString ? `?${queryString}` : ''}`;
   };
 
-  if (totalPages < 2) return null;
-
   return (
-    <nav aria-label="...">
-      <ul className="pagination justify-content-end pagination-md">
-        <li
-          onClick={() => setNewPage(currentPage - 1)}
-          className={classNames('page-item', { disabled: currentPage < 2 })}
-        >
-          <a className="page-link">Prev</a>
-        </li>
-        {range(1, totalPages + 1).map((page) => (
+    <nav aria-label="..." className="d-flex justify-content-between">
+      {totalRecord > 0 && (
+        <p>
+          <strong>
+            {t('common:totalItem', { count: totalRecord })} {unit}.
+          </strong>
+        </p>
+      )}
+      {totalPage > 1 && (
+        <ul className="pagination justify-content-end pagination-md">
           <li
-            key={page}
+            onClick={() => setNewPage(currentPage - 1)}
+            className={classNames('page-item', { disabled: currentPage < 2 })}
+          >
+            <a className="page-link">Prev</a>
+          </li>
+          {range(1, totalPage + 1).map((page) => (
+            <li
+              key={page}
+              className={classNames('page-item', {
+                active: page === currentPage,
+              })}
+            >
+              <span onClick={() => setNewPage(page)} className="page-link">
+                {page}
+              </span>
+            </li>
+          ))}
+          <li
+            onClick={() => setNewPage(currentPage + 1)}
             className={classNames('page-item', {
-              active: page === currentPage,
+              disabled: currentPage > totalPage - 1,
             })}
           >
-            <span onClick={() => setNewPage(page)} className="page-link">
-              {page}
-            </span>
+            <a className="page-link">Next</a>
           </li>
-        ))}
-        <li
-          onClick={() => setNewPage(currentPage + 1)}
-          className={classNames('page-item', {
-            disabled: currentPage > totalPages - 1,
-          })}
-        >
-          <a className="page-link">Next</a>
-        </li>
-      </ul>
+        </ul>
+      )}
     </nav>
   );
 };

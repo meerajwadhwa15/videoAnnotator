@@ -22,6 +22,7 @@ export interface Message {
 
 export interface VideoList {
   totalPage: number;
+  totalRecord: number;
   videoList: VideoInfo[];
 }
 

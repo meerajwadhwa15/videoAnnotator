@@ -8,6 +8,7 @@
   "typeColumn": "Định dạng",
   "sizeColumn": "Kích cỡ",
   "statusColumn": "Trạng thái",
+  "categoryColumn": "Thể loại",
   "actionColumn": "Hành động",
   "nextTableTextBtn": "Tiếp theo",
   "previousTableTextBtn": "Quay lại",
@@ -62,6 +63,7 @@
   "requiredCategoryError": "Thể loại là trường bắt buộc",
   "requiredSubCategoryError": "Thể loại chi tiết là trường bắt buộc",
   "searchForVideosLabel": "Tìm kiếm video",
+  "searchForVideosPlaceholder": "Tìm kiếm theo tên, mô tả...",
   "searchVideosByCategoryLabel": "Thể loại",
   "searchVideosBySubCategoryLabel": "Thể loại nhỏ"
 }
