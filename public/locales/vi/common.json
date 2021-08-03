@@ -11,12 +11,7 @@
   "savingButton": "Đang lưu...",
   "cancelButton": "Huỷ bỏ",
   "submitButton": "Gửi",
-  "applyButton": "Áp dụng",
-  "clearButton": "Xoá",
-  "footerLink1": "Trang chủ",
-  "footerLink2": "Dịch vụ",
-  "footerLink3": "Liên hệ",
-  "footerLink4": "Về ứng dụng",
+  "totalItem": "Tổng: {{count}}",
   "footerCopyright": "Copyright © 2021 Video Annotator",
   "thumbnailImageSizeTooBigError": "Kích thước ảnh phải nhỏ hơn hoặc bằng 5MB",
   "thumbnailWrongExtensionError": "Chỉ cho phép ảnh có định dạng jpg, jpeg, png"

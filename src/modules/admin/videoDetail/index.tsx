@@ -59,10 +59,8 @@ const VideoDetail = () => {
 
   return (
     <DashboardLayout>
-      <PageTitle
-        title={videoDetail.name}
-        subtitle={t('video-detail:pageTitle')}
-      />
+      <PageTitle title={t('video-detail:pageTitle')} />
+      <div className="mb-5" />
       <Col lg="12" md="12">
         <Row
           style={{
@@ -89,7 +87,8 @@ const VideoDetail = () => {
               url={videoDetail.url}
               onReady={() => setLoadingVideo(false)}
             />
-            <p className="mt-3">{videoDetail.description}</p>
+            <h4 className="mt-4">{videoDetail.name}</h4>
+            <p className="mt-1">{videoDetail.description}</p>
           </Col>
           <Col lg="5" md="12">
             <AnnotatorList

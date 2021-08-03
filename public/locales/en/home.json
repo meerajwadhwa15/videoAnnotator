@@ -8,6 +8,7 @@
   "typeColumn": "Type",
   "sizeColumn": "Size",
   "statusColumn": "Status",
+  "categoryColumn": "Categories",
   "actionColumn": "Actions",
   "nextTableTextBtn": "Next",
   "previousTableTextBtn": "Previous",
@@ -61,7 +62,8 @@
   "wrongUrlPatternError": "Must be an url pattern",
   "requiredCategoryError": "Category is required",
   "requiredSubCategoryError": "Sub category is required",
-  "searchForVideosLabel": "Search for videos",
+  "searchForVideosLabel": "Search for video",
+  "searchForVideosPlaceholder": "Search for name, description...",
   "searchVideosByCategoryLabel": "Category",
   "searchVideosBySubCategoryLabel": "Sub Category"
 }

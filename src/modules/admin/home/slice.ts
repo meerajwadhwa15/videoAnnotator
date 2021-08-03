@@ -13,6 +13,7 @@ const initialState: HomeState = {
   videosList: {
     videoList: [],
     totalPage: 0,
+    totalRecord: 0,
   },
   categories: [],
   loading: false,
@@ -185,7 +186,9 @@ export const deleteVideoLoadingSelector = (state: RootState) =>
   state.home.deleteVideoLoading;
 export const messageSelector = (state: RootState) => state.home.message;
 export const categoriesSelector = (state: RootState) => state.home.categories;
-export const videoListTotalPageSelector = (state: RootState) =>
-  state.home.videosList.totalPage;
+export const videoListTotalPageSelector = (state: RootState) => ({
+  totalPage: state.home.videosList.totalPage,
+  totalRecord: state.home.videosList.totalRecord,
+});
 
 export default homeSlice.reducer;
