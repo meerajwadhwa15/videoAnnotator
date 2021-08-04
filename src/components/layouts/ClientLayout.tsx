@@ -7,7 +7,7 @@ const ClientLayout = ({ children }) => (
       <Col xs="12">
         <div className="client-navbar">
           <Navbar style={{ justifyContent: 'center' }} type="light">
-            Sample User Homepage
+            <h4>Homepage</h4>
           </Navbar>
         </div>
       </Col>

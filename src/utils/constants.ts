@@ -31,3 +31,4 @@ export const CLIENT_ROUTING = {
 };
 
 export const PAGE_SIZE = 10;
+export const CONSUMER_PAGE_SIZE = 48;

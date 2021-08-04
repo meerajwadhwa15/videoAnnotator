@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext } from 'next';
 import { requestServer } from 'utils/apiClient';
-import { API_ENDPOINT, PAGE_SIZE } from 'utils/constants';
+import { API_ENDPOINT, PAGE_SIZE, CONSUMER_PAGE_SIZE } from 'utils/constants';
 
 export const fetchVideoList = (
   {
@@ -14,12 +14,13 @@ export const fetchVideoList = (
   const { page, search, categoryId, subcategoryId } = query;
   const pageNo = isNaN(Number(page)) ? 0 : Number(page) - 1;
   const endpoint = client ? API_ENDPOINT.clientVideoList : API_ENDPOINT.video;
+  const itemPerPage = client ? CONSUMER_PAGE_SIZE : PAGE_SIZE;
 
   return requestServer.get({
     url: endpoint,
     context,
     params: {
-      pageSize: PAGE_SIZE,
+      pageSize: itemPerPage,
       pageNo,
       keyword: search || '',
       categoryId,
