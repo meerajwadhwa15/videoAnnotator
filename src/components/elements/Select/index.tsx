@@ -2,19 +2,19 @@ import { ChangeEvent, FC, ReactNode } from 'react';
 import { FormSelect, FormGroup } from 'shards-react';
 
 interface Props {
-  label: string;
+  label?: string;
   name: string;
   errorMessage?: ReactNode;
   value: any;
   className?: string;
-  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
-  options: Array<{ label: string; value: any }>;
+  onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
+  options?: Array<{ label: string; value: any }>;
 }
 
 const Select: FC<Props> = ({
   label,
   name,
-  options,
+  options = [],
   errorMessage,
   onChange,
   className,

@@ -1,12 +1,18 @@
 import { createSlice, PayloadAction, createAction } from '@reduxjs/toolkit';
 import type { RootState } from 'redux/store';
-import { VideoInfo } from 'models';
-import { HomeState } from './types';
+import { VideoInfo, Category } from 'models';
+import { HomeState, VideosList } from './types';
 import { AlertMessageType } from 'utils/types';
 
 const initialState: HomeState = {
-  videosList: [],
+  videosList: {
+    totalPage: 0,
+    totalRecord: 0,
+    currentPageNo: 0,
+    videoList: [],
+  },
   videoDetail: {} as VideoInfo,
+  categories: [],
   loading: false,
   message: {
     type: '',
@@ -24,8 +30,12 @@ export const clientHomeSlice = createSlice({
   name: 'clientHome',
   initialState,
   reducers: {
-    fetchVideosListSSR(state: HomeState, action: PayloadAction<VideoInfo[]>) {
-      state.videosList = action.payload;
+    fetchServerSideProps(
+      state: HomeState,
+      action: PayloadAction<{ videosList: VideosList; categories: Category[] }>
+    ) {
+      state.videosList = action.payload.videosList;
+      state.categories = action.payload.categories;
     },
     clearMessage(state) {
       state.message.type = AlertMessageType.default;
@@ -55,12 +65,19 @@ export const clientHomeSlice = createSlice({
   },
 });
 
-export const { fetchVideosListSSR, clearMessage } = clientHomeSlice.actions;
+export const { fetchServerSideProps, clearMessage } = clientHomeSlice.actions;
 
 export const videosListSelector = (state: RootState) =>
-  state.clientHome.videosList;
+  state.clientHome.videosList.videoList;
 export const videoDetailSelector = (state: RootState) =>
   state.clientHome.videoDetail;
+export const categoriesSelector = (state: RootState) =>
+  state.clientHome.categories;
+export const videoListPaginationSelector = (state: RootState) => ({
+  totalPage: state.clientHome.videosList.totalPage,
+  totalRecord: state.clientHome.videosList.totalRecord,
+  currentPageNo: state.clientHome.videosList.currentPageNo,
+});
 export const loadingSelector = (state: RootState) => state.clientHome.loading;
 export const messageSelector = (state: RootState) => state.clientHome.message;
 
