@@ -80,6 +80,7 @@ export const AnnotatorItem: FC<Props> = ({
       {canUserManageSegment() && (
         <div className="ml-auto d-flex align-items-center">
           <Button
+            theme={active ? 'white' : 'primary'}
             disabled={loading}
             onClick={handleEditSegment}
             className={classNames(style.annotatorAction, 'mr-2')}

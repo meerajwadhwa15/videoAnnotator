@@ -36,36 +36,34 @@ export const Pagination: FC<Props> = ({ totalPage, totalRecord, unit }) => {
           </strong>
         </p>
       )}
-      {totalPage > 1 && (
-        <ul className="pagination justify-content-end pagination-md">
+      <ul className="pagination justify-content-end pagination-md">
+        <li
+          onClick={() => setNewPage(currentPage - 1)}
+          className={classNames('page-item', { disabled: currentPage < 2 })}
+        >
+          <a className="page-link">Prev</a>
+        </li>
+        {range(1, totalPage + 1).map((page) => (
           <li
-            onClick={() => setNewPage(currentPage - 1)}
-            className={classNames('page-item', { disabled: currentPage < 2 })}
-          >
-            <a className="page-link">Prev</a>
-          </li>
-          {range(1, totalPage + 1).map((page) => (
-            <li
-              key={page}
-              className={classNames('page-item', {
-                active: page === currentPage,
-              })}
-            >
-              <span onClick={() => setNewPage(page)} className="page-link">
-                {page}
-              </span>
-            </li>
-          ))}
-          <li
-            onClick={() => setNewPage(currentPage + 1)}
+            key={page}
             className={classNames('page-item', {
-              disabled: currentPage > totalPage - 1,
+              active: page === currentPage,
             })}
           >
-            <a className="page-link">Next</a>
+            <span onClick={() => setNewPage(page)} className="page-link">
+              {page}
+            </span>
           </li>
-        </ul>
-      )}
+        ))}
+        <li
+          onClick={() => setNewPage(currentPage + 1)}
+          className={classNames('page-item', {
+            disabled: currentPage > totalPage - 1,
+          })}
+        >
+          <a className="page-link">Next</a>
+        </li>
+      </ul>
     </nav>
   );
 };

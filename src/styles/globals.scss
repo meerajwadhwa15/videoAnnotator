@@ -46,6 +46,8 @@ h6 {
 
 .main-content-container {
   min-height: calc(100vh - 120px);
+  max-height: calc(100vh - 7.5rem);
+  overflow-y: auto;
 
   @media (max-width: 847px) {
     min-height: calc(100vh - 155px);

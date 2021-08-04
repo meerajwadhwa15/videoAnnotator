@@ -12,6 +12,7 @@
   "cancelButton": "Huỷ bỏ",
   "submitButton": "Gửi",
   "totalItem": "Tổng: {{count}}",
+  "noDataFound": "Không có dữ liệu",
   "footerCopyright": "Copyright © 2021 Video Annotator",
   "thumbnailImageSizeTooBigError": "Kích thước ảnh phải nhỏ hơn hoặc bằng 5MB",
   "thumbnailWrongExtensionError": "Chỉ cho phép ảnh có định dạng jpg, jpeg, png"
