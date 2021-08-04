@@ -63,7 +63,7 @@ export const AnnotatorList: FC<Props> = ({
           value={search}
           onChange={handleSearch}
           className="border-0 border-bottom rounded-0"
-          placeholder="Search for annotation..."
+          placeholder={t('video-detail:searchForAnnotation')}
         />
       </div>
       <div className={style.annotatorList}>{renderAnnotator()}</div>
