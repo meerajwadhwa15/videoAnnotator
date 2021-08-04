@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Container, Row } from 'shards-react';
 import { useTranslation } from 'next-i18next';
-
+import classnames from 'classnames';
 import styles from './style.module.scss';
 import { Languages } from './Languages';
 
@@ -19,7 +19,12 @@ const Footer: FC<Props> = () => {
   const { t } = useTranslation(['common']);
 
   return (
-    <footer className="main-footer d-flex p-2 px-3 bg-white border-top">
+    <footer
+      className={classnames(
+        'main-footer d-flex p-2 px-3 bg-white border-top',
+        styles.footer
+      )}
+    >
       <Container fluid={false}>
         <Row>
           <Languages />

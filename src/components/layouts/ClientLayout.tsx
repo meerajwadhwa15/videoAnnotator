@@ -1,4 +1,5 @@
 import { Container, Row, Col, Navbar } from 'shards-react';
+import Footer from 'components/elements/footer';
 
 const ClientLayout = ({ children }) => (
   <Container fluid className="h-100 pl-0 pr-0">
@@ -12,20 +13,7 @@ const ClientLayout = ({ children }) => (
       </Col>
       <Col xs="12">{children}</Col>
     </Row>
-    <footer
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        bottom: '0',
-        width: '100%',
-        height: '50px',
-        backgroundColor: '#ffffff',
-        borderTop: '1px solid #e0e0e0',
-      }}
-    >
-      <div style={{ color: '#5a5757' }}>Copyright © 2021 Video Annotator</div>
-    </footer>
+    <Footer />
   </Container>
 );
 

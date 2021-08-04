@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 export const Languages = () => {
   const [open, setOpen] = useState(false);
-  const { pathname, locale } = useRouter();
+  const { asPath, locale } = useRouter();
 
   const toggle = () => {
     setOpen((prevState) => !prevState);
@@ -47,7 +47,7 @@ export const Languages = () => {
                 [style.active]: locale === it.value,
               })}
             >
-              <Link href={pathname} locale={it.value}>
+              <Link href={asPath} locale={it.value}>
                 {it.label}
               </Link>
             </div>

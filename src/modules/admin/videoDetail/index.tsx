@@ -60,15 +60,9 @@ const VideoDetail = () => {
   return (
     <DashboardLayout>
       <PageTitle title={t('video-detail:pageTitle')} />
-      <div className="mb-5" />
+      <div className="mb-2" />
       <Col lg="12" md="12">
-        <Row
-          style={{
-            backgroundColor: '#ececec',
-            padding: '8px 0',
-            borderRadius: 4,
-          }}
-        >
+        <Row>
           <Col lg="7" md="12" className={styles.col}>
             {isLoadingVideo && (
               <div className={styles.videoPlaceHoldler}>
