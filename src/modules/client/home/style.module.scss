@@ -1,18 +1,31 @@
 .homeWrapper {
   min-height: calc(100vh - 100px);
+  padding: 20px;
 }
 
 .searchWrapper {
-  padding: 20px 0;
+  width: 83.333%;
+  margin-bottom: 20px;
+}
 
-  input {
-    max-width: 500px;
-    margin: auto;
+.searchBtnWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  button {
+    position: relative;
+    top: 8px;
+    margin-right: 10px;
+
+    @media (max-width: 991px) {
+      top: 0;
+    }
   }
 }
 
 .listWrapper {
-  padding: 0 20px;
+  display: block;
 }
 
 .videoItem {
@@ -211,6 +224,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
+  width: 100%;
+  text-align: center;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   -moz--transform: translate(-50%, -50%);

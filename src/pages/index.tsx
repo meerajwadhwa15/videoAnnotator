@@ -3,18 +3,19 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
 import { useAppDispatch } from 'redux/hooks';
-import { fetchVideosListSSR } from 'modules/client/home/slice';
-import { requestServer } from 'utils/apiClient';
-import { ADMIN_ROUTING, API_ENDPOINT } from 'utils/constants';
 import Home from 'modules/client/home';
+import { fetchServerSideProps } from 'modules/client/home/slice';
+import { requestServer } from 'utils/apiClient';
+import { API_ENDPOINT } from 'utils/constants';
+import { fetchVideoList } from 'services';
 
-function Index({ videosList }) {
+function Index({ videosList, categories }) {
   const { t } = useTranslation(['client-home']);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchVideosListSSR(videosList));
-  }, [videosList, dispatch]);
+    dispatch(fetchServerSideProps({ videosList, categories }));
+  }, [videosList, categories, dispatch]);
 
   return (
     <React.Fragment>
@@ -29,21 +30,20 @@ function Index({ videosList }) {
 export const getServerSideProps = async (context) => {
   const { locale } = context;
 
-  const videosList = await requestServer.get({
-    url: API_ENDPOINT.clientVideoList,
+  const videosList = await fetchVideoList({ context }, true);
+  const categories = await requestServer.get({
+    url: API_ENDPOINT.category,
     context,
   });
 
   return {
-    redirect: {
-      destination: ADMIN_ROUTING.home,
-    },
     props: {
       ...(await serverSideTranslations(locale || '', [
         'common',
         'client-home',
       ])),
       videosList,
+      categories,
     },
   };
 };
