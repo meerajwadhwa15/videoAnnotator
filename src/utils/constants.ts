@@ -29,3 +29,5 @@ export const ADMIN_ROUTING = {
 export const CLIENT_ROUTING = {
   home: '/',
 };
+
+export const PAGE_SIZE = 10;

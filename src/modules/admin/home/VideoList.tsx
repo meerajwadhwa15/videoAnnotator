@@ -5,7 +5,7 @@ import { displayVideoStatus } from 'utils/helpers';
 import { videoListTotalPageSelector, videosListSelector } from './slice';
 import styles from './style.module.scss';
 import { useTranslation } from 'react-i18next';
-import { ADMIN_ROUTING } from 'utils/constants';
+import { ADMIN_ROUTING, PAGE_SIZE } from 'utils/constants';
 import { useRouter } from 'next/router';
 import { Pagination } from 'components/elements/Pagination';
 import { IconButton } from 'components/elements';
@@ -17,7 +17,8 @@ export const VideoList = ({
 }) => {
   const videos = useAppSelector(videosListSelector);
   const { t } = useTranslation('home');
-  const { push } = useRouter();
+  const { push, query } = useRouter();
+  const currentPage = Number(query.page || 1);
   const { totalPage, totalRecord } = useAppSelector(videoListTotalPageSelector);
   const tableHeader = [
     '#',
@@ -41,7 +42,7 @@ export const VideoList = ({
             style={{ cursor: 'pointer' }}
           >
             <td>
-              <strong>{index + 1}</strong>
+              <strong>{(currentPage - 1) * PAGE_SIZE + index + 1}</strong>
             </td>
             <td>{video.name}</td>
             <td>{video.description}</td>

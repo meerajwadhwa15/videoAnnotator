@@ -23,5 +23,6 @@
   "deleteAnnotationSuccess": "🚀 Delete annotation success",
   "deleteAnnotationFail": "🚀 Delete annotaion failed",
   "annotationOnHoverTooltipLabel": "Click to go to segment",
-  "deleteAnnotationConfirmMessage": "Are you sure to delete this annotation?"
+  "deleteAnnotationConfirmMessage": "Are you sure to delete this annotation?",
+  "searchForAnnotation": "Search for annotations..."
 }

@@ -23,5 +23,6 @@
   "deleteAnnotationSuccess": "🚀 Xoá chú thích thành công",
   "deleteAnnotationFail": "🚀 Xoá chú thích thất bại",
   "annotationOnHoverTooltipLabel": "Nhấp chuột để phát phần chú thích",
-  "deleteAnnotationConfirmMessage": "Bạn có chắc muốn xoá chú thích này không?"
+  "deleteAnnotationConfirmMessage": "Bạn có chắc muốn xoá chú thích này không?",
+  "searchForAnnotation": "Tìm kiếm chú thích..."
 }
