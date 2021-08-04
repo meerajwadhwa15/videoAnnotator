@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext } from 'next';
 import { requestServer } from 'utils/apiClient';
-import { API_ENDPOINT } from 'utils/constants';
+import { API_ENDPOINT, PAGE_SIZE } from 'utils/constants';
 
 export const fetchVideoList = (
   {
@@ -19,6 +19,7 @@ export const fetchVideoList = (
     url: endpoint,
     context,
     params: {
+      pageSize: PAGE_SIZE,
       pageNo,
       keyword: search || '',
       categoryId,
