@@ -10,6 +10,7 @@ import {
   Button,
 } from 'shards-react';
 import ReactPlayer from 'react-player/lazy';
+import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 // import { useTranslation } from 'next-i18next';
@@ -19,11 +20,12 @@ import {
   videosListSelector,
   videoDetailSelector,
   categoriesSelector,
-  // videoListPaginationSelector,
+  videoListPaginationSelector,
   loadingSelector,
 } from './slice';
 import ClientLayout from 'components/layouts/ClientLayout';
 import { Input, Select } from 'components/elements';
+import { Pagination } from 'components/elements/Pagination';
 import { Category } from 'models';
 import { request } from 'utils/apiClient';
 import { convertSecondsToTimeString } from 'utils/helpers';
@@ -39,7 +41,9 @@ const Home = () => {
   const videosData = useAppSelector(videosListSelector);
   const videoDetail = useAppSelector(videoDetailSelector);
   const categories = useAppSelector(categoriesSelector);
-  // const videoPagination = useAppSelector(videoListPaginationSelector);
+  const { totalPage, totalRecord } = useAppSelector(
+    videoListPaginationSelector
+  );
   const isLoading = useAppSelector(loadingSelector);
 
   const [watchVideoModal, setWatchVideoModal] = useState(false);
@@ -52,17 +56,21 @@ const Home = () => {
 
   const form = useFormik({
     initialValues: {
-      keyword: query.keyword || '',
+      search: query.search || '',
       categoryId: query.categoryId || '',
       subcategoryId: query.subcategoryId || '',
     },
     onSubmit: (values) => {
-      const { keyword, categoryId, subcategoryId } = values;
+      const { search, categoryId, subcategoryId } = values;
       const newQuery: any = {
-        ...(keyword && { keyword }),
+        ...(search && { search }),
         ...(categoryId && { categoryId }),
         ...(subcategoryId && { subcategoryId }),
       };
+
+      if (Object.keys(newQuery).length == 0) {
+        return;
+      }
 
       router.push(
         {
@@ -97,6 +105,23 @@ const Home = () => {
 
   function ref(player) {
     videoRef.current = player;
+  }
+
+  function clearFormData() {
+    if (Object.keys(query).length == 0) {
+      return;
+    }
+
+    setFieldValue('search', '');
+    setFieldValue('categoryId', '');
+    setFieldValue('subcategoryId', '');
+    router.push(
+      {
+        pathname: pathname,
+        query: {},
+      }
+      // undefined, { shallow: true }
+    );
   }
 
   function onOpenModal(videoId) {
@@ -140,35 +165,23 @@ const Home = () => {
     }
   }
 
-  function clearFormData() {
-    if (Object.keys(query).length == 0) {
-      return;
-    }
-
-    setFieldValue('keyword', '');
-    setFieldValue('categoryId', '');
-    setFieldValue('subcategoryId', '');
-    router.push(
-      {
-        pathname: pathname,
-        query: {},
-      }
-      // undefined, { shallow: true }
-    );
+  function onVideoError() {
+    toast.error('Loading video error.');
+    setLoadingVideo(false);
   }
 
   return (
     <ClientLayout>
       <div className={styles.homeWrapper}>
         {/* Video search bar */}
-        <div>
-          <Form className={styles.searchWrapper} onSubmit={handleSubmit}>
+        <div className={styles.searchWrapper}>
+          <Form onSubmit={handleSubmit}>
             <Row>
               <Col lg="3">
                 <Input
                   label="Search video"
-                  name="keyword"
-                  value={values.keyword}
+                  name="search"
+                  value={values.search}
                   placeholder="Search video by name or description..."
                   onChange={handleChange}
                 />
@@ -215,31 +228,52 @@ const Home = () => {
         </div>
         {/* Video card list */}
         <div className={styles.listWrapper}>
-          <Row>
-            {videosData.map((data) => (
-              <Col xl="2" lg="3" sm="4" xs="12" key={data.id}>
-                <a
-                  href="#"
-                  onClick={() => {
-                    onOpenModal(data.id);
-                  }}
-                  className={styles.videoItem}
-                >
-                  <Card className={styles.card}>
-                    <div className={styles.imgWrapper}>
-                      <CardImg
-                        src={data.thumbnail || 'https://place-hold.it/300x300'}
-                      />
-                    </div>
-                    <CardBody className={styles.cardBody}>
-                      <CardTitle>{data.name}</CardTitle>
-                      <p>{data.description}</p>
-                    </CardBody>
-                  </Card>
-                </a>
-              </Col>
+          {!videosData ||
+            (Array.isArray(videosData) && videosData.length == 0 && (
+              <h5 className="text-center mt-4">No videos found.</h5>
             ))}
-          </Row>
+          {Array.isArray(videosData) && videosData.length > 0 && (
+            <React.Fragment>
+              <Pagination
+                unit="videos"
+                totalPage={totalPage}
+                totalRecord={totalRecord}
+              />
+              <Row>
+                {videosData.map((data) => (
+                  <Col xl="2" lg="3" sm="4" xs="12" key={data.id}>
+                    <a
+                      href="#"
+                      onClick={() => {
+                        onOpenModal(data.id);
+                      }}
+                      className={styles.videoItem}
+                    >
+                      <Card className={styles.card}>
+                        <div className={styles.imgWrapper}>
+                          <CardImg
+                            src={
+                              data.thumbnail || 'https://place-hold.it/300x300'
+                            }
+                          />
+                        </div>
+                        <CardBody className={styles.cardBody}>
+                          <CardTitle>{data.name}</CardTitle>
+                          <p>{data.description}</p>
+                        </CardBody>
+                      </Card>
+                    </a>
+                  </Col>
+                ))}
+              </Row>
+              <Pagination
+                unit="videos"
+                totalPage={totalPage}
+                totalRecord={totalRecord}
+                showTotalRecords={false}
+              />
+            </React.Fragment>
+          )}
         </div>
       </div>
       {/* Watch Video Modal */}
@@ -282,6 +316,7 @@ const Home = () => {
                     url={videoDetail.url}
                     onReady={() => setLoadingVideo(false)}
                     onProgress={onProgress}
+                    onError={onVideoError}
                   />
                 </Col>
                 {!isLoadingVideo && (

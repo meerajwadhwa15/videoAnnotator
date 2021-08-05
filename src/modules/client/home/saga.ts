@@ -12,7 +12,7 @@ function* fetchVideoDetailWorker({ payload }: PayloadAction<number>) {
   try {
     const response = yield call(
       request.get,
-      `${API_ENDPOINT.video}/${payload}`
+      `${API_ENDPOINT.clientVideoList}/${payload}`
     );
     yield put(getVideoDetailSuccess(response));
   } catch (error) {
