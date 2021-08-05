@@ -128,7 +128,7 @@ export const homeSlice = createSlice({
         (video) => video.id === videoId
       );
       state.videosList.videoList.splice(currentVideoIndex, 1);
-
+      state.videosList.totalRecord = state.videosList.totalRecord - 1;
       state.message.type = 'success';
       state.message.text = 'delete_video_success';
       state.deleteVideoLoading = false;
