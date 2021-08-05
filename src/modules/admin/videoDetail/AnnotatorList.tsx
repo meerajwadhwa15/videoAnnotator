@@ -58,14 +58,16 @@ export const AnnotatorList: FC<Props> = ({
       <div className="p-2 text-center  bg-primary border-bottom">
         <h6 className="text-white">{t('video-detail:annotatorListTitle')}</h6>
       </div>
-      <div>
-        <FormInput
-          value={search}
-          onChange={handleSearch}
-          className="border-0 border-bottom rounded-0"
-          placeholder={t('video-detail:searchForAnnotation')}
-        />
-      </div>
+      {segments.length > 4 && (
+        <div>
+          <FormInput
+            value={search}
+            onChange={handleSearch}
+            className="border-0 border-bottom rounded-0"
+            placeholder={t('video-detail:searchForAnnotation')}
+          />
+        </div>
+      )}
       <div className={style.annotatorList}>{renderAnnotator()}</div>
       <Button className="mt-2 ml-2" onClick={onAnnotate}>
         {t('video-detail:addNewAnnotatationButton')}
