@@ -1,3 +1,17 @@
 {
-  "home": "Home Page"
+  "home": "Consumer Page",
+  "videoSearchLabel": "Search video",
+  "videoSearchPlaceHolder": "Search video by name or description...",
+  "videoCategoryLabel": "Category",
+  "videoSubCategoryLabel": "Sub category",
+  "videoSearchBtn": "Search",
+  "videoClearBtn": "Clear",
+  "searchAnnotation": "Search annotation...",
+  "noVideo": "No videos found",
+  "loadingVideoText": "Loading video...",
+  "videoSectionText": "Video section",
+  "noVideoSection": "No video section found.",
+  "videoNameLabel": "Video name",
+  "videoCLoseBtn": "Close",
+  "videoLoadError": "Loading video error"
 }
