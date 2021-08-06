@@ -8,12 +8,13 @@ import {
   CardImg,
   CardBody,
   Button,
+  FormInput,
 } from 'shards-react';
 import ReactPlayer from 'react-player/lazy';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
-// import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   getVideoDetail,
@@ -30,16 +31,17 @@ import { Category } from 'models';
 import { request } from 'utils/apiClient';
 import { convertSecondsToTimeString } from 'utils/helpers';
 import styles from './style.module.scss';
+import classNames from 'classnames';
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const { pathname, query } = useRouter();
   const router = useRouter();
-  // const { t } = useTranslation(['common', 'client-home']);
+  const { t } = useTranslation(['client-home']);
   const videoRef = useRef<any>();
 
   const videosData = useAppSelector(videosListSelector);
-  const videoDetail = useAppSelector(videoDetailSelector);
+  const videoDetailStore = useAppSelector(videoDetailSelector);
   const categories = useAppSelector(categoriesSelector);
   const { totalPage, totalRecord } = useAppSelector(
     videoListPaginationSelector
@@ -52,7 +54,9 @@ const Home = () => {
   const [subCategory, setSubcategory] = useState<Record<string, Category[]>>(
     {}
   );
+  const [search, setSearch] = useState<string>('');
   const [loadingCat, setLoadingCat] = useState<boolean>(false);
+  const [videoDetail, setVideoDetail] = useState(videoDetailStore);
 
   const form = useFormik({
     initialValues: {
@@ -103,6 +107,10 @@ const Home = () => {
     }
   }, [categoryId, subCategory]);
 
+  useEffect(() => {
+    setVideoDetail(videoDetailStore);
+  }, [videoDetailStore]);
+
   function ref(player) {
     videoRef.current = player;
   }
@@ -122,6 +130,25 @@ const Home = () => {
       }
       // undefined, { shallow: true }
     );
+  }
+
+  function onSearchAnnotation(event) {
+    setSearch(event.target.value);
+    const value = event.target.value.trim().toLowerCase();
+
+    if (!value) {
+      setVideoDetail(videoDetailStore);
+      return;
+    }
+
+    const foundAnnotations = videoDetailStore.segments.filter((segment) => {
+      return segment.label.toLowerCase().includes(value);
+    });
+
+    setVideoDetail({
+      ...videoDetailStore,
+      segments: [...foundAnnotations],
+    });
   }
 
   function onOpenModal(videoId) {
@@ -166,7 +193,7 @@ const Home = () => {
   }
 
   function onVideoError() {
-    toast.error('Loading video error.');
+    toast.error(t('videoLoadError'));
     setLoadingVideo(false);
   }
 
@@ -179,16 +206,16 @@ const Home = () => {
             <Row>
               <Col lg="3">
                 <Input
-                  label="Search video"
+                  label={t('videoSearchLabel')}
                   name="search"
                   value={values.search}
-                  placeholder="Search video by name or description..."
+                  placeholder={t('videoSearchPlaceHolder')}
                   onChange={handleChange}
                 />
               </Col>
               <Col lg="3">
                 <Select
-                  label="Category"
+                  label={t('videoCategoryLabel')}
                   name="categoryId"
                   value={values.categoryId}
                   options={categories.map((item) => ({
@@ -200,7 +227,7 @@ const Home = () => {
               </Col>
               <Col lg="3">
                 <Select
-                  label="Sub category"
+                  label={t('videoSubCategoryLabel')}
                   name="subcategoryId"
                   value={values.subcategoryId}
                   options={(subCategory[categoryId] || []).map((it) => ({
@@ -212,7 +239,7 @@ const Home = () => {
               </Col>
               <Col lg="3" className={styles.searchBtnWrapper}>
                 <Button type="submit" disabled={loadingCat}>
-                  Search
+                  {t('videoSearchBtn')}
                 </Button>
                 <Button
                   outline
@@ -220,7 +247,7 @@ const Home = () => {
                   disabled={loadingCat}
                   onClick={clearFormData}
                 >
-                  Clear
+                  {t('videoClearBtn')}
                 </Button>
               </Col>
             </Row>
@@ -230,7 +257,7 @@ const Home = () => {
         <div className={styles.listWrapper}>
           {!videosData ||
             (Array.isArray(videosData) && videosData.length == 0 && (
-              <h5 className="text-center mt-4">No videos found.</h5>
+              <h5 className="text-center mt-4">{t('noVideo')}</h5>
             ))}
           {Array.isArray(videosData) && videosData.length > 0 && (
             <React.Fragment>
@@ -298,11 +325,13 @@ const Home = () => {
         </div>
         <div className={styles.modalContent}>
           {isLoading ? (
-            <p className={styles.loadingPlaceholder}>Loading video...</p>
+            <p className={styles.loadingPlaceholder}>{t('loadingVideoText')}</p>
           ) : (
             <React.Fragment>
               {isLoadingVideo && (
-                <p className={styles.loadingPlaceholder}>Loading video...</p>
+                <p className={styles.loadingPlaceholder}>
+                  {t('loadingVideoText')}
+                </p>
               )}
               <Row>
                 <Col lg="8" sm="6" xs="12">
@@ -322,8 +351,19 @@ const Home = () => {
                 {!isLoadingVideo && (
                   <Col lg="4" sm="6" xs="12">
                     <div className={styles.videoSection}>
-                      <div className={styles.sectionHeader}>Video Section</div>
+                      <div className={styles.sectionHeader}>
+                        {t('videoSectionText')}
+                      </div>
                       <div className={styles.sectionContent}>
+                        {Array.isArray(videoDetailStore?.segments) &&
+                          videoDetailStore.segments.length > 4 && (
+                            <FormInput
+                              value={search}
+                              onChange={onSearchAnnotation}
+                              className="border-bottom rounded-0"
+                              placeholder={t('searchAnnotation')}
+                            />
+                          )}
                         {Array.isArray(videoDetail.segments) &&
                         videoDetail.segments.length > 0 ? (
                           videoDetail.segments.map((item) => (
@@ -338,18 +378,38 @@ const Home = () => {
                                 onSeekToSection(item.id, item.startFrame);
                               }}
                             >
-                              <div className={styles.sectionLabel}>
-                                {item.label}
-                              </div>
-                              <div className={styles.sectionTime}>
-                                {convertSecondsToTimeString(item.startFrame)} -{' '}
-                                {convertSecondsToTimeString(item.endFrame)}
-                              </div>
+                              <Row>
+                                <Col lg="3">
+                                  <div className={styles.thumbnailWrapper}>
+                                    <img
+                                      className={styles.thumbnailImg}
+                                      src={
+                                        item.thumbnail
+                                          ? item.thumbnail
+                                          : 'https://place-hold.it/150x150'
+                                      }
+                                      alt="thumbnail"
+                                    />
+                                  </div>
+                                </Col>
+                                <Col lg="9">
+                                  <div className={styles.sectionLabel}>
+                                    {item.label}
+                                  </div>
+                                  <div className={styles.sectionTime}>
+                                    {convertSecondsToTimeString(
+                                      item.startFrame
+                                    )}{' '}
+                                    -{' '}
+                                    {convertSecondsToTimeString(item.endFrame)}
+                                  </div>
+                                </Col>
+                              </Row>
                             </div>
                           ))
                         ) : (
                           <div className={styles.noSection}>
-                            No video section found.
+                            {t('noVideoSection')}
                           </div>
                         )}
                       </div>
@@ -360,18 +420,30 @@ const Home = () => {
               {!isLoadingVideo && (
                 <div className={styles.videoInforWrapper}>
                   <div>
-                    <span>Video name:</span> {videoDetail.name}
+                    <span className={styles.subLabel}>
+                      {t('videoNameLabel')}:
+                    </span>
+                    <span className={styles.subValue}>{videoDetail.name}</span>
                   </div>
                   <div>
-                    <span>Category:</span> {videoDetail.subCategory?.name}
+                    <span className={styles.subLabel}>
+                      {t('videoCategoryLabel')}:
+                    </span>
+                    <span className={styles.subValue}>
+                      {videoDetail.subCategory?.name}
+                    </span>
                   </div>
                   <div>
-                    <span>Sub-category:</span>{' '}
-                    {videoDetail.subCategory?.category?.name}
+                    <span className={styles.subLabel}>
+                      {t('videoSubCategoryLabel')}:
+                    </span>
+                    <span className={styles.subValue}>
+                      {videoDetail.subCategory?.category?.name}
+                    </span>
                   </div>
                   <div>
-                    <Button type="button" onClick={onCloseModal}>
-                      Close
+                    <Button block type="button" onClick={onCloseModal}>
+                      {t('videoCLoseBtn')}
                     </Button>
                   </div>
                 </div>
