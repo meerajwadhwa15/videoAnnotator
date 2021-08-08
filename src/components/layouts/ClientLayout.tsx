@@ -1,4 +1,4 @@
-import { Container, Row, Col, Navbar } from 'shards-react';
+import { Container, Row, Col } from 'shards-react';
 import { useTranslation } from 'next-i18next';
 import Footer from 'components/elements/footer';
 
@@ -10,9 +10,9 @@ const ClientLayout = ({ children }) => {
       <Row noGutters>
         <Col xs="12">
           <div className="client-navbar">
-            <Navbar style={{ justifyContent: 'center' }} type="light">
+            <nav>
               <h4>{t('home')}</h4>
-            </Navbar>
+            </nav>
           </div>
         </Col>
         <Col xs="12">{children}</Col>

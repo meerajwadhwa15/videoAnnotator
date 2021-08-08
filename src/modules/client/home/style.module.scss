@@ -55,18 +55,18 @@
   overflow: auto;
   z-index: 1;
   border: 1px solid #007bff;
-  -moz-transform: translateX(100%);
-  -webkit-transform: translateX(100%);
   transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  -moz-transform: translateX(100%);
   transition: -webkit-transform 200ms ease-in-out;
   transition: transform 200ms ease-in-out;
   transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
 }
 
 .watchVMWrapperOpen {
+  transform: translateX(0);
   -moz-transform: translateX(0);
   -webkit-transform: translateX(0);
-  transform: translateX(0);
 }
 
 .modalHeader {
@@ -125,6 +125,12 @@
 .cardBody {
   padding: 10px;
   text-align: center;
+}
+
+.cardDes {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .videoInforWrapper {
@@ -190,7 +196,8 @@
 .sectionContent {
   position: relative;
   height: calc(100% - 40px);
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .sectionItem {
