@@ -222,12 +222,14 @@ h6 {
 /*********************
 *****CLIENT PAGES*****
 *********************/
-
 .client-navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
   -webkit-box-shadow: 0 0.125rem 0.625rem rgb(90 97 105 / 12%);
   box-shadow: 0 0.125rem 0.625rem rgb(90 97 105 / 12%);
   border-bottom: 1px solid #e1e5eb !important;
-  height: 60px;
 }
 
 .table td,

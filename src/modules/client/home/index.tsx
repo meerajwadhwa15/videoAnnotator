@@ -31,7 +31,6 @@ import { Category } from 'models';
 import { request } from 'utils/apiClient';
 import { convertSecondsToTimeString } from 'utils/helpers';
 import styles from './style.module.scss';
-import classNames from 'classnames';
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -91,6 +90,15 @@ const Home = () => {
     typeof values.categoryId === 'string' ? values.categoryId : '';
 
   useEffect(() => {
+    if (query.videoId) {
+      setWatchVideoModal(true);
+      setLoadingVideo(true);
+      dispatch(getVideoDetail(Number(query.videoId)));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     const fetchSubCategory = async () => {
       try {
         setLoadingCat(true);
@@ -116,20 +124,21 @@ const Home = () => {
   }
 
   function clearFormData() {
-    if (Object.keys(query).length == 0) {
-      return;
+    if (values.search || values.categoryId || values.subcategoryId) {
+      setFieldValue('search', '');
+      setFieldValue('categoryId', '');
+      setFieldValue('subcategoryId', '');
     }
 
-    setFieldValue('search', '');
-    setFieldValue('categoryId', '');
-    setFieldValue('subcategoryId', '');
-    router.push(
-      {
-        pathname: pathname,
-        query: {},
-      }
-      // undefined, { shallow: true }
-    );
+    if (Object.keys(query).length > 0) {
+      router.push(
+        {
+          pathname: pathname,
+          query: {},
+        }
+        // undefined, { shallow: true }
+      );
+    }
   }
 
   function onSearchAnnotation(event) {
@@ -152,15 +161,43 @@ const Home = () => {
   }
 
   function onOpenModal(videoId) {
+    const newQuery = {
+      ...query,
+      videoId,
+    };
+
     setWatchVideoModal(true);
     setLoadingVideo(true);
     dispatch(getVideoDetail(videoId));
+    router.push(
+      {
+        pathname: pathname,
+        query: newQuery,
+      },
+      undefined,
+      { shallow: true }
+    );
   }
 
   function onCloseModal() {
     const player = videoRef.current.getInternalPlayer();
     if (player && player.stopVideo) {
       player.stopVideo();
+    }
+
+    if (query.videoId) {
+      delete query.videoId;
+      const newQuery = {
+        ...query,
+      };
+      router.push(
+        {
+          pathname: pathname,
+          query: newQuery,
+        },
+        undefined,
+        { shallow: true }
+      );
     }
 
     setActiveSection(null);
@@ -286,7 +323,12 @@ const Home = () => {
                         </div>
                         <CardBody className={styles.cardBody}>
                           <CardTitle>{data.name}</CardTitle>
-                          <p>{data.description}</p>
+                          <p
+                            title={data.description}
+                            className={styles.cardDes}
+                          >
+                            {data.description}
+                          </p>
                         </CardBody>
                       </Card>
                     </a>
@@ -379,7 +421,7 @@ const Home = () => {
                               }}
                             >
                               <Row>
-                                <Col lg="3">
+                                <Col xs="3">
                                   <div className={styles.thumbnailWrapper}>
                                     <img
                                       className={styles.thumbnailImg}
@@ -392,7 +434,7 @@ const Home = () => {
                                     />
                                   </div>
                                 </Col>
-                                <Col lg="9">
+                                <Col xs="9">
                                   <div className={styles.sectionLabel}>
                                     {item.label}
                                   </div>
