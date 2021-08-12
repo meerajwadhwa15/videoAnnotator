@@ -5,13 +5,5 @@
   "videoCategoryLabel": "Thể loại",
   "videoSubCategoryLabel": "Thể loại con",
   "videoSearchBtn": "Tìm kiếm",
-  "videoClearBtn": "Hủy",
-  "searchAnnotation": "Tìm kiếm chú thích...",
-  "noVideo": "Không tìm thấy video",
-  "loadingVideoText": "Đang tải...",
-  "videoSectionText": "Đi tới chú thích",
-  "noVideoSection": "Không tìm thấy chú thích.",
-  "videoNameLabel": "Tên video",
-  "videoCLoseBtn": "Đóng",
-  "videoLoadError": "Tải thông tin video thất bại"
+  "videoClearBtn": "Hủy"
 }

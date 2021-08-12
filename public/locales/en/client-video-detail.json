@@ -1,0 +1,15 @@
+{
+  "detail": "Video Detail page",
+  "videoNameLabel": "Video name",
+  "videoCategoryLabel": "Category",
+  "videoSubCategoryLabel": "Sub category",
+  "addTo": "Add to",
+  "likeVideoToolTip": "I like this video",
+  "unLikeVideoToolTip": "I don't like this video",
+  "searchAnnotation": "Search annotation...",
+  "noVideo": "No videos found",
+  "loadingVideoText": "Loading video...",
+  "videoSectionText": "Video section",
+  "noVideoSection": "No video section found.",
+  "videoLoadError": "Loading video error"
+}

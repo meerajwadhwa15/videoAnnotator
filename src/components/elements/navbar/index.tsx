@@ -14,6 +14,7 @@ import {
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
 
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { toggleSidebar } from 'components/elements/slice';
@@ -23,7 +24,6 @@ import { clientCookies } from 'utils/clientCookies';
 import { ADMIN_ROUTING } from 'utils/constants';
 import styles from './style.module.scss';
 import classNames from 'classnames';
-import Link from 'next/link';
 
 const MainNavbar = () => {
   const { t } = useTranslation(['common']);
