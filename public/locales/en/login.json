@@ -13,5 +13,6 @@
   "requiredEmailError": "Email is required",
   "invalidEmailError": "Please enter valid email address",
   "requiredPasswordError": "Password is required",
+  "loginSuccessMessage": "Login successful",
   "loginFailMessage": "🚀 Login failed"
 }

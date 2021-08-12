@@ -8,3 +8,9 @@ export interface AlertMessage {
   type: AlertMessageType;
   text: string;
 }
+
+export enum UserType {
+  admin = 1,
+  normal = 2,
+  consumer = 3,
+}

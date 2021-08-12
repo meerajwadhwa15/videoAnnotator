@@ -13,6 +13,8 @@ import profileReducer from 'modules/admin/profile/slice';
 import clientHomeReducer from 'modules/client/home/slice';
 import elementReducer from 'components/elements/slice';
 
+import authClientReducer from 'modules/client/authentication/slice';
+
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
@@ -27,6 +29,7 @@ export const store = configureStore({
     profile: profileReducer,
     clientHome: clientHomeReducer,
     element: elementReducer,
+    authClient: authClientReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),
