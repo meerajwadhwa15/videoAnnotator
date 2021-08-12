@@ -5,8 +5,9 @@ import { AuthStatus } from './types';
 
 import style from './style.module.scss';
 
-import { Login, Signup, Verify } from './components';
+import { ForgetPassword, Login, Signup, Verify } from './components';
 import { useTranslation } from 'next-i18next';
+import { ResetPassword } from './components/ResetPassword';
 
 export const ConsumerAuthentication = () => {
   const status = useAppSelector(authStatusSelector);
@@ -19,6 +20,10 @@ export const ConsumerAuthentication = () => {
         return <Login />;
       case AuthStatus.signup:
         return <Signup />;
+      case AuthStatus.forgotPass:
+        return <ForgetPassword />;
+      case AuthStatus.resetPass:
+        return <ResetPassword />;
       default:
         return <Verify />;
     }
@@ -30,6 +35,10 @@ export const ConsumerAuthentication = () => {
         return t('login:loginFormTitle');
       case AuthStatus.signup:
         return t('signup:signupFormTitle');
+      case AuthStatus.forgotPass:
+        return t('forgot-password:formTitle');
+      case AuthStatus.resetPass:
+        return t('reset-password:resetPassFormTitle');
       default:
         return t('signup:verifyEmail');
     }

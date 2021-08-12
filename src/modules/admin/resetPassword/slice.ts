@@ -1,6 +1,6 @@
 import { createSlice, createAction } from '@reduxjs/toolkit';
 import type { RootState } from 'redux/store';
-import { ResetState, ResetData } from './types';
+import { ResetState, ResetPassData } from './types';
 
 const initialState: ResetState = {
   loading: false,
@@ -16,7 +16,7 @@ export const [
   resetPasswordFail,
   clearMessage,
 ] = [
-  createAction<ResetData>('reset/resetPassword'),
+  createAction<ResetPassData>('reset/resetPassword'),
   createAction('reset/resetPasswordSuccess'),
   createAction('reset/resetPasswordFail'),
   createAction('reset/clearMessage'),

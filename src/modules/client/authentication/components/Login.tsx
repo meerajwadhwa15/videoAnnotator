@@ -67,12 +67,20 @@ export const Login = () => {
           ? t('login:loadingSigninTitle')
           : t('login:loginFormSubmitButton')}
       </Button>
-      <p
-        onClick={() => dispatch(setStatus(AuthStatus.signup))}
-        className="mt-2 text-center nav-link hover-underline cursor-pointer"
-      >
-        {t('login:toSignup')}
-      </p>
+      <div className="d-flex mt-4">
+        <p
+          onClick={() => dispatch(setStatus(AuthStatus.forgotPass))}
+          className="text-center hover-underline cursor-pointer mr-2"
+        >
+          {t('login:toForgotPassword')}
+        </p>
+        <p
+          onClick={() => dispatch(setStatus(AuthStatus.signup))}
+          className="text-center hover-underline cursor-pointer"
+        >
+          {t('login:toSignup')}
+        </p>
+      </div>
     </Form>
   );
 };

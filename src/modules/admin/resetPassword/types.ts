@@ -7,7 +7,7 @@ export interface Message {
   type: string;
   text: string;
 }
-export interface ResetData {
+export interface ResetPassData {
   password: string;
   matchingPassword: string;
   token: string | undefined | string[];

@@ -7,10 +7,10 @@ import {
   resetPasswordSuccess,
   resetPasswordFail,
 } from './slice';
-import { ResetData } from './types';
+import { ResetPassData } from './types';
 import { ADMIN_ROUTING, API_ENDPOINT } from 'utils/constants';
 
-function* resetPasswordWorker({ payload }: PayloadAction<ResetData>) {
+function* resetPasswordWorker({ payload }: PayloadAction<ResetPassData>) {
   try {
     const { token, ...data } = payload;
     yield call(

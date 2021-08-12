@@ -4,9 +4,9 @@ import * as actions from './actions';
 import { AuthStatus, ConsumerAuthenState } from './types';
 
 const initialState: ConsumerAuthenState = {
-  open: true,
+  open: false,
   loading: false,
-  status: AuthStatus.verify,
+  status: AuthStatus.resetPass,
 };
 
 const authSlice = createSlice({
@@ -48,6 +48,26 @@ const authSlice = createSlice({
       state.loading = false;
     },
     [actions.dispatchLoginFail.type](state) {
+      state.loading = false;
+    },
+    [actions.dispatchForgetPass.type](state) {
+      state.loading = true;
+    },
+    [actions.dispatchForgetPassSuccess.type](state) {
+      state.loading = false;
+      state.status = AuthStatus.resetPass;
+    },
+    [actions.dispatchForgetPassFail.type](state) {
+      state.loading = false;
+    },
+    [actions.dispatchResetPass.type](state) {
+      state.loading = true;
+    },
+    [actions.dispatchResetPassSuccess.type](state) {
+      state.loading = false;
+      state.status = AuthStatus.login;
+    },
+    [actions.dispatchResetPassFail.type](state) {
       state.loading = false;
     },
   },
