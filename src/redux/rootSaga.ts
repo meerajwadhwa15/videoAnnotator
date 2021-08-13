@@ -9,7 +9,7 @@ import videoDetailSaga from 'modules/admin/videoDetail/saga';
 import profileSaga from 'modules/admin/profile/saga';
 import clientHomeSaga from 'modules/client/home/saga';
 
-import authConsumerSaga from 'modules/client/authentication/saga';
+import authConsumerSaga from 'modules/authentication/saga';
 
 export default function* rootSaga() {
   yield all([

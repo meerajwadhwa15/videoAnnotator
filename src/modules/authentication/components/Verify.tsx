@@ -1,10 +1,11 @@
 import { Input } from 'components/elements';
 import { useTranslation } from 'next-i18next';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Button } from 'shards-react';
 import { dispatchVerifyEmail } from '../actions';
 import { loadingSelector } from '../slice';
+import { ResendPasscode } from './ResendPasscode';
 
 export const Verify = () => {
   const dispatch = useAppDispatch();
@@ -13,10 +14,11 @@ export const Verify = () => {
   const [passcode, setPasscode] = useState<string>('');
   const [error, setError] = useState<string>('');
 
-  const onSubmit = () => {
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
     const token = passcode.trim();
     if (!token) {
-      return setError('passcode is required');
+      return setError(t('signup:passcodeIsRequired'));
     }
     return dispatch(dispatchVerifyEmail({ token }));
   };
@@ -24,7 +26,7 @@ export const Verify = () => {
   return (
     <div>
       <p>{t('signup:verifyEmailDesc')}</p>
-      <div className="d-flex">
+      <form onSubmit={onSubmit} className="d-flex">
         <div className="flex-grow-1 mr-2">
           <Input
             errorMessage={error}
@@ -35,11 +37,17 @@ export const Verify = () => {
           />
         </div>
         <div>
-          <Button disabled={loading} onClick={onSubmit} title="re-sent">
+          <Button
+            type="submit"
+            disabled={loading}
+            onClick={onSubmit}
+            title="re-sent"
+          >
             {loading ? t('login:loadingSigninTitle') : t('common:submitButton')}
           </Button>
         </div>
-      </div>
+      </form>
+      <ResendPasscode />
     </div>
   );
 };

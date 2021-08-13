@@ -1,7 +1,7 @@
 import { Container, Row, Col } from 'shards-react';
 import { useTranslation } from 'next-i18next';
 import Footer from 'components/elements/footer';
-import { ConsumerAuthentication } from 'modules/client/authentication';
+import { ConsumerAuthentication } from 'modules/authentication';
 
 const ClientLayout = ({ children }) => {
   const { t } = useTranslation(['client-home']);

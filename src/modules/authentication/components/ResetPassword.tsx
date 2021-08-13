@@ -7,6 +7,7 @@ import { Form, Button } from 'shards-react';
 import { loadingSelector, setStatus } from '../slice';
 import { dispatchResetPass } from '../actions';
 import { AuthStatus } from '../types';
+import { ResendPasscode } from './ResendPasscode';
 
 export const ResetPassword = () => {
   const dispatch = useAppDispatch();
@@ -63,11 +64,12 @@ export const ResetPassword = () => {
         label={t('signup:enterPasscode')}
         placeholder={t('signup:enterPasscode')}
       />
+      <ResendPasscode />
       <Button
         block
         type="submit"
         disabled={loading}
-        className="d-table mx-auto"
+        className="d-table mx-auto mt-1"
       >
         {loading
           ? t('reset-password:createNewPasswordLoadingBtn')

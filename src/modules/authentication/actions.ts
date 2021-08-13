@@ -7,7 +7,7 @@ const prefix = 'auth/consumer';
 
 export const [dispatchSignup, dispatchSignupSuccess, dispatchSignupFail] = [
   createAction<SignupData>(`${prefix}/dispatchSignup`),
-  createAction(`${prefix}/dispatchSignupSuccess`),
+  createAction<{ email: string }>(`${prefix}/dispatchSignupSuccess`),
   createAction(`${prefix}/dispatchSignupFail`),
 ];
 
@@ -33,7 +33,7 @@ export const [
   dispatchForgetPassFail,
 ] = [
   createAction<{ email: string }>(`${prefix}/dispatchForgetPass`),
-  createAction(`${prefix}/dispatchForgetPassSuccess`),
+  createAction<{ email: string }>(`${prefix}/dispatchForgetPassSuccess`),
   createAction(`${prefix}/dispatchForgetPassFail`),
 ];
 

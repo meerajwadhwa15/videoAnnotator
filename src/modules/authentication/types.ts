@@ -9,5 +9,6 @@ export enum AuthStatus {
 export interface ConsumerAuthenState {
   open: boolean;
   loading: boolean;
+  confirmEmail: string;
   status: AuthStatus;
 }

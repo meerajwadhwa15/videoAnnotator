@@ -18,7 +18,7 @@ export function* signUpWorker({ payload }: PayloadAction<SignupData>) {
       ...payload,
       userType: UserType.consumer,
     });
-    yield put(actions.dispatchSignupSuccess());
+    yield put(actions.dispatchSignupSuccess({ email: payload.email }));
     toast.success(i18n?.t('signup:signupSuccessMessage'));
     toast.success('Signup successfull');
   } catch (error) {
@@ -59,11 +59,9 @@ export function* loginWorker({ payload }: PayloadAction<LoginData>) {
 
 function* forgotPasswordWorker({ payload }: PayloadAction<{ email: string }>) {
   try {
-    yield call(
-      request.post,
-      `${API_ENDPOINT.forgotPassword}?email=${payload.email}`
-    );
-    yield put(actions.dispatchForgetPassSuccess());
+    const { email } = payload;
+    yield call(request.post, `${API_ENDPOINT.forgotPassword}?email=${email}`);
+    yield put(actions.dispatchForgetPassSuccess({ email }));
     toast.success(i18n?.t('forgot-password:sendSuccess'));
   } catch (error) {
     toast.error(i18n?.t('forgot-password:sendError'));

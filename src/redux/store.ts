@@ -13,7 +13,7 @@ import profileReducer from 'modules/admin/profile/slice';
 import clientHomeReducer from 'modules/client/home/slice';
 import elementReducer from 'components/elements/slice';
 
-import authClientReducer from 'modules/client/authentication/slice';
+import authClientReducer from 'modules/authentication/slice';
 
 const sagaMiddleware = createSagaMiddleware();
 

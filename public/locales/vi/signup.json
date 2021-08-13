@@ -28,5 +28,10 @@
   "verifyEmailDesc": "Nhập mã code vừa được gửi vào email của bạn",
   "enterPasscode": "Nhập mã code",
   "verifyPasscodeSuccess": "Xác thưc email thành công",
-  "verifyPasscodeFail": "Xác thực email thất bại"
+  "verifyPasscodeFail": "Xác thực email thất bại",
+  "passcodeIsRequired": "Mã code là trường bắt buộc",
+  "resendPasscode": "Gửi lại mã code",
+  "resendPasscodeCountDown": "Gửi lại mã code trong {{count}}s",
+  "resendPasscodeSuccess": "Gửi mã code thành công",
+  "resendPasscodeFail": "Gửi mã code thất bại"
 }
