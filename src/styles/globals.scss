@@ -248,3 +248,13 @@ h6 {
 i.material-icons {
   font-size: 16px;
 }
+
+.hover-underline {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

@@ -13,5 +13,6 @@
   "requiredEmailError": "Email là trường bắt buộc",
   "invalidEmailError": "Hãy nhập địa chỉ email hợp lệ",
   "requiredPasswordError": "Mật khẩu là trường bắt buộc",
+  "loginSuccessMessage": "Login successful",
   "loginFailMessage": "Đăng nhập thất bại"
 }

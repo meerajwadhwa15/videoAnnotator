@@ -23,5 +23,15 @@
   "toSigninLink": "Sign In?",
   "signupSuccessMessage": "🚀 Signup successfully!",
   "failToSignupError": "🚀 Signup error!",
-  "dummyText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras molestie leo eget sapien mattis semper. Nam ultrices nisl lorem, nec congue leo hendrerit eu. Morbi a varius lacus. Donec ut quam porttitor velit vehicula semper. Fusce commodo ligula in felis scelerisque gravida. Quisque dapibus luctus lorem sed laoreet. Aliquam nec pretium lorem, at porta odio. Duis sit amet ipsum augue. Quisque eu vehicula nibh, nec tincidunt purus. Nunc nec nibh consectetur, fringilla est et, mollis massa. Vestibulum venenatis mauris a elit placerat, quis mollis nibh feugiat. Morbi sit amet est scelerisque, maximus tellus vel, malesuada metus. Vivamus vel dolor non sem rhoncus pretium. Quisque commodo posuere volutpat. Praesent a auctor magna. Morbi molestie euismod purus, id posuere nibh interdum eget. Nulla vitae volutpat nisi. Quisque vestibulum ultrices nisi. Nulla suscipit ultrices turpis, a consequat enim tempus a. Nullam tempor mauris eget venenatis tristique."
+  "dummyText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras molestie leo eget sapien mattis semper. Nam ultrices nisl lorem, nec congue leo hendrerit eu. Morbi a varius lacus. Donec ut quam porttitor velit vehicula semper. Fusce commodo ligula in felis scelerisque gravida. Quisque dapibus luctus lorem sed laoreet. Aliquam nec pretium lorem, at porta odio. Duis sit amet ipsum augue. Quisque eu vehicula nibh, nec tincidunt purus. Nunc nec nibh consectetur, fringilla est et, mollis massa. Vestibulum venenatis mauris a elit placerat, quis mollis nibh feugiat. Morbi sit amet est scelerisque, maximus tellus vel, malesuada metus. Vivamus vel dolor non sem rhoncus pretium. Quisque commodo posuere volutpat. Praesent a auctor magna. Morbi molestie euismod purus, id posuere nibh interdum eget. Nulla vitae volutpat nisi. Quisque vestibulum ultrices nisi. Nulla suscipit ultrices turpis, a consequat enim tempus a. Nullam tempor mauris eget venenatis tristique.",
+  "verifyEmail": "Verify Your Email",
+  "verifyEmailDesc": "Enter passcode that had been sent to your email",
+  "enterPasscode": "Enter passcode",
+  "verifyPasscodeSuccess": "Verify email successfull",
+  "verifyPasscodeFail": "Verify email successfull",
+  "passcodeIsRequired": "passcode is required",
+  "resendPasscode": "Resend passcode",
+  "resendPasscodeCountDown": "Resend passcode in {{count}}s",
+  "resendPasscodeSuccess": "Resend passcode successfull",
+  "resendPasscodeFail": "Resend passcode failed"
 }

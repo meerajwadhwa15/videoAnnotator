@@ -5,6 +5,7 @@ export const API_ENDPOINT = {
   forgotPassword: 'user/resetPassword',
   resetPassword: 'user/newPassword',
   changePassword: 'user/changePassword',
+  resetPasscode: 'user/resend',
   profile: 'user/profile',
   video: 'video',
   usersList: 'user/list',
