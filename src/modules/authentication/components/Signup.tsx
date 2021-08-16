@@ -8,7 +8,7 @@ import { dispatchSignup } from '../actions';
 import { loadingSelector, setStatus } from '../slice';
 import { AuthStatus } from '../types';
 
-export const Signup = () => {
+export const Signup = ({ isAdmin }: { isAdmin: boolean }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation(['common', 'signup']);
   const loading = useAppSelector(loadingSelector);
@@ -22,7 +22,7 @@ export const Signup = () => {
     },
     validationSchema: SignupSchema(t),
     onSubmit(values) {
-      dispatch(dispatchSignup(values));
+      dispatch(dispatchSignup({ ...values, isAdmin }));
     },
   });
 

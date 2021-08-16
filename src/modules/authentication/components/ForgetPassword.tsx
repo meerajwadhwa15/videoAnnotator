@@ -3,9 +3,10 @@ import { useTranslation } from 'next-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { ForgotPassSchema } from 'validations/ForgotPassSchema';
 import { Form, Button } from 'shards-react';
-import { loadingSelector } from '../slice';
+import { loadingSelector, setStatus } from '../slice';
 import { Input } from 'components/elements';
 import { dispatchForgetPass } from '../actions';
+import { AuthStatus } from '../types';
 
 export const ForgetPassword = () => {
   const { t } = useTranslation();
@@ -45,6 +46,12 @@ export const ForgetPassword = () => {
           ? t('forgot-password:loadingSubmit')
           : t('forgot-password:formSubmitButton')}
       </Button>
+      <p
+        className="mt-4 mb-0 text-center hover-underline cursor-pointer"
+        onClick={() => dispatch(setStatus(AuthStatus.login))}
+      >
+        {t('forgot-password:toLogin')}
+      </p>
     </Form>
   );
 };

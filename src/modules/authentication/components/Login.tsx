@@ -8,7 +8,7 @@ import { dispatchLogin } from '../actions';
 import { loadingSelector, setStatus } from '../slice';
 import { AuthStatus } from '../types';
 
-export const Login = () => {
+export const Login = ({ isAdmin }: { isAdmin: boolean }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const loading = useAppSelector(loadingSelector);
@@ -22,7 +22,7 @@ export const Login = () => {
       },
       validationSchema: LoginSchema(t),
       onSubmit(values) {
-        dispatch(dispatchLogin(values));
+        dispatch(dispatchLogin({ ...values, isAdmin }));
       },
     });
 

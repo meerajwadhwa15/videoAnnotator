@@ -11,7 +11,7 @@ const initialState: ConsumerAuthenState = {
 };
 
 const authSlice = createSlice({
-  name: 'auth/consumer',
+  name: 'auth/module',
   initialState,
   reducers: {
     toggleLoginDialog: (state) => {
@@ -24,6 +24,11 @@ const authSlice = createSlice({
     },
     setStatus(state, action: PayloadAction<AuthStatus>) {
       state.status = action.payload;
+    },
+    resetAuthStatus: (state) => {
+      state.confirmEmail = '';
+      state.loading = false;
+      state.status = AuthStatus.login;
     },
   },
   extraReducers: {
@@ -87,7 +92,8 @@ const authSlice = createSlice({
   },
 });
 
-export const { toggleLoginDialog, setStatus } = authSlice.actions;
+export const { toggleLoginDialog, setStatus, resetAuthStatus } =
+  authSlice.actions;
 
 export const isOpenSelector = (state: RootState) => state.authClient.open;
 export const loadingSelector = (state: RootState) => state.authClient.loading;
