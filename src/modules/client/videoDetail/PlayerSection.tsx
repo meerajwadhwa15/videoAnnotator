@@ -12,6 +12,9 @@ interface Props {
   setLoadingVideo: (status: boolean) => void;
   onProgress: (state: any) => void;
   onVideoError: () => void;
+  toggleAddToModal: () => void;
+  onClickLike: () => void;
+  onClickUnlike: () => void;
 }
 
 const PlayerSection: FC<Props> = ({
@@ -21,6 +24,9 @@ const PlayerSection: FC<Props> = ({
   setLoadingVideo,
   onProgress,
   onVideoError,
+  toggleAddToModal,
+  onClickLike,
+  onClickUnlike,
 }) => {
   const { t } = useTranslation(['client-video-detail']);
 
@@ -45,15 +51,27 @@ const PlayerSection: FC<Props> = ({
             <p className={styles.vidDes}>{videoDetail.description}</p>
           </div>
           <div className={styles.metainfoRight}>
-            <button className={styles.btnMeta} title={t('likeVideoToolTip')}>
+            <button
+              className={styles.btnMeta}
+              title={t('likeVideoToolTip')}
+              onClick={onClickLike}
+            >
               <i className={`material-icons ${styles.iconMeta}`}>thumb_up</i>
               <span className={styles.textNextto}>555</span>
             </button>
-            <button className={styles.btnMeta} title={t('unLikeVideoToolTip')}>
+            <button
+              className={styles.btnMeta}
+              title={t('unLikeVideoToolTip')}
+              onClick={onClickUnlike}
+            >
               <i className={`material-icons ${styles.iconMeta}`}>thumb_down</i>
               <span className={styles.textNextto}>555</span>
             </button>
-            <button className={styles.btnMeta}>
+            <button
+              className={styles.btnMeta}
+              title={t('unLikeVideoToolTip')}
+              onClick={toggleAddToModal}
+            >
               <i className={`material-icons ${styles.iconMeta}`}>
                 library_books
               </i>

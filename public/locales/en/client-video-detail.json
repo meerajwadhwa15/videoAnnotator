@@ -6,10 +6,16 @@
   "addTo": "Add to",
   "likeVideoToolTip": "I like this video",
   "unLikeVideoToolTip": "I don't like this video",
+  "addToVideoToolTip": "Add to",
   "searchAnnotation": "Search annotation...",
   "noVideo": "No videos found",
   "loadingVideoText": "Loading video...",
   "videoSectionText": "Video section",
   "noVideoSection": "No video section found.",
+  "addToModalHeaderText": "Add to...",
+  "watchLaterText": "Watch later",
+  "saveFavoriteText": "Favorite video",
+  "addToSubmitBtn": "Save",
+  "addToCancelBtn": "Cancel",
   "videoLoadError": "Loading video error"
 }

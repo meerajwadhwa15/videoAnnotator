@@ -1,8 +1,8 @@
-import React, { FC, ChangeEvent } from 'react';
+import React, { FC, ChangeEvent, useState, useCallback } from 'react';
 import { Row, Col, FormInput } from 'shards-react';
 import { useTranslation } from 'next-i18next';
 
-import { convertSecondsToTimeString } from 'utils/helpers';
+import { convertSecondsToTimeString, isElementScrollable } from 'utils/helpers';
 import { VideoInfo } from 'models';
 import styles from './style.module.scss';
 
@@ -26,22 +26,28 @@ const AnnotationSection: FC<Props> = ({
   onSearchAnnotation,
 }) => {
   const { t } = useTranslation(['client-video-detail']);
+  const [isScrollable, setScroll] = useState(false);
+  const ref = useCallback((sectionRef) => {
+    if (sectionRef !== null) {
+      setScroll(isElementScrollable(sectionRef));
+      console.log('isElementScrollable', isElementScrollable(sectionRef));
+    }
+  }, []);
 
   return (
     <React.Fragment>
       {!isLoadingVideo && (
         <div className={styles.videoSection}>
           <div className={styles.sectionHeader}>{t('videoSectionText')}</div>
-          <div className={styles.sectionContent}>
-            {Array.isArray(videoDetailStore?.segments) &&
-              videoDetailStore.segments.length > 4 && (
-                <FormInput
-                  value={search}
-                  onChange={onSearchAnnotation}
-                  className={styles.searchAnnoInput}
-                  placeholder={t('searchAnnotation')}
-                />
-              )}
+          <div className={styles.sectionContent} ref={ref}>
+            {Array.isArray(videoDetailStore?.segments) && isScrollable && (
+              <FormInput
+                value={search}
+                onChange={onSearchAnnotation}
+                className={styles.searchAnnoInput}
+                placeholder={t('searchAnnotation')}
+              />
+            )}
             {Array.isArray(videoDetail.segments) &&
             videoDetail.segments.length > 0 ? (
               videoDetail.segments.map((item) => (

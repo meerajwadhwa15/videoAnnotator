@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import ClientLayout from 'components/layouts/ClientLayout';
 import PlayerSection from './PlayerSection';
 import AnnotationSection from './AnnotationSection';
+import AddToVideoModal from './AddToVideoModal';
 import { VideoInfo } from 'models';
 import { videoDetailSelector } from './slice';
 import styles from './style.module.scss';
@@ -19,13 +20,15 @@ const VideoDetail = () => {
 
   const [search, setSearch] = useState<string>('');
   const [videoDetail, setVideoDetail] = useState<VideoInfo>(videoDetailStore);
-  const [isLoadingVideo, setLoadingVideo] = useState<boolean>(true);
   const [activeSection, setActiveSection] = useState<number | null>(null);
+  const [isLoadingVideo, setLoadingVideo] = useState<boolean>(true);
+  const [isAddToModalOpen, setAddToModal] = useState<boolean>(false);
 
   const videoRef = useRef<any>();
 
   useEffect(() => {
     setVideoDetail(videoDetailStore);
+    console.log('videoDetailStore', videoDetailStore);
   }, [videoDetailStore]);
 
   function ref(player) {
@@ -45,17 +48,16 @@ const VideoDetail = () => {
   }
 
   function onProgress(state) {
-    console.log('state', state);
-    // const { playedSeconds } = state;
-    // const foundSegments = videoDetail.segments.find((segment) => {
-    //   return (
-    //     playedSeconds >= segment.startFrame && playedSeconds < segment.endFrame
-    //   );
-    // });
-    // const newActive = foundSegments ? foundSegments.id : null;
-    // if (newActive !== activeSection) {
-    //   setActiveSection(newActive);
-    // }
+    const { playedSeconds } = state;
+    const foundSegments = videoDetail.segments.find((segment) => {
+      return (
+        playedSeconds >= segment.startFrame && playedSeconds < segment.endFrame
+      );
+    });
+    const newActive = foundSegments ? foundSegments.id : null;
+    if (newActive !== activeSection) {
+      setActiveSection(newActive);
+    }
   }
 
   function onSearchAnnotation(event) {
@@ -77,10 +79,22 @@ const VideoDetail = () => {
     });
   }
 
+  function toggleAddToModal() {
+    setAddToModal(!isAddToModalOpen);
+  }
+
   function onVideoError() {
     toast.error(t('videoLoadError'));
     setLoadingVideo(false);
   }
+
+  function onSaveAddTo() {
+    console.log('1');
+  }
+
+  function onClickLike() {}
+
+  function onClickUnlike() {}
 
   return (
     <ClientLayout>
@@ -98,6 +112,9 @@ const VideoDetail = () => {
               videoDetail={videoDetail}
               onProgress={onProgress}
               onVideoError={onVideoError}
+              toggleAddToModal={toggleAddToModal}
+              onClickLike={onClickLike}
+              onClickUnlike={onClickUnlike}
             />
           </Col>
           <Col lg="4" md="12">
@@ -112,6 +129,12 @@ const VideoDetail = () => {
               onSearchAnnotation={onSearchAnnotation}
             />
           </Col>
+          {/* AddToVideoModal */}
+          <AddToVideoModal
+            isAddToModalOpen={isAddToModalOpen}
+            toggleAddToModal={toggleAddToModal}
+            onSaveAddTo={onSaveAddTo}
+          />
         </Row>
       </Col>
     </ClientLayout>
