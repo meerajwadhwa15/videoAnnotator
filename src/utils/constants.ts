@@ -29,6 +29,7 @@ export const ADMIN_ROUTING = {
 
 export const CLIENT_ROUTING = {
   home: '/',
+  videoDetail: '/video-detail',
 };
 
 export const PAGE_SIZE = 10;

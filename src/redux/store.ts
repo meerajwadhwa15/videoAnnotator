@@ -7,6 +7,7 @@ import homeReducer from 'modules/admin/home/slice';
 import videoDetailReducer from 'modules/admin/videoDetail/slice';
 import profileReducer from 'modules/admin/profile/slice';
 import clientHomeReducer from 'modules/client/home/slice';
+import clientVideoDetailReducer from 'modules/client/videoDetail/slice';
 import elementReducer from 'components/elements/slice';
 
 import authClientReducer from 'modules/authentication/slice';
@@ -20,6 +21,7 @@ export const store = configureStore({
     videoDetail: videoDetailReducer,
     profile: profileReducer,
     clientHome: clientHomeReducer,
+    clientVideoDetail: clientVideoDetailReducer,
     element: elementReducer,
     authClient: authClientReducer,
   },

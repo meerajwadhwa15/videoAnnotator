@@ -1,4 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import {
   Row,
   Col,
@@ -8,54 +10,37 @@ import {
   CardImg,
   CardBody,
   Button,
-  FormInput,
 } from 'shards-react';
-import ReactPlayer from 'react-player/lazy';
-import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppSelector } from 'redux/hooks';
 import {
-  getVideoDetail,
   videosListSelector,
-  videoDetailSelector,
   categoriesSelector,
   videoListPaginationSelector,
-  loadingSelector,
 } from './slice';
 import ClientLayout from 'components/layouts/ClientLayout';
 import { Input, Select } from 'components/elements';
 import { Pagination } from 'components/elements/Pagination';
 import { Category } from 'models';
 import { request } from 'utils/apiClient';
-import { convertSecondsToTimeString } from 'utils/helpers';
+import { CLIENT_ROUTING } from 'utils/constants';
 import styles from './style.module.scss';
 
 const Home = () => {
-  const dispatch = useAppDispatch();
   const { pathname, query } = useRouter();
   const router = useRouter();
   const { t } = useTranslation(['client-home']);
-  const videoRef = useRef<any>();
 
   const videosData = useAppSelector(videosListSelector);
-  const videoDetailStore = useAppSelector(videoDetailSelector);
   const categories = useAppSelector(categoriesSelector);
   const { totalPage, totalRecord } = useAppSelector(
     videoListPaginationSelector
   );
-  const isLoading = useAppSelector(loadingSelector);
-
-  const [watchVideoModal, setWatchVideoModal] = useState(false);
-  const [isLoadingVideo, setLoadingVideo] = useState<boolean>(false);
-  const [activeSection, setActiveSection] = useState<number | null>(null);
   const [subCategory, setSubcategory] = useState<Record<string, Category[]>>(
     {}
   );
-  const [search, setSearch] = useState<string>('');
   const [loadingCat, setLoadingCat] = useState<boolean>(false);
-  const [videoDetail, setVideoDetail] = useState(videoDetailStore);
 
   const form = useFormik({
     initialValues: {
@@ -90,15 +75,6 @@ const Home = () => {
     typeof values.categoryId === 'string' ? values.categoryId : '';
 
   useEffect(() => {
-    if (query.videoId) {
-      setWatchVideoModal(true);
-      setLoadingVideo(true);
-      dispatch(getVideoDetail(Number(query.videoId)));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     const fetchSubCategory = async () => {
       try {
         setLoadingCat(true);
@@ -114,14 +90,6 @@ const Home = () => {
       fetchSubCategory();
     }
   }, [categoryId, subCategory]);
-
-  useEffect(() => {
-    setVideoDetail(videoDetailStore);
-  }, [videoDetailStore]);
-
-  function ref(player) {
-    videoRef.current = player;
-  }
 
   function clearFormData() {
     if (values.search || values.categoryId || values.subcategoryId) {
@@ -139,99 +107,6 @@ const Home = () => {
         // undefined, { shallow: true }
       );
     }
-  }
-
-  function onSearchAnnotation(event) {
-    setSearch(event.target.value);
-    const value = event.target.value.trim().toLowerCase();
-
-    if (!value) {
-      setVideoDetail(videoDetailStore);
-      return;
-    }
-
-    const foundAnnotations = videoDetailStore.segments.filter((segment) => {
-      return segment.label.toLowerCase().includes(value);
-    });
-
-    setVideoDetail({
-      ...videoDetailStore,
-      segments: [...foundAnnotations],
-    });
-  }
-
-  function onOpenModal(videoId) {
-    const newQuery = {
-      ...query,
-      videoId,
-    };
-
-    setWatchVideoModal(true);
-    setLoadingVideo(true);
-    dispatch(getVideoDetail(videoId));
-    router.push(
-      {
-        pathname: pathname,
-        query: newQuery,
-      },
-      undefined,
-      { shallow: true }
-    );
-  }
-
-  function onCloseModal() {
-    const player = videoRef.current.getInternalPlayer();
-    if (player && player.stopVideo) {
-      player.stopVideo();
-    }
-
-    if (query.videoId) {
-      delete query.videoId;
-      const newQuery = {
-        ...query,
-      };
-      router.push(
-        {
-          pathname: pathname,
-          query: newQuery,
-        },
-        undefined,
-        { shallow: true }
-      );
-    }
-
-    setActiveSection(null);
-    setWatchVideoModal(false);
-  }
-
-  function onSeekToSection(id, frame) {
-    setActiveSection(id);
-    videoRef.current.seekTo(frame, 'seconds');
-
-    const player = videoRef.current.getInternalPlayer();
-    if (player.playVideo) {
-      player.playVideo();
-    } else if (player.play) {
-      player.play();
-    }
-  }
-
-  function onProgress(state) {
-    const { playedSeconds } = state;
-    const foundSegments = videoDetail.segments.find((segment) => {
-      return (
-        playedSeconds >= segment.startFrame && playedSeconds < segment.endFrame
-      );
-    });
-    const newActive = foundSegments ? foundSegments.id : null;
-    if (newActive !== activeSection) {
-      setActiveSection(newActive);
-    }
-  }
-
-  function onVideoError() {
-    toast.error(t('videoLoadError'));
-    setLoadingVideo(false);
   }
 
   return (
@@ -306,32 +181,32 @@ const Home = () => {
               <Row>
                 {videosData.map((data) => (
                   <Col xl="2" lg="3" sm="4" xs="12" key={data.id}>
-                    <a
-                      href="#"
-                      onClick={() => {
-                        onOpenModal(data.id);
-                      }}
-                      className={styles.videoItem}
+                    <Link
+                      href={`${CLIENT_ROUTING.videoDetail}/${data.id}`}
+                      locale={router.locale}
                     >
-                      <Card className={styles.card}>
-                        <div className={styles.imgWrapper}>
-                          <CardImg
-                            src={
-                              data.thumbnail || 'https://place-hold.it/300x300'
-                            }
-                          />
-                        </div>
-                        <CardBody className={styles.cardBody}>
-                          <CardTitle>{data.name}</CardTitle>
-                          <p
-                            title={data.description}
-                            className={styles.cardDes}
-                          >
-                            {data.description}
-                          </p>
-                        </CardBody>
-                      </Card>
-                    </a>
+                      <a className={styles.videoItem}>
+                        <Card className={styles.card}>
+                          <div className={styles.imgWrapper}>
+                            <CardImg
+                              src={
+                                data.thumbnail ||
+                                'https://place-hold.it/300x300'
+                              }
+                            />
+                          </div>
+                          <CardBody className={styles.cardBody}>
+                            <CardTitle>{data.name}</CardTitle>
+                            <p
+                              title={data.description}
+                              className={styles.cardDes}
+                            >
+                              {data.description}
+                            </p>
+                          </CardBody>
+                        </Card>
+                      </a>
+                    </Link>
                   </Col>
                 ))}
               </Row>
@@ -341,155 +216,6 @@ const Home = () => {
                 totalRecord={totalRecord}
                 showTotalRecords={false}
               />
-            </React.Fragment>
-          )}
-        </div>
-      </div>
-      {/* Watch Video Modal */}
-      <div
-        className={`${styles.watchVMWrapper} ${
-          watchVideoModal ? styles.watchVMWrapperOpen : ''
-        }`}
-      >
-        <div className={styles.modalHeader}>
-          <div className={styles.modalTitle}>
-            {!isLoading && !isLoadingVideo ? videoDetail.name : ''}
-          </div>
-          <div>
-            <button
-              type="button"
-              className={styles.modalCloseBtn}
-              onClick={onCloseModal}
-            >
-              <i className="material-icons">close</i>
-            </button>
-          </div>
-        </div>
-        <div className={styles.modalContent}>
-          {isLoading ? (
-            <p className={styles.loadingPlaceholder}>{t('loadingVideoText')}</p>
-          ) : (
-            <React.Fragment>
-              {isLoadingVideo && (
-                <p className={styles.loadingPlaceholder}>
-                  {t('loadingVideoText')}
-                </p>
-              )}
-              <Row>
-                <Col lg="8" sm="6" xs="12">
-                  <ReactPlayer
-                    controls
-                    pip
-                    ref={ref}
-                    width="100%"
-                    height="500px"
-                    className={styles.playerWrapper}
-                    url={videoDetail.url}
-                    onReady={() => setLoadingVideo(false)}
-                    onProgress={onProgress}
-                    onError={onVideoError}
-                  />
-                </Col>
-                {!isLoadingVideo && (
-                  <Col lg="4" sm="6" xs="12">
-                    <div className={styles.videoSection}>
-                      <div className={styles.sectionHeader}>
-                        {t('videoSectionText')}
-                      </div>
-                      <div className={styles.sectionContent}>
-                        {Array.isArray(videoDetailStore?.segments) &&
-                          videoDetailStore.segments.length > 4 && (
-                            <FormInput
-                              value={search}
-                              onChange={onSearchAnnotation}
-                              className="border-bottom rounded-0"
-                              placeholder={t('searchAnnotation')}
-                            />
-                          )}
-                        {Array.isArray(videoDetail.segments) &&
-                        videoDetail.segments.length > 0 ? (
-                          videoDetail.segments.map((item) => (
-                            <div
-                              key={item.id}
-                              className={`${styles.sectionItem} ${
-                                activeSection == item.id
-                                  ? styles.sectionItemActive
-                                  : ''
-                              }`}
-                              onClick={() => {
-                                onSeekToSection(item.id, item.startFrame);
-                              }}
-                            >
-                              <Row>
-                                <Col xs="3">
-                                  <div className={styles.thumbnailWrapper}>
-                                    <img
-                                      className={styles.thumbnailImg}
-                                      src={
-                                        item.thumbnail
-                                          ? item.thumbnail
-                                          : 'https://place-hold.it/150x150'
-                                      }
-                                      alt="thumbnail"
-                                    />
-                                  </div>
-                                </Col>
-                                <Col xs="9">
-                                  <div className={styles.sectionLabel}>
-                                    {item.label}
-                                  </div>
-                                  <div className={styles.sectionTime}>
-                                    {convertSecondsToTimeString(
-                                      item.startFrame
-                                    )}{' '}
-                                    -{' '}
-                                    {convertSecondsToTimeString(item.endFrame)}
-                                  </div>
-                                </Col>
-                              </Row>
-                            </div>
-                          ))
-                        ) : (
-                          <div className={styles.noSection}>
-                            {t('noVideoSection')}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </Col>
-                )}
-              </Row>
-              {!isLoadingVideo && (
-                <div className={styles.videoInforWrapper}>
-                  <div>
-                    <span className={styles.subLabel}>
-                      {t('videoNameLabel')}:
-                    </span>
-                    <span className={styles.subValue}>{videoDetail.name}</span>
-                  </div>
-                  <div>
-                    <span className={styles.subLabel}>
-                      {t('videoCategoryLabel')}:
-                    </span>
-                    <span className={styles.subValue}>
-                      {videoDetail.subCategory?.name}
-                    </span>
-                  </div>
-                  <div>
-                    <span className={styles.subLabel}>
-                      {t('videoSubCategoryLabel')}:
-                    </span>
-                    <span className={styles.subValue}>
-                      {videoDetail.subCategory?.category?.name}
-                    </span>
-                  </div>
-                  <div>
-                    <Button block type="button" onClick={onCloseModal}>
-                      {t('videoCLoseBtn')}
-                    </Button>
-                  </div>
-                </div>
-              )}
             </React.Fragment>
           )}
         </div>
