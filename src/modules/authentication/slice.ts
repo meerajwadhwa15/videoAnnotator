@@ -4,7 +4,7 @@ import * as actions from './actions';
 import { AuthStatus, ConsumerAuthenState } from './types';
 
 const initialState: ConsumerAuthenState = {
-  open: true,
+  open: false,
   confirmEmail: '',
   loading: false,
   status: AuthStatus.login,

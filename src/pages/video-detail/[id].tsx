@@ -33,10 +33,7 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale || '', [
-        'common',
-        'client-video-detail',
-      ])),
+      ...(await serverSideTranslations(locale || '')),
       videoDetail,
     },
   };

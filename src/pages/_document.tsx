@@ -13,7 +13,8 @@ class MyDocument extends Document {
           <link
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet"
-          ></link>
+          />
+          <link rel="icon" type="image/png" href="/favicon.png" />
         </Head>
         <body>
           <Main />
