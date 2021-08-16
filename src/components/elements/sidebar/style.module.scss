@@ -38,12 +38,12 @@
   margin-right: 0 !important;
   padding: 0 !important;
   overflow: hidden;
-  font-size: 15px;
-  line-height: 25px;
-  font-weight: 500;
-  color: #3d5170;
   text-align: center;
   text-overflow: ellipsis;
+
+  img {
+    height: 32px;
+  }
 }
 
 .navWrapper {

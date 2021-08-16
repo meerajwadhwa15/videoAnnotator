@@ -50,7 +50,7 @@ const Sidebar = () => {
       {/* Navbar brand */}
       <Navbar className={styles.navbar} type="light">
         <NavbarBrand className={styles.navbarBrand} href={ADMIN_ROUTING.home}>
-          <span>{t('appTitle')}</span>
+          <img alt="logo" src="/logo.png" />
         </NavbarBrand>
         <a
           className={`${styles.toggleSidebar} d-sm-inline d-md-none d-lg-none`}
