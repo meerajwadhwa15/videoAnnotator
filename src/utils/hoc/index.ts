@@ -1,2 +1,2 @@
-export * from './withAuthPage';
+export * from './withAuthAdminPage';
 export * from './withNonAuthPage';

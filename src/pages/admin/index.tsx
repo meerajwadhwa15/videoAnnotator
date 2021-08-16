@@ -7,7 +7,7 @@ import { UserRole } from 'models';
 import { useAppDispatch } from 'redux/hooks';
 import { fetchUsersListSSR } from 'redux/globalSlice';
 import { fetchServerSideProps } from 'modules/admin/home/slice';
-import { withAuthPage } from 'utils/hoc';
+import { withAuthAdminPage } from 'utils/hoc';
 import { requestServer } from 'utils/apiClient';
 import { API_ENDPOINT } from 'utils/constants';
 import { fetchVideoList } from 'services';
@@ -31,7 +31,7 @@ function Index({ usersList, videosList, categories }) {
   );
 }
 
-export const getServerSideProps = withAuthPage(async (context, user) => {
+export const getServerSideProps = withAuthAdminPage(async (context, user) => {
   let usersList: any = [];
   let categories: any = [];
   const { locale } = context;

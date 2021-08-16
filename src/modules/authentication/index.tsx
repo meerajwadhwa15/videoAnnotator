@@ -1,6 +1,6 @@
-import { useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Modal, ModalHeader, ModalBody } from 'shards-react';
-import { authStatusSelector, isOpenSelector } from './slice';
+import { authStatusSelector, isOpenSelector, toggleLoginDialog } from './slice';
 import { AuthStatus } from './types';
 
 import style from './style.module.scss';
@@ -11,6 +11,7 @@ import { ResetPassword } from './components/ResetPassword';
 
 export const ConsumerAuthentication = () => {
   const status = useAppSelector(authStatusSelector);
+  const dispatch = useAppDispatch();
   const open = useAppSelector(isOpenSelector);
   const { t } = useTranslation();
 
@@ -45,7 +46,11 @@ export const ConsumerAuthentication = () => {
   };
 
   return (
-    <Modal toggle={() => null} className={style.modalDialog} open={open}>
+    <Modal
+      toggle={() => dispatch(toggleLoginDialog())}
+      className={style.modalDialog}
+      open={open}
+    >
       <ModalHeader>{renderTitle()}</ModalHeader>
       <ModalBody>{renderBody()}</ModalBody>
     </Modal>

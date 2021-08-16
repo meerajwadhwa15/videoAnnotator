@@ -4,7 +4,7 @@ import { ACCESS_TOKEN } from 'utils/clientCookies';
 import { parseContextCookie } from 'utils/helpers';
 import { API_ENDPOINT, ADMIN_ROUTING } from 'utils/constants';
 
-export function withAuthPage(
+export function withAuthAdminPage(
   gssp: (context: GetServerSidePropsContext, user?: any) => any
 ): GetServerSideProps {
   const redirectPayload = {
@@ -35,7 +35,6 @@ export function withAuthPage(
         },
       };
     } catch (error) {
-      // clear user cookie
       context.res.setHeader('set-cookie', '');
       return redirectPayload;
     }

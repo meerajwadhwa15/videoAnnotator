@@ -15,6 +15,11 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     toggleLoginDialog: (state) => {
+      if (state.open) {
+        state.confirmEmail = '';
+        state.loading = false;
+        state.status = AuthStatus.login;
+      }
       state.open = !state.open;
     },
     setStatus(state, action: PayloadAction<AuthStatus>) {
