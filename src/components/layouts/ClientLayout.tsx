@@ -1,7 +1,7 @@
 import { Container, Row, Col } from 'shards-react';
 import { useTranslation } from 'next-i18next';
 import Footer from 'components/elements/footer';
-import { ConsumerAuthentication } from 'modules/authentication';
+import { AuthenticationModule } from 'modules/authentication';
 
 const ClientLayout = ({ children }) => {
   const { t } = useTranslation(['client-home']);
@@ -19,7 +19,7 @@ const ClientLayout = ({ children }) => {
         <Col xs="12">{children}</Col>
       </Row>
       <Footer />
-      <ConsumerAuthentication />
+      <AuthenticationModule />
     </Container>
   );
 };

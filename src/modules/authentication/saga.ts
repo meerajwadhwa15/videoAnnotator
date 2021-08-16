@@ -1,26 +1,25 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { SignupData } from 'modules/admin/signup/types';
+import router from 'next/router';
 import { toast } from 'react-toastify';
 import { takeLatest, all, call, put } from 'redux-saga/effects';
 import { request, setAuthorizationHeader } from 'utils/apiClient';
 
-import { API_ENDPOINT } from 'utils/constants';
+import { ADMIN_ROUTING, API_ENDPOINT } from 'utils/constants';
 import { UserType } from 'utils/types';
 import { i18n } from 'next-i18next';
 import * as actions from './actions';
-import { LoginData } from 'modules/admin/login/types';
 import { clientCookies } from 'utils/clientCookies';
-import { ResetPassData } from 'modules/admin/resetPassword/types';
+import { LoginData, ResetPassData, SignupData } from './types';
 
 export function* signUpWorker({ payload }: PayloadAction<SignupData>) {
   try {
+    const { isAdmin, ...data } = payload;
     yield call(request.post, API_ENDPOINT.signup, {
-      ...payload,
-      userType: UserType.consumer,
+      ...data,
+      userType: isAdmin ? UserType.normal : UserType.consumer,
     });
     yield put(actions.dispatchSignupSuccess({ email: payload.email }));
     toast.success(i18n?.t('signup:signupSuccessMessage'));
-    toast.success('Signup successfull');
   } catch (error) {
     toast.error(i18n?.t('signup:failToSignupError'));
     yield put(actions.dispatchSignupFail());
@@ -43,14 +42,18 @@ export function* verifyEmailWorker({
 
 export function* loginWorker({ payload }: PayloadAction<LoginData>) {
   try {
-    const { remember, ...data } = payload;
+    const { remember, isAdmin, ...data } = payload;
     const result = yield call(request.post, API_ENDPOINT.login, data);
     const token = result.token.replace('Bearer ', '');
     clientCookies.saveToken({ token, remember });
     setAuthorizationHeader();
     yield put(actions.dispatchLoginSuccess());
     toast.success(i18n?.t('login:loginSuccessMessage'));
-    window.location.reload();
+    if (isAdmin) {
+      yield call(router.push, ADMIN_ROUTING.home);
+    } else {
+      window.location.reload();
+    }
   } catch (error) {
     toast.error(i18n?.t('login:loginFailMessage'));
     yield put(actions.dispatchLoginFail());

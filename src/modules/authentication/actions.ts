@@ -1,9 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
-import { LoginData } from 'modules/admin/login/types';
-import { ResetPassData } from 'modules/admin/resetPassword/types';
-import { SignupData } from 'modules/admin/signup/types';
+import { LoginData, ResetPassData, SignupData } from './types';
 
-const prefix = 'auth/consumer';
+const prefix = 'auth/module';
 
 export const [dispatchSignup, dispatchSignupSuccess, dispatchSignupFail] = [
   createAction<SignupData>(`${prefix}/dispatchSignup`),

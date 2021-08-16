@@ -20,7 +20,7 @@ function Index() {
 export const getServerSideProps = withNonAuthPage(async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale || '', ['common', 'login'])),
+      ...(await serverSideTranslations(locale || '')),
     },
   };
 });

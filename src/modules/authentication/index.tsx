@@ -9,7 +9,7 @@ import { ForgetPassword, Login, Signup, Verify } from './components';
 import { useTranslation } from 'next-i18next';
 import { ResetPassword } from './components/ResetPassword';
 
-export const ConsumerAuthentication = () => {
+export const AuthenticationModule = ({ isAdmin }: { isAdmin?: boolean }) => {
   const status = useAppSelector(authStatusSelector);
   const dispatch = useAppDispatch();
   const open = useAppSelector(isOpenSelector);
@@ -18,9 +18,9 @@ export const ConsumerAuthentication = () => {
   const renderBody = () => {
     switch (status) {
       case AuthStatus.login:
-        return <Login />;
+        return <Login isAdmin={!!isAdmin} />;
       case AuthStatus.signup:
-        return <Signup />;
+        return <Signup isAdmin={!!isAdmin} />;
       case AuthStatus.forgotPass:
         return <ForgetPassword />;
       case AuthStatus.resetPass:
@@ -45,11 +45,17 @@ export const ConsumerAuthentication = () => {
     }
   };
 
+  const onToggle = () => {
+    if (!isAdmin) {
+      dispatch(toggleLoginDialog());
+    }
+  };
+
   return (
     <Modal
-      toggle={() => dispatch(toggleLoginDialog())}
+      toggle={() => onToggle()}
       className={style.modalDialog}
-      open={open}
+      open={open || isAdmin}
     >
       <ModalHeader>{renderTitle()}</ModalHeader>
       <ModalBody>{renderBody()}</ModalBody>
