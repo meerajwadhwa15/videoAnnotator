@@ -2,19 +2,19 @@ import React, { FC } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import { useTranslation } from 'next-i18next';
 
-import { VideoInfo } from 'models';
+import { VideoInfo, UserLike } from 'models';
 import styles from './style.module.scss';
 
 interface Props {
   isLoadingVideo: boolean;
   videoDetail: VideoInfo;
   setRef: (player: any) => void;
-  setLoadingVideo: (status: boolean) => void;
+  setLoadingVideo: () => void;
   onProgress: (state: any) => void;
   onVideoError: () => void;
   toggleAddToModal: () => void;
-  onClickLike: () => void;
-  onClickUnlike: () => void;
+  onClickLike: (likeData: UserLike) => void;
+  onClickUnlike: (likeData: UserLike) => void;
 }
 
 const PlayerSection: FC<Props> = ({
@@ -40,11 +40,11 @@ const PlayerSection: FC<Props> = ({
         height="600px"
         className={styles.playerWrapper}
         url={videoDetail.url}
-        onReady={() => setLoadingVideo(false)}
+        onReady={setLoadingVideo}
         onProgress={onProgress}
         onError={onVideoError}
       />
-      {!isLoadingVideo && (
+      {!isLoadingVideo && Object.keys(videoDetail).length > 0 && (
         <div className={styles.metaInfoWrapper}>
           <div className={styles.metaInfoLeft}>
             <h4 className={styles.vidName}>{videoDetail.name}</h4>
@@ -52,24 +52,40 @@ const PlayerSection: FC<Props> = ({
           </div>
           <div className={styles.metainfoRight}>
             <button
-              className={styles.btnMeta}
-              title={t('likeVideoToolTip')}
-              onClick={onClickLike}
+              className={`${styles.btnMeta}${
+                videoDetail?.userLike?.liked ? ` ${styles.active}` : ''
+              }`}
+              title={
+                videoDetail?.userLike?.liked
+                  ? t('likeVideoTooltip')
+                  : t('clickToLikeTooltip')
+              }
+              onClick={() => onClickLike(videoDetail.userLike as UserLike)}
             >
               <i className={`material-icons ${styles.iconMeta}`}>thumb_up</i>
-              <span className={styles.textNextto}>555</span>
+              <span className={styles.textNextto}>
+                {videoDetail?.userLike?.numberOfLike}
+              </span>
             </button>
             <button
-              className={styles.btnMeta}
-              title={t('unLikeVideoToolTip')}
-              onClick={onClickUnlike}
+              className={`${styles.btnMeta}${
+                videoDetail?.userLike?.disliked ? ` ${styles.active}` : ''
+              }`}
+              title={
+                videoDetail?.userLike?.disliked
+                  ? t('unLikeVideoTooltip')
+                  : t('clickToUnlikeTooltip')
+              }
+              onClick={() => onClickUnlike(videoDetail.userLike as UserLike)}
             >
               <i className={`material-icons ${styles.iconMeta}`}>thumb_down</i>
-              <span className={styles.textNextto}>555</span>
+              <span className={styles.textNextto}>
+                {videoDetail?.userLike?.numberOfDislike}
+              </span>
             </button>
             <button
               className={styles.btnMeta}
-              title={t('unLikeVideoToolTip')}
+              title={t('addToVideoToolTip')}
               onClick={toggleAddToModal}
             >
               <i className={`material-icons ${styles.iconMeta}`}>

@@ -14,6 +14,10 @@ export const API_ENDPOINT = {
     `video/${videoId}/segment`,
   category: 'category',
   clientVideoList: 'video/public',
+  clientAddToPlayList: 'video/playlist',
+  clientVideoComment: 'video/comment',
+  clientVideoLike: 'like',
+  clientVideoRating: 'rating',
 };
 
 export const ADMIN_ROUTING = {

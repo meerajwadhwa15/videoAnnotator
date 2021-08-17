@@ -29,8 +29,8 @@ export interface CommentsList {
 }
 
 export interface UserLike {
-  disliked: boolean;
-  liked: boolean;
+  liked: boolean | undefined;
+  disliked: boolean | undefined;
   numberOfDislike: number;
   numberOfLike: number;
 }
@@ -58,11 +58,11 @@ export interface VideoInfo {
   };
   segments: Segment[];
   assignedUsers: AssignedUser[];
-  playlists: Playlist;
+  playlists: Playlist[];
   userComment?: {
     numberOfComment: number;
     commentList: CommentsList[];
   };
-  userLike?: UserLike;
+  userLike: UserLike;
   userReview?: UserReview;
 }

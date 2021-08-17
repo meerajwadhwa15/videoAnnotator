@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ChangeEvent } from 'react';
 import {
   Button,
   Modal,
@@ -7,42 +7,28 @@ import {
   ModalFooter,
   FormCheckbox,
 } from 'shards-react';
-// import { toast } from 'react-toastify';
 import { useTranslation } from 'next-i18next';
-// import { useAppDispatch, useAppSelector } from 'redux/hooks';
-// import {
-//   messageSelector,
-// } from './slice';
+import { VideoInfo, Playlist } from 'models';
 import styles from './style.module.scss';
 
 interface props {
   isAddToModalOpen: boolean;
+  addToLoading: boolean;
+  videoDetail: VideoInfo;
   toggleAddToModal: () => void;
   onSaveAddTo: () => void;
+  onCheckbox: (event: ChangeEvent<HTMLInputElement>, data: Playlist) => void;
 }
 
 const AddToVideoModal: FC<props> = ({
   isAddToModalOpen,
+  addToLoading,
+  videoDetail,
   toggleAddToModal,
   onSaveAddTo,
+  onCheckbox,
 }) => {
-  // const dispatch = useAppDispatch();
   const { t } = useTranslation(['client-video-detail']);
-
-  // useEffect(() => {
-  //   if (message.type === 'success' && message.text === 'delete_video_success') {
-  //     toast.success(t('deleteSuccessMsg'));
-  //     toggleDeleteModal();
-  //     clearSearchKeyword();
-  //   }
-
-  //   if (message.type === 'error' && message.text === 'delete_video_error') {
-  //     toast.error(t('deleteErrorMsg'));
-  //     toggleDeleteModal();
-  //     clearSearchKeyword();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [message]);
 
   return (
     <React.Fragment>
@@ -54,29 +40,27 @@ const AddToVideoModal: FC<props> = ({
       >
         <ModalHeader>{t('addToModalHeaderText')}</ModalHeader>
         <ModalBody style={{ padding: '20px' }}>
-          <FormCheckbox
-            className={styles.checkLabel}
-            checked={true}
-            // onChange={(event: ChangeEvent<HTMLInputElement>) =>
-            //   onCheckbox(event, user)
-            // }
-          >
-            <span>{t('watchLaterText')} </span>
-          </FormCheckbox>
-          <FormCheckbox
-            className={styles.checkLabel}
-            checked={true}
-            // onChange={(event: ChangeEvent<HTMLInputElement>) =>
-            //   onCheckbox(event, user)
-            // }
-          >
-            <span>{t('saveFavoriteText')}</span>
-          </FormCheckbox>
+          {Array.isArray(videoDetail.playlists) &&
+            videoDetail.playlists.length > 0 &&
+            videoDetail.playlists.map((data) => (
+              <FormCheckbox
+                key={data.id}
+                className={styles.checkLabel}
+                checked={data.selected}
+                onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                  onCheckbox(event, data)
+                }
+              >
+                <span>
+                  {data.id == 1 ? t('saveFavoriteText') : t('watchLaterText')}
+                </span>
+              </FormCheckbox>
+            ))}
         </ModalBody>
         <ModalFooter style={{ padding: '10px' }}>
           <Button
             type="button"
-            // disabled={loading}
+            disabled={addToLoading}
             size="sm"
             onClick={onSaveAddTo}
           >

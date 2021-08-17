@@ -11,6 +11,7 @@
   "savingButton": "Đang lưu...",
   "cancelButton": "Huỷ bỏ",
   "submitButton": "Gửi",
+  "backButton": "Quay về",
   "totalItem": "Tổng: {{count}}",
   "noDataFound": "Không có dữ liệu",
   "footerCopyright": "Copyright © 2021 Video Annotator",
