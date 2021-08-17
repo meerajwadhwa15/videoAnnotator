@@ -11,7 +11,7 @@ export const fetchVideoList = (
   client = false
 ) => {
   const { query } = context;
-  const { page, search, categoryId, subcategoryId } = query;
+  const { page, search, categoryId, subcategoryId, playlist } = query;
   const pageNo = isNaN(Number(page)) ? 0 : Number(page) - 1;
   const endpoint = client ? API_ENDPOINT.clientVideoList : API_ENDPOINT.video;
   const itemPerPage = client ? CONSUMER_PAGE_SIZE : PAGE_SIZE;
@@ -20,6 +20,7 @@ export const fetchVideoList = (
     url: endpoint,
     context,
     params: {
+      playlistId: playlist,
       pageSize: itemPerPage,
       pageNo,
       keyword: search || '',

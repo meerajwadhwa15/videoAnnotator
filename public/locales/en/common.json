@@ -15,5 +15,9 @@
   "noDataFound": "No Data Found",
   "footerCopyright": "Copyright © 2021 Video Annotator",
   "thumbnailImageSizeTooBigError": "File size must smaller or equal 5MB",
-  "thumbnailWrongExtensionError": "Only accept jpg, png, jpeg image"
+  "thumbnailWrongExtensionError": "Only accept jpg, png, jpeg image",
+  "confirmToCancel": "Are you sure to cancel ?",
+  "home": "Home",
+  "favorite": "Favorite",
+  "watchLater": "Watch Later"
 }

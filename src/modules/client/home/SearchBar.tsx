@@ -16,22 +16,19 @@ export const SearchBar = () => {
     },
     onSubmit: (values) => {
       const { search } = values;
-      const newQuery: any = {
-        ...(search && { search }),
-      };
-      push(
-        {
-          pathname: pathname,
-          query: newQuery,
-        }
-        // undefined, { shallow: true }
-      );
+      push({
+        pathname: pathname,
+        query: {
+          ...(search && { search }),
+          ...query,
+        },
+      });
     },
   });
 
   return (
     <div className={styles.searchWrapper}>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} className="border-bottom">
         <Row>
           <Col lg="6">
             <Input

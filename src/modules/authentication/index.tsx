@@ -8,6 +8,7 @@ import style from './style.module.scss';
 import { ForgetPassword, Login, Signup, Verify } from './components';
 import { useTranslation } from 'next-i18next';
 import { ResetPassword } from './components/ResetPassword';
+import { useEffect } from 'react';
 
 export const AuthenticationModule = ({ isAdmin }: { isAdmin?: boolean }) => {
   const status = useAppSelector(authStatusSelector);
@@ -46,10 +47,23 @@ export const AuthenticationModule = ({ isAdmin }: { isAdmin?: boolean }) => {
   };
 
   const onToggle = () => {
-    if (!isAdmin) {
+    if (!isAdmin && window.confirm(t('common:confirmToCancel'))) {
       dispatch(toggleLoginDialog());
     }
   };
+
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = ({ key }) => {
+      if (key === 'Escape') {
+        onToggle();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [open]);
 
   return (
     <Modal

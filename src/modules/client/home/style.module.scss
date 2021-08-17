@@ -1,12 +1,13 @@
 .homeWrapper {
   display: flex;
+  min-height: calc(100vh - 120px);
 }
 
 .sidebar {
-  width: 240px;
-  padding-top: 16px;
+  padding-top: 12px;
   background-color: white;
   flex-shrink: 0;
+  transition: all ease-in-out 0.5s;
   box-shadow: 6px 0 6px -2px rgba(0, 0, 0, 0.1);
 }
 
@@ -61,7 +62,9 @@
 }
 
 .cardDes {
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }

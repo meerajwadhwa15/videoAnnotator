@@ -19,3 +19,9 @@ export interface Message {
   type: string;
   text: string;
 }
+
+export enum PlaylistId {
+  all = 0,
+  favorite = 1,
+  watchLater = 2,
+}
