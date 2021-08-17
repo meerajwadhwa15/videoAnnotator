@@ -10,7 +10,7 @@ import styles from './style.module.scss';
 
 export const VideoList = () => {
   const router = useRouter();
-  const { t } = useTranslation(['client-home']);
+  const { t } = useTranslation();
 
   const videosData = useAppSelector(videosListSelector);
 
@@ -18,7 +18,9 @@ export const VideoList = () => {
     <div className={styles.listWrapper}>
       {!videosData ||
         (Array.isArray(videosData) && videosData.length == 0 && (
-          <h5 className="text-center mt-4">{t('noVideo')}</h5>
+          <h5 className="text-center mt-4">
+            {t('client-video-detail:noVideo')}
+          </h5>
         ))}
       {Array.isArray(videosData) && videosData.length > 0 && (
         <React.Fragment>

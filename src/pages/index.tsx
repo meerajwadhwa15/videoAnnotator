@@ -28,22 +28,31 @@ function Index({ videosList, categories }) {
   );
 }
 
-export const getServerSideProps = withAuthConsumerPage(async (context) => {
-  const { locale } = context;
+export const getServerSideProps = withAuthConsumerPage(
+  async (context, user) => {
+    const { locale, query } = context;
+    if (!user && query.playlist) {
+      return {
+        redirect: {
+          destination: '/',
+        },
+      };
+    }
 
-  const videosList = await fetchVideoList({ context }, true);
-  const categories = await requestServer.get({
-    url: API_ENDPOINT.category,
-    context,
-  });
+    const videosList = await fetchVideoList({ context }, true);
+    const categories = await requestServer.get({
+      url: API_ENDPOINT.category,
+      context,
+    });
 
-  return {
-    props: {
-      ...(await serverSideTranslations(locale || '')),
-      videosList,
-      categories,
-    },
-  };
-});
+    return {
+      props: {
+        ...(await serverSideTranslations(locale || '')),
+        videosList,
+        categories,
+      },
+    };
+  }
+);
 
 export default Index;
