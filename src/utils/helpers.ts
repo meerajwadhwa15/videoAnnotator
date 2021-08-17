@@ -108,3 +108,14 @@ export const uploadImage = async (file: File) => {
     return null;
   }
 };
+
+/**
+ * @param {htmlElement} element
+ */
+export const isElementScrollable = (htmlElement) => {
+  const isContentScrollable =
+    htmlElement.scrollHeight > htmlElement.clientHeight;
+  const overflowYAttr = window.getComputedStyle(htmlElement).overflowY;
+  const isOverflowYHidden = overflowYAttr.indexOf('hidden') !== -1;
+  return isContentScrollable && !isOverflowYHidden;
+};

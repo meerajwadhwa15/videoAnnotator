@@ -1,9 +1,9 @@
 .wrapper {
-  max-width: 1600px;
+  max-width: 1800px;
   margin: 0 auto;
   padding: 20px;
   overflow-x: hidden;
-  min-height: calc(100vh - 111px);
+  min-height: calc(100vh - 116px);
 }
 
 .playerWrapper {
@@ -18,6 +18,7 @@
   display: flex;
   justify-content: space-between;
   padding-bottom: 20px;
+  margin-bottom: 30px;
   border-bottom: 1px solid #becad6;
 }
 
@@ -86,6 +87,7 @@
   cursor: pointer;
   border-bottom: 1px solid #cacaca;
   padding: 10px;
+  min-height: 95px;
 
   &:first-child {
     border-top: 1px solid #cacaca;
@@ -157,4 +159,8 @@
   font-size: 20px;
   color: #000;
   font-weight: 600;
+}
+
+.checkLabel {
+  margin-bottom: 20px;
 }

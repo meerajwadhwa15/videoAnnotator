@@ -6,7 +6,7 @@ const ClientLayout = ({ children }) => {
   return (
     <Container
       fluid
-      className="h-100 pl-0 pr-0"
+      className="pl-0 pr-0"
       style={{ maxWidth: '1920px', border: '1px solid #e1e5eb' }}
     >
       <Row noGutters>

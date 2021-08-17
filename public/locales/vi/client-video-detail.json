@@ -6,10 +6,16 @@
   "addTo": "Thêm vào",
   "likeVideoToolTip": "Tôi thích video này",
   "unLikeVideoToolTip": "Tôi không thích video này",
+  "addToVideoToolTip": "Thêm vào",
   "searchAnnotation": "Tìm kiếm chú thích...",
   "noVideo": "Không tìm thấy video",
   "loadingVideoText": "Đang tải...",
   "videoSectionText": "Đi tới chú thích",
   "noVideoSection": "Không tìm thấy chú thích.",
+  "addToModalHeaderText": "Lưu vào...",
+  "watchLaterText": "Xem sau",
+  "saveFavoriteText": "Video yêu thích",
+  "addToSubmitBtn": "Xác nhận",
+  "addToCancelBtn": "Hủy",
   "videoLoadError": "Loading video error"
 }
