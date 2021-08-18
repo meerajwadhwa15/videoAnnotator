@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAction } from '@reduxjs/toolkit';
 import type { RootState } from 'redux/store';
 import { VideoInfo, Category } from 'models';
-import { HomeState, VideosList } from './types';
+import { HomeState, UpdatePlaylistPayload, VideosList } from './types';
 import { AlertMessageType } from 'utils/types';
 
 const initialState: HomeState = {
@@ -24,6 +24,18 @@ export const [getVideoDetail, getVideoDetailSuccess, getVideoDetailError] = [
   createAction<number>('clientHome/getVideoDetail'),
   createAction<VideoInfo>('clientHome/getVideoDetailSuccess'),
   createAction('clientHome/getVideoDetailError'),
+];
+
+export const [
+  dispatchUpdatePlaylist,
+  dispatchUpdatePlaylistSuccess,
+  dispatchUpdatePlaylistFail,
+] = [
+  createAction<UpdatePlaylistPayload>('clientHome/dispatchUpdatePlaylist'),
+  createAction<UpdatePlaylistPayload>(
+    'clientHome/dispatchUpdatePlaylistSuccess'
+  ),
+  createAction('clientHome/dispatchUpdatePlaylistFail'),
 ];
 
 export const clientHomeSlice = createSlice({
@@ -61,6 +73,17 @@ export const clientHomeSlice = createSlice({
       state.loading = false;
       state.message.type = 'error';
       state.message.text = 'get_video_detail_error';
+    },
+    [dispatchUpdatePlaylistSuccess.type](
+      state,
+      action: PayloadAction<UpdatePlaylistPayload>
+    ) {
+      const video = state.videosList.videoList.find(
+        (it) => it.id === action.payload.videoId
+      );
+      if (video) {
+        video.playlists = action.payload.data;
+      }
     },
   },
 });

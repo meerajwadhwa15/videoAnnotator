@@ -27,18 +27,11 @@
 .videoItem {
   display: block;
   margin-bottom: 20px;
-  transition: -webkit-transform 200ms ease-in-out;
-  transition: transform 200ms ease-in-out;
-  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
-  -moz-transform: translateY(0);
-  -webkit-transform: translateY(0);
-  transform: translateY(0);
+  color: black;
 
   &:hover {
     text-decoration: none;
-    -moz-transform: translateY(-5px);
-    -webkit-transform: translateY(-5px);
-    transform: translateY(-5px);
+    color: black;
   }
 }
 
@@ -56,15 +49,35 @@
   }
 }
 
-.cardBody {
-  padding: 10px;
-  text-align: center;
-}
-
 .cardDes {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+.cardMoreAction {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  width: 16px;
+  height: 30px;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: #efefef;
+  }
+
+  i {
+    font-size: 24px;
+  }
+}
+
+.dropDownMenu {
+  div {
+    &:hover {
+      background-color: #eaeaea;
+    }
+  }
 }
