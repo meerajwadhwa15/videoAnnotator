@@ -5,5 +5,11 @@
   "videoCategoryLabel": "Category",
   "videoSubCategoryLabel": "Sub category",
   "videoSearchBtn": "Search",
-  "videoClearBtn": "Clear"
+  "videoClearBtn": "Clear",
+  "addToFavorite": "Add to favorite",
+  "removeFavorite": "Remove from favorite",
+  "addToWatchLater": "Add to watch later",
+  "removeWatchLater": "Remove from watch later",
+  "updatePlaylistSuccess": "Update successfull",
+  "updatePlaylistFail": "Update failed"
 }

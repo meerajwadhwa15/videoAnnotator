@@ -1,4 +1,4 @@
-import { Category, VideoInfo } from 'models';
+import { Category, Playlist, VideoInfo } from 'models';
 
 export interface HomeState {
   videosList: VideosList;
@@ -24,4 +24,9 @@ export enum PlaylistId {
   all = 0,
   favorite = 1,
   watchLater = 2,
+}
+
+export interface UpdatePlaylistPayload {
+  videoId: number;
+  data: Playlist[];
 }

@@ -5,5 +5,11 @@
   "videoCategoryLabel": "Thể loại",
   "videoSubCategoryLabel": "Thể loại con",
   "videoSearchBtn": "Tìm kiếm",
-  "videoClearBtn": "Hủy"
+  "videoClearBtn": "Hủy",
+  "addToFavorite": "Thêm vào yêu thích",
+  "removeFavorite": "Xoá khỏi yêu thích",
+  "addToWatchLater": "Thêm vào xem sau",
+  "removeWatchLater": "Xoá khỏi xem sau",
+  "updatePlaylistSuccess": "Cập nhật thành công",
+  "updatePlaylistFail": "Cập nhật thất bại"
 }
