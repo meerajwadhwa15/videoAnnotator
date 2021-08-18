@@ -34,6 +34,21 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (isAssignModalOpen === false && currentVideoId.current > 0) {
+      const currentVideoIndex = tableDataState.findIndex(
+        (video) => video.id === currentVideoId.current
+      );
+      const originalVideoData = tableDataStore.find(
+        (video) => video.id === tableDataState[currentVideoIndex].id
+      );
+      const tableDataTemp = JSON.parse(JSON.stringify(tableDataState));
+      tableDataTemp[currentVideoIndex] = originalVideoData;
+      setTableDataState(tableDataTemp);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAssignModalOpen]);
+
   function toggleAssignModal(videoId = -1) {
     currentVideoId.current = videoId;
     setAssignModal(!isAssignModalOpen);
