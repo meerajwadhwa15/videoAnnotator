@@ -6,6 +6,7 @@ import VideoDetail from 'modules/client/videoDetail';
 import { requestServer } from 'utils/apiClient';
 import { API_ENDPOINT } from 'utils/constants';
 import { fetchVideoDetailSSR } from 'modules/client/videoDetail/slice';
+import { withAuthConsumerPage } from 'utils/hoc/withAuthConsumerPage';
 
 function Index({ videoDetail }) {
   const dispatch = useAppDispatch();
@@ -24,7 +25,7 @@ function Index({ videoDetail }) {
   );
 }
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = withAuthConsumerPage(async (context) => {
   const { params, locale } = context;
   const videoDetail = await requestServer.get({
     url: `${API_ENDPOINT.clientVideoList}/${params?.id}`,
@@ -37,6 +38,6 @@ export const getServerSideProps = async (context) => {
       videoDetail,
     },
   };
-};
+});
 
 export default Index;

@@ -30,13 +30,12 @@ const AnnotationSection: FC<Props> = ({
   const ref = useCallback((sectionRef) => {
     if (sectionRef !== null) {
       setScroll(isElementScrollable(sectionRef));
-      console.log('isElementScrollable', isElementScrollable(sectionRef));
     }
   }, []);
 
   return (
     <React.Fragment>
-      {!isLoadingVideo && (
+      {!isLoadingVideo && Object.keys(videoDetail).length > 0 && (
         <div className={styles.videoSection}>
           <div className={styles.sectionHeader}>{t('videoSectionText')}</div>
           <div className={styles.sectionContent} ref={ref}>

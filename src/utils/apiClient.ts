@@ -61,22 +61,22 @@ export class APIClient {
   /**
    * Post given data to url
    */
-  post = (url: string, data?: Record<string, any>) => {
-    return axiosClient.post(url, data);
+  post = (url: string, data?: Record<string, any>, config = {}) => {
+    return axiosClient.post(url, data, config);
   };
 
   /**
    * Put given data to url
    */
-  put = (url: string, data?: Record<string, any>) => {
-    return axiosClient.put(url, data);
+  put = (url: string, data?: Record<string, any>, config = {}) => {
+    return axiosClient.put(url, data, config);
   };
 
   /**
    * Patch data to url
    */
-  update = (url: string, data: Record<string, any>) => {
-    return axiosClient.patch(url, data);
+  update = (url: string, data: Record<string, any>, config = {}) => {
+    return axiosClient.patch(url, data, config);
   };
 
   /**

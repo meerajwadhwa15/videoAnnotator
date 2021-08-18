@@ -11,6 +11,7 @@
   "savingButton": "Saving...",
   "cancelButton": "Cancel",
   "submitButton": "Submit",
+  "backButton": "Back",
   "totalItem": "Total: {{count}}",
   "noDataFound": "No Data Found",
   "footerCopyright": "Copyright © 2021 Video Annotator",
