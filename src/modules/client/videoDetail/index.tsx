@@ -8,7 +8,10 @@ import ClientLayout from 'components/layouts/ClientLayout';
 import PlayerSection from './PlayerSection';
 import AnnotationSection from './AnnotationSection';
 import AddToVideoModal from './AddToVideoModal';
+import RatingVideoModal from './RatingVIdeoModal';
 import { VideoInfo, Playlist, UserLike } from 'models';
+import { userDataSelector } from 'redux/globalSlice';
+import { toggleLoginDialog } from 'modules/authentication/slice';
 import { videoDetailSelector, addToLoadingSelector } from './slice';
 import {
   saveAddTo,
@@ -25,15 +28,17 @@ const VideoDetail = () => {
 
   const videoDetailStore = useAppSelector(videoDetailSelector);
   const addToLoading = useAppSelector(addToLoadingSelector);
+  const user = useAppSelector(userDataSelector);
 
   const [search, setSearch] = useState<string>('');
   const [videoDetail, setVideoDetail] = useState<VideoInfo>(videoDetailStore);
   const [activeSection, setActiveSection] = useState<number | null>(null);
   const [isLoadingVideo, setLoadingVideo] = useState<boolean>(true);
   const [isAddToModalOpen, setAddToModal] = useState<boolean>(false);
+  const [isRatingVideoModalOpen, setRatingVideoModal] =
+    useState<boolean>(false);
 
   const videoRef = useRef<any>();
-
   useEffect(() => {
     setVideoDetail(videoDetailStore);
     console.log('videoDetailStore', videoDetailStore);
@@ -93,7 +98,19 @@ const VideoDetail = () => {
   }
 
   function toggleAddToModal() {
+    if (!user.email && !isAddToModalOpen) {
+      return dispatch(toggleLoginDialog());
+    }
+
     setAddToModal(!isAddToModalOpen);
+  }
+
+  function toggleRatingVideoModal() {
+    if (!user.email && !isAddToModalOpen) {
+      return dispatch(toggleLoginDialog());
+    }
+
+    setRatingVideoModal(!isRatingVideoModalOpen);
   }
 
   function onVideoError() {
@@ -101,17 +118,11 @@ const VideoDetail = () => {
     setLoadingVideo(false);
   }
 
-  function onSaveAddTo() {
-    const data = videoDetail.playlists.map((item) => {
-      return {
-        id: item.id,
-        selected: item.selected,
-      };
-    });
-    dispatch(saveAddTo({ id: videoDetail.id, data }));
-  }
-
   function onClickLike(likeData: UserLike) {
+    if (!user.email) {
+      return dispatch(toggleLoginDialog());
+    }
+
     const data = {
       isLike: !likeData.liked,
       isDislike: false,
@@ -120,6 +131,10 @@ const VideoDetail = () => {
   }
 
   function onClickUnlike(likeData: UserLike) {
+    if (!user.email) {
+      return dispatch(toggleLoginDialog());
+    }
+
     const data = {
       isLike: false,
       isDislike: !likeData.disliked,
@@ -134,6 +149,20 @@ const VideoDetail = () => {
     );
     videoDetailTemp.playlists[index].selected = event.target.checked;
     setVideoDetail(videoDetailTemp);
+  }
+
+  function onSaveAddTo() {
+    const data = videoDetail.playlists.map((item) => {
+      return {
+        id: item.id,
+        selected: item.selected,
+      };
+    });
+    dispatch(saveAddTo({ id: videoDetail.id, data }));
+  }
+
+  function onRateVideo() {
+    console.log('rate');
   }
 
   return (
@@ -158,6 +187,7 @@ const VideoDetail = () => {
               onProgress={onProgress}
               onVideoError={onVideoError}
               toggleAddToModal={toggleAddToModal}
+              toggleRatingVideoModal={toggleRatingVideoModal}
               onClickLike={onClickLike}
               onClickUnlike={onClickUnlike}
             />
@@ -182,6 +212,13 @@ const VideoDetail = () => {
             toggleAddToModal={toggleAddToModal}
             onSaveAddTo={onSaveAddTo}
             onCheckbox={onCheckbox}
+          />
+          {/* RatingVideoModal */}
+          <RatingVideoModal
+            isRatingVideoModalOpen={isRatingVideoModalOpen}
+            videoDetail={videoDetail}
+            toggleRatingVideoModal={toggleRatingVideoModal}
+            onRateVideo={onRateVideo}
           />
         </Row>
       </Col>
