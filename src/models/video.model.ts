@@ -39,7 +39,6 @@ export interface UserReview {
   averagePoint: number;
   userReviewPoint: number;
   numberOfReview: number;
-  content: string;
 }
 
 export interface VideoInfo {

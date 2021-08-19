@@ -31,20 +31,11 @@
 }
 
 .vidName {
-  margin-bottom: 10px;
+  margin-bottom: 7px;
 }
 
 .vidDes {
   margin: 0;
-  font-weight: 400;
-}
-
-.btnGroup {
-  margin-bottom: 10px;
-
-  button:last-child {
-    margin-right: 0;
-  }
 }
 
 .btnMeta {
@@ -53,6 +44,10 @@
   margin-right: 10px;
   font-size: 16px;
   color: #9e9e9e;
+
+  &:last-child {
+    margin-right: 0;
+  }
 
   &.active {
     color: #007bff;
@@ -65,23 +60,8 @@
   margin-right: 5px;
 }
 
-.iconRate {
-  top: 0 !important;
-}
-
 .textNextto {
   vertical-align: top;
-}
-
-.ratingWrapper {
-  text-align: right;
-}
-
-.baseRatingText {
-  margin-right: 5px;
-  font-weight: 400;
-  position: relative;
-  top: 2px;
 }
 
 .videoSection {
@@ -192,21 +172,4 @@
 
 .checkLabel {
   margin-bottom: 20px;
-
-  > input {
-    left: 1px;
-    z-index: 1;
-    cursor: pointer;
-  }
-}
-
-.ratingModalWrapper {
-  margin-bottom: 20px;
-}
-
-.vidEval {
-  margin-right: 10px;
-  font-weight: 400;
-  position: relative;
-  top: 3px;
 }
