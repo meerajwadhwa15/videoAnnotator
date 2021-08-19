@@ -16,8 +16,8 @@ interface props {
   addToLoading: boolean;
   videoDetail: VideoInfo;
   toggleAddToModal: () => void;
-  onSaveAddTo: () => void;
   onCheckbox: (event: ChangeEvent<HTMLInputElement>, data: Playlist) => void;
+  onSaveAddTo: () => void;
 }
 
 const AddToVideoModal: FC<props> = ({
@@ -25,8 +25,8 @@ const AddToVideoModal: FC<props> = ({
   addToLoading,
   videoDetail,
   toggleAddToModal,
-  onSaveAddTo,
   onCheckbox,
+  onSaveAddTo,
 }) => {
   const { t } = useTranslation(['client-video-detail']);
 
