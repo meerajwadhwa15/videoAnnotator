@@ -2,17 +2,17 @@ import { Row, Col, Button, Form, FormTextarea, FormGroup } from 'shards-react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import Input from 'components/elements/Input';
-import Image from 'next/image';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { userDataSelector } from 'redux/globalSlice';
 import { UserProfileSchema } from 'validations/UserProfileSchema';
 import { loadingSelector, updateUserProfile } from './slice';
+import { Avatar } from './Avatar';
 
 export const ProfileForm = () => {
   const userData = useAppSelector(userDataSelector);
   const loading = useAppSelector(loadingSelector);
   const dispatch = useAppDispatch();
-  const { email, fullName, address, introduction, phone } = userData;
+  const { email, fullName, address, introduction, phone, avatar } = userData;
   const { t } = useTranslation(['profile']);
 
   const { values, handleSubmit, handleChange, errors } = useFormik({
@@ -25,7 +25,7 @@ export const ProfileForm = () => {
     validationSchema: UserProfileSchema(t),
     enableReinitialize: true,
     onSubmit: (values) => {
-      dispatch(updateUserProfile(values));
+      dispatch(updateUserProfile({ ...values, avatar }));
     },
   });
 
@@ -92,23 +92,7 @@ export const ProfileForm = () => {
             </Col>
           </Row>
         </Col>
-        <Col lg="4">
-          <label
-            htmlFor="userProfilePicture"
-            className="text-center w-100 mb-4"
-          >
-            {t('avatarLabel')}
-          </label>
-          <div className="edit-user-details__avatar">
-            <Image
-              className={`user-avatar rounded-circle`}
-              src="/images/avatar-default.jpg"
-              width={100}
-              height={100}
-              alt="User Avatar"
-            />
-          </div>
-        </Col>
+        <Avatar />
         <Col>
           <Button
             type="submit"

@@ -28,5 +28,7 @@
   "requiredNewPwError": "Mật khẩu mới là trường bắt buộc",
   "diffWithOldPwError": "Mật khẩu mới phải khác mật khẩu cũ",
   "matchConfirmPwError": "Phải khớp với mật khẩu mới",
-  "phonePatternError": "Chỉ cho phép là chữ số"
+  "phonePatternError": "Chỉ cho phép là chữ số",
+  "updateAvatar": "Cập nhật ảnh đại diện",
+  "dragOrSelectImage": "Kéo hoặc chọn ảnh ở đây"
 }

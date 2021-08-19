@@ -4,7 +4,6 @@ import Footer from 'components/elements/footer';
 import { AuthenticationModule } from 'modules/authentication';
 import { useAppSelector } from 'redux/hooks';
 import { userDataSelector } from 'redux/globalSlice';
-import Image from 'next/image';
 import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { clientCookies } from 'utils/clientCookies';
@@ -32,7 +31,7 @@ const ClientLayout = ({ children }) => {
             position: 'sticky',
             top: 0,
             left: 0,
-            zIndex: 999,
+            zIndex: 1,
             background: 'white',
           }}
         >
@@ -48,11 +47,9 @@ const ClientLayout = ({ children }) => {
             </Link>
             {user.email && (
               <span className="ml-auto d-flex align-items-center pl-2 border-left h-100">
-                <Image
-                  className="rounded-circle inline-block"
-                  src="/images/avatar-default.jpg"
-                  width={40}
-                  height={40}
+                <img
+                  className="rounded-circle user-avatar inline-block"
+                  src={user.avatar || '/images/avatar-default.jpg'}
                   alt="User Avatar"
                 />
                 <span

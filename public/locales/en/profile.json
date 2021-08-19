@@ -28,5 +28,7 @@
   "requiredNewPwError": "New password is required",
   "diffWithOldPwError": "New password must be different with old password",
   "matchConfirmPwError": "Must match with new password",
-  "phonePatternError": "Phone must contain only number"
+  "phonePatternError": "Phone must contain only number",
+  "updateAvatar": "Update your avatar",
+  "dragOrSelectImage": "Drag or select image here"
 }

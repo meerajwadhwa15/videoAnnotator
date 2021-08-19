@@ -1,6 +1,6 @@
-import { useTranslation } from 'next-i18next';
 import { ChangeEvent, FC, ReactNode, useState } from 'react';
 import { FormGroup, FormInput } from 'shards-react';
+import { onValidateImg } from 'utils/helpers';
 
 interface Props {
   label: string;
@@ -11,27 +11,11 @@ interface Props {
 
 const InputImage: FC<Props> = ({ label, errorMessage, onChange, fileUrl }) => {
   const [imgUrl, setImgUrl] = useState<any>();
-  const { t } = useTranslation('common');
-
-  const onValidate = (file: File) => {
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    if (file.size > maxSize) {
-      alert(t('thumbnailImageSizeTooBigError'));
-      return false;
-    }
-    const acceptExtensions = ['png', 'jpg', 'jpeg'];
-    const fileExt = file.name.split('.').reverse()[0].toLowerCase();
-    if (!acceptExtensions.includes(fileExt)) {
-      alert(t('thumbnailWrongExtensionError'));
-      return false;
-    }
-    return true;
-  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
-      if (onValidate(file)) {
+      if (onValidateImg(file)) {
         const reader = new FileReader();
         reader.addEventListener('load', function (e) {
           const url = e.target?.result || '';

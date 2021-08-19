@@ -4,6 +4,7 @@ export interface ProfileUpdateData {
   fullName: string;
   address: string;
   phone: string;
+  avatar?: string;
   introduction: string;
 }
 

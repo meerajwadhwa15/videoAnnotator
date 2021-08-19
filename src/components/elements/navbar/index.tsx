@@ -12,7 +12,6 @@ import {
   NavLink,
 } from 'shards-react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 
@@ -30,7 +29,7 @@ const MainNavbar = () => {
   const [visible, setVisible] = useState(false);
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { fullName } = useAppSelector(userDataSelector);
+  const { fullName, avatar } = useAppSelector(userDataSelector);
 
   function onToggleSidebar() {
     dispatch(toggleSidebar(true));
@@ -58,21 +57,20 @@ const MainNavbar = () => {
                 setVisible(!visible);
               }}
             >
-              <DropdownToggle
-                caret
-                tag={NavLink}
-                className="dropdownNavbar text-nowrap px-3"
-              >
-                <Image
-                  className={`user-avatar rounded-circle mr-2 ${styles.img}`}
-                  src="/images/avatar-default.jpg"
-                  width={40}
-                  height={40}
-                  alt="User Avatar"
-                />
-                <span className={`d-md-inline-block ${styles.textToggle}`}>
-                  {fullName}
-                </span>
+              <DropdownToggle tag={NavLink} className="px-3">
+                <div className="d-flex">
+                  <img
+                    className={`user-avatar mr-2 ${styles.img}`}
+                    src={avatar || '/images/avatar-default.jpg'}
+                    alt="avatar"
+                  />
+                  <span className="d-flex align-items-center">
+                    <span className="mr-2 font-weight-bold">{fullName}</span>
+                    <i className="material-icons" style={{ fontSize: 24 }}>
+                      arrow_drop_down
+                    </i>
+                  </span>
+                </div>
               </DropdownToggle>
               <Collapse
                 tag={DropdownMenu}

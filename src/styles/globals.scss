@@ -70,11 +70,6 @@ h6 {
   }
 }
 
-.dropdownNavbar.dropdown-toggle::after {
-  position: relative;
-  top: -12px;
-}
-
 .error-text {
   color: red;
   font-size: 1rem;
@@ -252,4 +247,10 @@ i.material-icons {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
 }
