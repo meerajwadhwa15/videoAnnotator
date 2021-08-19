@@ -18,7 +18,7 @@ export const Pagination: FC<Props> = ({
   unit,
   showTotalRecords = true,
 }) => {
-  const { query, pathname } = useRouter();
+  const { query, push, pathname } = useRouter();
   const { t } = useTranslation('common');
   const currentPage = Number(query.page || 1);
 
@@ -31,8 +31,7 @@ export const Pagination: FC<Props> = ({
     if (page <= 1) {
       delete newQuery.page;
     }
-    const queryString = new URLSearchParams(newQuery).toString();
-    window.location.href = `${pathname}${queryString ? `?${queryString}` : ''}`;
+    push({ pathname, query: newQuery });
   };
 
   return (
