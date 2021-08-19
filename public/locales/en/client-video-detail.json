@@ -25,6 +25,7 @@
   "watchLaterText": "Watch later video",
   "baseRatingText": "Base on {{count}} reviews",
   "commentCountText": "{{count}} comments",
+  "reviewSectionText": "{{count}} reviews",
   "addToSubmitBtn": "Save",
   "addToCancelBtn": "Cancel",
   "commentBtn": "Comment",
@@ -44,5 +45,6 @@
   "updateError": "Update error",
   "rateTextAreaError": "This field is required",
   "dataNotFound": "Data not found.",
-  "commentNotFound": "This video has no comments"
+  "commentNotFound": "This video has no comments",
+  "noReviewFound": "This video has no reviews."
 }

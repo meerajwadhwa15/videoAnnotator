@@ -206,7 +206,7 @@ const VideoDetail = () => {
         {isLoadingVideo && (
           <p className={styles.loadingPlaceholder}>{t('loadingVideoText')}</p>
         )}
-        {isLoadingVideo && Object.keys(videoDetail).length === 0 && (
+        {!isLoadingVideo && Object.keys(videoDetail).length === 0 && (
           <p className={styles.loadingPlaceholder}>{t('dataNotFound')}</p>
         )}
         <Row>

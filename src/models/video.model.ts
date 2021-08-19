@@ -37,11 +37,20 @@ export interface UserLike {
   numberOfLike: number;
 }
 
+export interface Reviews {
+  id: number;
+  point: number;
+  userName: string;
+  content: string;
+  avatar: string;
+}
+
 export interface UserReview {
   averagePoint: number;
   userReviewPoint: number;
   numberOfReview: number;
   content: string;
+  reviews: Reviews;
 }
 
 export interface VideoInfo {

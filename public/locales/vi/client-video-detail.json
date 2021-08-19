@@ -25,6 +25,7 @@
   "watchLaterText": "Xem sau",
   "baseRatingText": "Dựa trên {{count}} đánh giá",
   "commentCountText": "{{count}} bình luận",
+  "reviewSectionText": "{{count}} nhận xét",
   "addToSubmitBtn": "Lưu",
   "addToCancelBtn": "Hủy",
   "commentBtn": "Bình luận",
@@ -44,5 +45,6 @@
   "updateError": "Cập nhật thất bại",
   "rateTextAreaError": "Trường này là bắt buộc",
   "notFoundData": "Không tìm thấy dữ liệu.",
-  "commentNotFound": "Hiện chưa có bình luận nào"
+  "commentNotFound": "Hiện chưa có bình luận nào",
+  "noReviewFound": "Hiện chưa có đánh giá nào."
 }
