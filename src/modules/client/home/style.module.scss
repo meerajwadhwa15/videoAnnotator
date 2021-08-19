@@ -28,10 +28,15 @@
   display: block;
   margin-bottom: 20px;
   color: black;
+  transition: transform 200ms ease-in-out;
 
   &:hover {
     text-decoration: none;
-    color: black;
+    transform: translateY(-5px);
+
+    & > * {
+      color: black;
+    }
   }
 }
 
@@ -41,6 +46,7 @@
 
 .imgWrapper {
   height: 200px;
+  display: block;
   overflow: hidden;
 
   img {
@@ -59,11 +65,14 @@
 
 .cardMoreAction {
   display: flex;
+  cursor: pointer;
   justify-content: center;
+  align-items: center;
   overflow: hidden;
-  width: 16px;
-  height: 30px;
-  border-radius: 8px;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
 
   &:hover {
     background-color: #efefef;

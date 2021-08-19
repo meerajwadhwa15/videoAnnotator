@@ -9,19 +9,19 @@ function Index() {
   const { t } = useTranslation(['profile']);
 
   return (
-    <React.Fragment>
+    <>
       <Head>
         <title>{t('profile:pageTitle')}</title>
       </Head>
       <Profile />
-    </React.Fragment>
+    </>
   );
 }
 
 export const getServerSideProps = withAuthAdminPage(async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale || '', ['common', 'profile'])),
+      ...(await serverSideTranslations(locale || '')),
     },
   };
 });

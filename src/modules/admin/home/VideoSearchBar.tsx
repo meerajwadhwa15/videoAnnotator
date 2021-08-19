@@ -10,7 +10,7 @@ import { categoriesSelector } from './slice';
 import style from './style.module.scss';
 
 export const VideoSearchBar = () => {
-  const { pathname, query } = useRouter();
+  const { pathname, query, push } = useRouter();
   const categories = useAppSelector(categoriesSelector);
   const { t } = useTranslation(['common', 'home']);
 
@@ -27,10 +27,7 @@ export const VideoSearchBar = () => {
         ...(category && { categoryId: category }),
         ...(subCategory && { subcategoryId: subCategory }),
       };
-      const queryString = new URLSearchParams(newQuery).toString();
-      window.location.href = `${pathname}${
-        queryString ? `?${queryString}` : ''
-      }`;
+      return push({ pathname, query: newQuery });
     },
   });
 

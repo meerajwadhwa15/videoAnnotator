@@ -71,9 +71,14 @@ const ClientLayout = ({ children }) => {
                   toggle={() => setOpen(!open)}
                   target="#user-name"
                 >
+                  <Link href="/profile">
+                    <a className="px-4 py-2 cursor-pointer d-block popup-link">
+                      Profile
+                    </a>
+                  </Link>
                   <div
                     onMouseDown={handleLogout}
-                    className="px-4 py-2 cursor-pointer"
+                    className="px-4 py-2 cursor-pointer popup-link"
                   >
                     {t('common:logoutLink')}
                   </div>
@@ -86,6 +91,15 @@ const ClientLayout = ({ children }) => {
       </Row>
       <Footer />
       <AuthenticationModule />
+      <style>
+        {`
+          .popup-link:hover {
+              text-decoration: none;
+              color: black;
+              background: #ececec;
+            }
+        `}
+      </style>
     </Container>
   );
 };

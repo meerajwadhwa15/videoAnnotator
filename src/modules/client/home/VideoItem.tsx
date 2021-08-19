@@ -77,12 +77,12 @@ export const VideoItem = ({ data }: { data: VideoInfo }) => {
               href={`${CLIENT_ROUTING.videoDetail}/${data.id}`}
               locale={router.locale}
             >
-              <div>
+              <a className="d-block">
                 <CardTitle>{data.name}</CardTitle>
                 <p title={data.description} className={styles.cardDes}>
                   {data.description}
                 </p>
-              </div>
+              </a>
             </Link>
             <span
               onClick={handleClick}
