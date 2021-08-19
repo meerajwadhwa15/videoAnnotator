@@ -34,6 +34,7 @@ axiosClient.interceptors.request.use(
 // intercepting response
 axiosClient.interceptors.response.use(
   function (response: AxiosResponse) {
+    console.log('response', response);
     return response.data ? response.data : response;
   },
   function (error) {

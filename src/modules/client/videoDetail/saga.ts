@@ -4,7 +4,7 @@ import { i18n } from 'next-i18next';
 import { toast } from 'react-toastify';
 import { request } from 'utils/apiClient';
 import { API_ENDPOINT } from 'utils/constants';
-import { SaveAddToData, LikeVideoData } from './types';
+import { SaveAddToData, LikeVideoData, RatingVideoData } from './types';
 import {
   saveAddTo,
   saveAddToSuccess,
@@ -12,12 +12,18 @@ import {
   likeVideo,
   likeVideoSuccess,
   likeVideoFail,
-  // ratingVideo,
-  // ratingVideoSuccess,
-  // ratingVideoFail,
-  // postComment,
-  // postCommentSuccess,
-  // postCommentFail
+  ratingVideo,
+  ratingVideoSuccess,
+  ratingVideoFail,
+  postComment,
+  postCommentSuccess,
+  postCommentFail,
+  editComment,
+  editCommentSuccess,
+  editCommentFail,
+  deleteComment,
+  deleteCommentSuccess,
+  deleteCommentFail,
 } from './actions';
 
 function* saveAddToWorker({
@@ -42,12 +48,7 @@ function* likeVideoWorker({
 }: PayloadAction<{ id: number; data: LikeVideoData }>) {
   try {
     const { id, data } = payload;
-    yield call(
-      request.post,
-      `${API_ENDPOINT.clientVideoLike}/${id}`,
-      {},
-      { params: data }
-    );
+    yield call(request.post, `${API_ENDPOINT.clientVideoLike}/${id}`, data);
     let type = 'none';
     let transMsg = '';
 
@@ -69,46 +70,82 @@ function* likeVideoWorker({
   }
 }
 
-// function* ratingVideoWorker({payload}: PayloadAction<{id: number, data: LikeVideoData}>) {
-//   try {
-//     yield call(request.post, `${API_ENDPOINT.clientVideoRating}/${payload.id}`, payload.data);
-//     yield put(ratingVideoSuccess());
-// 		yield call(
-// 			toast.success,
-// 			i18n?.t('client-video-detail:saveAddToSuccess')
-// 		);
-//   } catch (error) {
-//     yield put(ratingVideoFail());
-// 		yield call(
-// 			toast.success,
-// 			i18n?.t('client-video-detail:saveAddToFail')
-// 		);
-//   }
-// }
+function* ratingVideoWorker({
+  payload,
+}: PayloadAction<{ id: number; data: RatingVideoData }>) {
+  try {
+    yield call(
+      request.post,
+      `${API_ENDPOINT.clientVideoRating}/${payload.id}`,
+      payload.data
+    );
+    yield put(ratingVideoSuccess(payload.data));
+    yield call(toast.success, i18n?.t('client-video-detail:updateSuccess'));
+  } catch (error) {
+    yield put(ratingVideoFail());
+    yield call(toast.error, i18n?.t('client-video-detail:ratingVideoFail'));
+  }
+}
 
-// function* postCommentWorker({payload}: PayloadAction<{id: number, data: LikeVideoData}>) {
-//   try {
-//     yield call(request.post, `${API_ENDPOINT.clientVideoComment}/${payload.id}`, payload.data);
-//     yield put(postCommentSuccess());
-// 		yield call(
-// 			toast.success,
-// 			i18n?.t('client-video-detail:postCommentSuccess')
-// 		);
-//   } catch (error) {
-//     yield put(postCommentFail());
-// 		yield call(
-// 			toast.success,
-// 			i18n?.t('client-video-detail:postCommentFail')
-// 		);
-//   }
-// }
+function* postCommentWorker({
+  payload,
+}: PayloadAction<{ id: number; content: string }>) {
+  try {
+    const response = yield call(request.post, `/video/${payload.id}/comment`, {
+      content: payload.content,
+    });
+    yield put(postCommentSuccess(response));
+  } catch (error) {
+    yield put(postCommentFail());
+    yield call(toast.success, i18n?.t('client-video-detail:updateError'));
+  }
+}
+
+function* editCommentWorker({
+  payload,
+}: PayloadAction<{ id: number; content: string }>) {
+  try {
+    const response = yield call(
+      request.put,
+      `${API_ENDPOINT.clientVideoComment}/${payload.id}`,
+      { content: payload.content }
+    );
+    yield put(editCommentSuccess(response));
+    yield call(
+      toast.success,
+      i18n?.t('client-video-detail:editCommentSuccess')
+    );
+  } catch (error) {
+    yield put(editCommentFail());
+    yield call(toast.error, i18n?.t('client-video-detail:updateError'));
+  }
+}
+
+function* deleteCommentWorker({ payload }: PayloadAction<number>) {
+  try {
+    const response = yield call(
+      request.delete,
+      `${API_ENDPOINT.clientVideoComment}/${payload}`
+    );
+    yield put(deleteCommentSuccess(response));
+    yield call(
+      toast.success,
+      i18n?.t('client-video-detail:deleteCommentSuccess')
+    );
+  } catch (error) {
+    yield put(deleteCommentFail());
+    yield call(toast.error, i18n?.t('client-video-detail:updateError'));
+  }
+}
 
 function* videoDetailSaga() {
   yield all([
     takeLatest(saveAddTo.type, saveAddToWorker),
     takeLatest(likeVideo.type, likeVideoWorker),
-    // takeLatest(ratingVideo.type, ratingVideoWorker),
-    // takeLatest(postComment.type, postCommentWorker),
+    takeLatest(ratingVideo.type, ratingVideoWorker),
+    takeLatest(postComment.type, postCommentWorker),
+    takeLatest(editComment.type, editCommentWorker),
+    takeLatest(deleteComment.type, deleteCommentWorker),
   ]);
 }
 

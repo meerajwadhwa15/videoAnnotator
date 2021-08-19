@@ -22,8 +22,10 @@
   display: flex;
   justify-content: space-between;
   padding-bottom: 20px;
-  margin-bottom: 30px;
-  border-bottom: 1px solid #becad6;
+
+  @media (max-width: 991px) {
+    flex-direction: column;
+  }
 }
 
 .metaInfoLeft {
@@ -37,14 +39,7 @@
 .vidDes {
   margin: 0;
   font-weight: 400;
-}
-
-.btnGroup {
   margin-bottom: 10px;
-
-  button:last-child {
-    margin-right: 0;
-  }
 }
 
 .btnMeta {
@@ -52,7 +47,7 @@
   background-color: transparent;
   margin-right: 10px;
   font-size: 16px;
-  color: #9e9e9e;
+  color: #5a6169;
 
   &.active {
     color: #007bff;
@@ -75,6 +70,10 @@
 
 .ratingWrapper {
   text-align: right;
+
+  @media (max-width: 991px) {
+    text-align: left;
+  }
 }
 
 .baseRatingText {
@@ -91,7 +90,7 @@
 
   @media (max-width: 991px) {
     max-width: 600px;
-    margin: auto;
+    margin: 0 auto 30px;
   }
 }
 
@@ -209,4 +208,117 @@
   font-weight: 400;
   position: relative;
   top: 3px;
+}
+
+.commentSection {
+  border-top: 1px solid #becad6;
+  padding-top: 30px;
+
+  @media (max-width: 991px) {
+    margin: 0 auto 30px;
+  }
+}
+
+.commentCount {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.userCommentWrapper {
+  margin-bottom: 20px;
+}
+
+.contentWrap {
+  display: flex;
+  justify-content: space-between;
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+.avatarWrapper {
+  margin-right: 20px;
+
+  img {
+    border-radius: 50%;
+  }
+}
+
+.commentInputWrapper {
+  flex: 1 0 auto;
+}
+
+.inputRdr {
+  border: none;
+  border-bottom: 2px solid #becad6;
+  width: 100%;
+  outline: none;
+  height: 100%;
+  padding: 0;
+}
+
+.highlightInput {
+  border-bottom-color: #006fe6;
+}
+
+.btnGroupWrapper {
+  text-align: right;
+}
+
+.commentItemWrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: wrap;
+  margin-bottom: 10px;
+  padding: 10px 0;
+  min-height: 70px;
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.commentMetaInfo {
+  flex: 1 0 auto;
+}
+
+.infoWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btnInfo {
+  button {
+    color: #5a6169;
+    border: none;
+    background-color: transparent;
+    margin-right: 5px;
+    padding: 0 5px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &:hover {
+      color: #007bff;
+    }
+  }
+}
+
+.btnGroup {
+  margin-bottom: 10px;
+
+  button:last-child {
+    margin-right: 0;
+  }
+}
+
+.commentName {
+  font-weight: 500;
+  margin-right: 10px;
+}
+
+.btnInnerCommentWrapper {
+  width: 100%;
+  margin-top: 10px;
+  text-align: right;
 }

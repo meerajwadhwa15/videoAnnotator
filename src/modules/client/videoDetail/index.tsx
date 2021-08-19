@@ -7,17 +7,26 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import ClientLayout from 'components/layouts/ClientLayout';
 import PlayerSection from './PlayerSection';
 import AnnotationSection from './AnnotationSection';
+import CommentSection from './CommentSection';
+import ReviewSection from './ReviewSection';
 import AddToVideoModal from './AddToVideoModal';
 import RatingVideoModal from './RatingVideoModal';
 import { VideoInfo, Playlist, UserLike } from 'models';
 import { userDataSelector } from 'redux/globalSlice';
 import { toggleLoginDialog } from 'modules/authentication/slice';
-import { videoDetailSelector, addToLoadingSelector } from './slice';
+import {
+  videoDetailSelector,
+  addToLoadingSelector,
+  ratingLoadingSelector,
+  commentLoadingSelector,
+} from './slice';
 import {
   saveAddTo,
   likeVideo,
-  // ratingVideo,
-  // postComment
+  ratingVideo,
+  postComment,
+  editComment,
+  deleteComment,
 } from './actions';
 import BackButton from 'components/elements/BackButton';
 import styles from './style.module.scss';
@@ -28,6 +37,8 @@ const VideoDetail = () => {
 
   const videoDetailStore = useAppSelector(videoDetailSelector);
   const addToLoading = useAppSelector(addToLoadingSelector);
+  const ratingLoading = useAppSelector(ratingLoadingSelector);
+  const commentLoading = useAppSelector(commentLoadingSelector);
   const user = useAppSelector(userDataSelector);
 
   const [search, setSearch] = useState<string>('');
@@ -161,18 +172,42 @@ const VideoDetail = () => {
     dispatch(saveAddTo({ id: videoDetail.id, data }));
   }
 
-  function onRateVideo() {
-    console.log('rate');
+  function onRateVideo(ratingValue: number, ratingComment: string) {
+    const data = {
+      point: ratingValue,
+      content: ratingComment,
+    };
+    dispatch(ratingVideo({ id: videoDetail.id, data }));
+  }
+
+  function onPostComment(commentText) {
+    dispatch(postComment({ id: videoDetail.id, content: commentText }));
+  }
+
+  function onEditComment(id, content) {
+    dispatch(editComment({ id, content }));
+  }
+
+  function onDeleteComment(comment) {
+    const confirm = window.confirm(t('deleteCommentConfirmText'));
+    if (confirm) {
+      dispatch(deleteComment(comment.id));
+    }
   }
 
   return (
     <ClientLayout>
       <Col xs="12" className={styles.wrapper}>
-        <div className={styles.backBtnWrapper}>
-          <BackButton />
-        </div>
+        {!isLoadingVideo && (
+          <div className={styles.backBtnWrapper}>
+            <BackButton />
+          </div>
+        )}
         {isLoadingVideo && (
           <p className={styles.loadingPlaceholder}>{t('loadingVideoText')}</p>
+        )}
+        {isLoadingVideo && Object.keys(videoDetail).length === 0 && (
+          <p className={styles.loadingPlaceholder}>{t('dataNotFound')}</p>
         )}
         <Row>
           <Col lg="8" md="12">
@@ -204,6 +239,25 @@ const VideoDetail = () => {
               onSearchAnnotation={onSearchAnnotation}
             />
           </Col>
+          <Col lg="8" md="12">
+            {/* Comment Section */}
+            <CommentSection
+              isLoadingVideo={isLoadingVideo}
+              commentLoading={commentLoading}
+              videoDetail={videoDetail}
+              user={user}
+              onPostComment={onPostComment}
+              onEditComment={onEditComment}
+              onDeleteComment={onDeleteComment}
+            />
+          </Col>
+          <Col lg="4" md="12">
+            {/* Review Section */}
+            <ReviewSection
+              isLoadingVideo={isLoadingVideo}
+              videoDetail={videoDetail}
+            />
+          </Col>
           {/* AddToVideoModal */}
           <AddToVideoModal
             isAddToModalOpen={isAddToModalOpen}
@@ -216,6 +270,7 @@ const VideoDetail = () => {
           {/* RatingVideoModal */}
           <RatingVideoModal
             isRatingVideoModalOpen={isRatingVideoModalOpen}
+            ratingLoading={ratingLoading}
             videoDetail={videoDetail}
             toggleRatingVideoModal={toggleRatingVideoModal}
             onRateVideo={onRateVideo}
