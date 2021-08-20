@@ -26,6 +26,8 @@ export interface CommentsList {
   userName: string;
   canEdit: boolean;
   content: string;
+  avatar: string;
+  time: number;
 }
 
 export interface UserLike {
@@ -35,11 +37,20 @@ export interface UserLike {
   numberOfLike: number;
 }
 
+export interface Reviews {
+  id: number;
+  point: number;
+  userName: string;
+  content: string;
+  avatar: string;
+}
+
 export interface UserReview {
   averagePoint: number;
   userReviewPoint: number;
   numberOfReview: number;
   content: string;
+  reviews: Reviews;
 }
 
 export interface VideoInfo {
@@ -60,10 +71,10 @@ export interface VideoInfo {
   segments: Segment[];
   assignedUsers: AssignedUser[];
   playlists: Playlist[];
-  userComment?: {
+  userComment: {
     numberOfComment: number;
     commentList: CommentsList[];
   };
   userLike: UserLike;
-  userReview?: UserReview;
+  userReview: UserReview;
 }

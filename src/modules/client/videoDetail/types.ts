@@ -5,6 +5,8 @@ export interface VideoDetailState {
   videoDetail: VideoInfo;
   loading: boolean;
   addToLoading: boolean;
+  ratingVideoLoading: boolean;
+  commentLoading: boolean;
   message: AlertMessage;
 }
 
@@ -16,4 +18,9 @@ export interface SaveAddToData {
 export interface LikeVideoData {
   isLike: boolean;
   isDislike: boolean;
+}
+
+export interface RatingVideoData {
+  point: number;
+  content: string;
 }

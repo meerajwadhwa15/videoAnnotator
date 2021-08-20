@@ -57,7 +57,7 @@ const PlayerSection: FC<Props> = ({
             <div className={styles.btnGroup}>
               <button
                 className={`${styles.btnMeta}${
-                  videoDetail?.userLike?.liked ? ` ${styles.active}` : ''
+                  videoDetail.userLike?.liked ? ` ${styles.active}` : ''
                 }`}
                 title={
                   videoDetail?.userLike?.liked
@@ -68,15 +68,15 @@ const PlayerSection: FC<Props> = ({
               >
                 <i className={`material-icons ${styles.iconMeta}`}>thumb_up</i>
                 <span className={styles.textNextto}>
-                  {videoDetail?.userLike?.numberOfLike}
+                  {videoDetail.userLike?.numberOfLike}
                 </span>
               </button>
               <button
                 className={`${styles.btnMeta}${
-                  videoDetail?.userLike?.disliked ? ` ${styles.active}` : ''
+                  videoDetail.userLike?.disliked ? ` ${styles.active}` : ''
                 }`}
                 title={
-                  videoDetail?.userLike?.disliked
+                  videoDetail.userLike?.disliked
                     ? t('unLikeVideoTooltip')
                     : t('clickToUnlikeTooltip')
                 }
@@ -86,12 +86,12 @@ const PlayerSection: FC<Props> = ({
                   thumb_down
                 </i>
                 <span className={styles.textNextto}>
-                  {videoDetail?.userLike?.numberOfDislike}
+                  {videoDetail.userLike?.numberOfDislike}
                 </span>
               </button>
               <button
                 className={styles.btnMeta}
-                title={t('addToVideoToolTip')}
+                title={t('addToVideoTooltip')}
                 onClick={toggleAddToModal}
               >
                 <i className={`material-icons ${styles.iconMeta}`}>
@@ -116,13 +116,13 @@ const PlayerSection: FC<Props> = ({
             <div className={styles.ratingWrapper}>
               <span className={styles.baseRatingText}>
                 {t('baseRatingText', {
-                  count: videoDetail?.userReview?.numberOfReview,
+                  count: videoDetail.userReview?.numberOfReview,
                 })}
                 :
               </span>
               <Rating
                 readonly={true}
-                initialRating={videoDetail?.userReview?.averagePoint || 0}
+                initialRating={videoDetail.userReview?.averagePoint || 0}
                 emptySymbol={
                   <img
                     src="/images/star-empty-small.png"
