@@ -2,6 +2,7 @@ import { GetServerSidePropsContext } from 'next';
 import Cookie from 'cookie';
 import { v4 as uuidv4 } from 'uuid';
 import { storage } from './firebase';
+import { i18n } from 'next-i18next';
 
 export const parseContextCookie = (context: GetServerSidePropsContext<any>) => {
   const { req } = context;
@@ -118,4 +119,19 @@ export const isElementScrollable = (htmlElement) => {
   const overflowYAttr = window.getComputedStyle(htmlElement).overflowY;
   const isOverflowYHidden = overflowYAttr.indexOf('hidden') !== -1;
   return isContentScrollable && !isOverflowYHidden;
+};
+
+export const onValidateImg = (file: File) => {
+  const maxSize = 5 * 1024 * 1024; // 5MB
+  if (file.size > maxSize) {
+    alert(i18n?.t('common:thumbnailImageSizeTooBigError'));
+    return false;
+  }
+  const acceptExtensions = ['png', 'jpg', 'jpeg'];
+  const fileExt = file.name.split('.').reverse()[0].toLowerCase();
+  if (!acceptExtensions.includes(fileExt)) {
+    alert(i18n?.t('common:thumbnailWrongExtensionError'));
+    return false;
+  }
+  return true;
 };

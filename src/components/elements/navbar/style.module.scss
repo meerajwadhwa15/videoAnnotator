@@ -34,23 +34,6 @@
   }
 }
 
-.textToggle {
-  position: relative;
-  top: -9px;
-  margin-right: 5px;
-  font-size: 14px;
-  color: black;
-  font-weight: 400;
-  max-width: 150px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-
-  @media (max-width: 767.98px) {
-    top: -12px;
-  }
-}
-
 .toggleNav {
   justify-content: center;
   align-items: center;

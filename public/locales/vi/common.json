@@ -11,6 +11,7 @@
   "savingButton": "Đang lưu...",
   "cancelButton": "Huỷ bỏ",
   "submitButton": "Gửi",
+  "editButton": "Sửa",
   "backButton": "Quay về",
   "totalItem": "Tổng: {{count}}",
   "noDataFound": "Không có dữ liệu",

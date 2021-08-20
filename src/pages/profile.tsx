@@ -14,7 +14,7 @@ function Index() {
       <Head>
         <title>{t('profile:pageTitle')}</title>
       </Head>
-      <div className="my-4 mx-auto pl-4" style={{ paddingLeft: '24%' }}>
+      <div className="my-4 mx-auto" style={{ paddingLeft: '24%' }}>
         <Profile />
       </div>
     </ClientLayout>

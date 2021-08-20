@@ -15,6 +15,7 @@ const initialState: AppState = {
     phone: '',
     address: '',
     roles: [],
+    avatar: '',
   },
   usersList: [],
 };
