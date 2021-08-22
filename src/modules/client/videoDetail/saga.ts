@@ -74,12 +74,12 @@ function* ratingVideoWorker({
   payload,
 }: PayloadAction<{ id: number; data: RatingVideoData }>) {
   try {
-    yield call(
+    const response = yield call(
       request.post,
       `${API_ENDPOINT.clientVideoRating}/${payload.id}`,
       payload.data
     );
-    yield put(ratingVideoSuccess(payload.data));
+    yield put(ratingVideoSuccess(response));
     yield call(toast.success, i18n?.t('client-video-detail:updateSuccess'));
   } catch (error) {
     yield put(ratingVideoFail());
@@ -97,7 +97,7 @@ function* postCommentWorker({
     yield put(postCommentSuccess(response));
   } catch (error) {
     yield put(postCommentFail());
-    yield call(toast.success, i18n?.t('client-video-detail:updateError'));
+    yield call(toast.error, i18n?.t('client-video-detail:updateError'));
   }
 }
 

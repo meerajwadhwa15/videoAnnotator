@@ -195,6 +195,12 @@ const VideoDetail = () => {
     }
   }
 
+  function onCheckLogin() {
+    if (!user.email) {
+      return dispatch(toggleLoginDialog());
+    }
+  }
+
   return (
     <ClientLayout>
       <Col xs="12" className={styles.wrapper}>
@@ -249,6 +255,7 @@ const VideoDetail = () => {
               onPostComment={onPostComment}
               onEditComment={onEditComment}
               onDeleteComment={onDeleteComment}
+              onCheckLogin={onCheckLogin}
             />
           </Col>
           <Col lg="4" md="12">

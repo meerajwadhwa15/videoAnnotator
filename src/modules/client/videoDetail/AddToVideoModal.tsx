@@ -30,6 +30,13 @@ const AddToVideoModal: FC<props> = ({
 }) => {
   const { t } = useTranslation(['client-video-detail']);
 
+  function onCheckSaveAddTo() {
+    setTimeout(() => {
+      toggleAddToModal();
+    }, 500);
+    onSaveAddTo();
+  }
+
   return (
     <React.Fragment>
       <Modal
@@ -62,7 +69,7 @@ const AddToVideoModal: FC<props> = ({
             type="button"
             disabled={addToLoading}
             size="sm"
-            onClick={onSaveAddTo}
+            onClick={onCheckSaveAddTo}
           >
             {t('addToSubmitBtn')}
           </Button>

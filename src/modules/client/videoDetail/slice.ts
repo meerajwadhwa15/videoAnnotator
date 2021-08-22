@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from 'redux/store';
 import { VideoInfo } from 'models';
-import { RatingVideoData, VideoDetailState } from './types';
-import { CommentsList } from 'models';
+import { VideoDetailState } from './types';
+import { CommentsList, UserReview } from 'models';
 import { AlertMessageType } from 'utils/types';
 import {
   saveAddTo,
@@ -103,10 +103,9 @@ export const videoDetailSlice = createSlice({
     },
     [ratingVideoSuccess.type](
       state: VideoDetailState,
-      action: PayloadAction<RatingVideoData>
+      action: PayloadAction<UserReview>
     ) {
-      state.videoDetail.userReview.userReviewPoint = action.payload.point;
-      state.videoDetail.userReview.content = action.payload.content;
+      state.videoDetail.userReview = action.payload;
       state.ratingVideoLoading = false;
     },
     [ratingVideoFail.type](state) {
