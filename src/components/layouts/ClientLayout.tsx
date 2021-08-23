@@ -2,15 +2,17 @@ import { Container, Row, Col, Popover } from 'shards-react';
 import Link from 'next/link';
 import Footer from 'components/elements/footer';
 import { AuthenticationModule } from 'modules/authentication';
-import { useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { userDataSelector } from 'redux/globalSlice';
 import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { clientCookies } from 'utils/clientCookies';
+import { toggleLoginDialog } from 'modules/authentication/slice';
 
 const ClientLayout = ({ children }) => {
   const user = useAppSelector(userDataSelector);
   const [open, setOpen] = useState(false);
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const handleLogout = () => {
@@ -45,7 +47,7 @@ const ClientLayout = ({ children }) => {
                 />
               </a>
             </Link>
-            {user.email && (
+            {user.email ? (
               <span className="ml-auto d-flex align-items-center pl-2 border-left h-100">
                 <img
                   className="rounded-circle user-avatar inline-block"
@@ -70,7 +72,7 @@ const ClientLayout = ({ children }) => {
                 >
                   <Link href="/profile">
                     <a className="px-4 py-2 cursor-pointer d-block popup-link">
-                      Profile
+                      {t('common:profile')}
                     </a>
                   </Link>
                   <div
@@ -80,6 +82,13 @@ const ClientLayout = ({ children }) => {
                     {t('common:logoutLink')}
                   </div>
                 </Popover>
+              </span>
+            ) : (
+              <span
+                onClick={() => dispatch(toggleLoginDialog())}
+                className="ml-auto cursor-pointer hover-underline"
+              >
+                {t('common:loginOrSignup')}
               </span>
             )}
           </nav>
