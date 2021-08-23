@@ -21,5 +21,7 @@
   "confirmToCancel": "Are you sure to cancel ?",
   "home": "Home",
   "favorite": "Favorite",
-  "watchLater": "Watch Later"
+  "watchLater": "Watch Later",
+  "profile": "Profile",
+  "loginOrSignup": "Login or Signup"
 }

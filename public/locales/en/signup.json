@@ -28,7 +28,7 @@
   "verifyEmailDesc": "Enter passcode that had been sent to your email",
   "enterPasscode": "Enter passcode",
   "verifyPasscodeSuccess": "Verify email successfull",
-  "verifyPasscodeFail": "Verify email successfull",
+  "verifyPasscodeFail": "Verify email failed",
   "passcodeIsRequired": "passcode is required",
   "resendPasscode": "Resend passcode",
   "resendPasscodeCountDown": "Resend passcode in {{count}}s",
