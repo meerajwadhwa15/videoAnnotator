@@ -13,6 +13,7 @@ interface Props {
   onPostComment: (commentText: string) => void;
   onEditComment: (id: number, content: string) => void;
   onDeleteComment: (comment: CommentsList) => void;
+  onCheckLogin: () => void;
 }
 
 const CommentSection: FC<Props> = ({
@@ -23,6 +24,7 @@ const CommentSection: FC<Props> = ({
   onPostComment,
   onEditComment,
   onDeleteComment,
+  onCheckLogin,
 }) => {
   const { t } = useTranslation(['client-video-detail']);
   const [highlightInput, setHighlightInput] = useState<boolean>(false);
@@ -48,12 +50,23 @@ const CommentSection: FC<Props> = ({
     });
   }
 
-  // onEditComment(comment)
+  function onCheckInnerEditComment(id, content) {
+    setEditMode({ id: -1, content: '' });
+    onEditComment(id, content);
+  }
 
   return (
     <React.Fragment>
       {!isLoadingVideo && Object.keys(videoDetail).length > 0 && (
         <div className={styles.commentSection}>
+          {!user.email && (
+            <div className={styles.commentReqLogin}>
+              <span className={styles.checkLogin} onClick={onCheckLogin}>
+                {t('loginLink')}
+              </span>
+              <span> {t('commentReqLogin')}</span>
+            </div>
+          )}
           <h4 className={styles.commentCount}>
             <span>
               {t('commentCountText', {
@@ -61,41 +74,45 @@ const CommentSection: FC<Props> = ({
               })}
             </span>
           </h4>
-          <div className={styles.userCommentWrapper}>
-            <div className={styles.contentWrap}>
-              <div className={styles.avatarWrapper}>
-                <img
-                  src={user.avatar || '/images/avatar-default.jpg'}
-                  width={40}
-                  height={40}
-                  alt="User Avatar"
-                />
+          {user.email && (
+            <form>
+              <div className={styles.userCommentWrapper}>
+                <div className={styles.contentWrap}>
+                  <div className={styles.avatarWrapper}>
+                    <img
+                      src={user.avatar || '/images/avatar-default.jpg'}
+                      width={40}
+                      height={40}
+                      alt="User Avatar"
+                    />
+                  </div>
+                  <div className={styles.commentInputWrapper}>
+                    <input
+                      disabled={commentLoading}
+                      className={`${styles.inputRdr} ${
+                        highlightInput ? styles.highlightInput : ''
+                      }`}
+                      type="text"
+                      value={commentText}
+                      placeholder={t('commentBtnPlaceholder')}
+                      onFocus={() => setHighlightInput(true)}
+                      onBlur={() => setHighlightInput(false)}
+                      onChange={onChangeComment}
+                    />
+                  </div>
+                </div>
+                <div className={styles.btnGroupWrapper}>
+                  <Button
+                    type="submit"
+                    disabled={commentLoading || !commentText}
+                    onClick={() => onPostComment(commentText)}
+                  >
+                    {t('commentBtn')}
+                  </Button>
+                </div>
               </div>
-              <div className={styles.commentInputWrapper}>
-                <input
-                  disabled={commentLoading}
-                  className={`${styles.inputRdr} ${
-                    highlightInput ? styles.highlightInput : ''
-                  }`}
-                  type="text"
-                  value={commentText}
-                  placeholder={t('commentBtnPlaceholder')}
-                  onFocus={() => setHighlightInput(true)}
-                  onBlur={() => setHighlightInput(false)}
-                  onChange={onChangeComment}
-                />
-              </div>
-            </div>
-            <div className={styles.btnGroupWrapper}>
-              <Button
-                type="button"
-                disabled={commentLoading || !commentText}
-                onClick={() => onPostComment(commentText)}
-              >
-                {t('commentBtn')}
-              </Button>
-            </div>
-          </div>
+            </form>
+          )}
           {Array.isArray(videoDetail.userComment?.commentList) &&
             videoDetail.userComment?.commentList?.length > 0 &&
             videoDetail.userComment?.commentList?.map((comment) => (
@@ -133,7 +150,10 @@ const CommentSection: FC<Props> = ({
                         size="sm"
                         disabled={commentLoading || !isEditMode.content}
                         onClick={() =>
-                          onEditComment(isEditMode.id, isEditMode.content)
+                          onCheckInnerEditComment(
+                            isEditMode.id,
+                            isEditMode.content
+                          )
                         }
                       >
                         {t('addToSubmitBtn')}

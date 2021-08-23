@@ -76,6 +76,9 @@ const RatingVideoModal: FC<props> = ({
       return;
     }
 
+    setTimeout(() => {
+      toggleRatingVideoModal();
+    }, 500);
     onRateVideo(ratingValue, ratingComment);
   }
 

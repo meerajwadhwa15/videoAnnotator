@@ -29,6 +29,7 @@
   "addToSubmitBtn": "Save",
   "addToCancelBtn": "Cancel",
   "commentBtn": "Comment",
+  "commentReqLogin": "to give comment.",
   "commentBtnPlaceholder": "Post public comment here...",
   "deleteCommentConfirmText": "Are you sure to delete this comment?",
   "saveAddToSuccess": "Save video successfully",
@@ -46,5 +47,6 @@
   "rateTextAreaError": "This field is required",
   "dataNotFound": "Data not found.",
   "commentNotFound": "This video has no comments",
-  "noReviewFound": "This video has no reviews."
+  "noReviewFound": "This video has no reviews.",
+  "loginLink": "Login"
 }

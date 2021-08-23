@@ -25,10 +25,11 @@
   "watchLaterText": "Xem sau",
   "baseRatingText": "Dựa trên {{count}} đánh giá",
   "commentCountText": "{{count}} bình luận",
-  "reviewSectionText": "{{count}} nhận xét",
+  "reviewSectionText": "{{count}} đánh giá",
   "addToSubmitBtn": "Lưu",
   "addToCancelBtn": "Hủy",
   "commentBtn": "Bình luận",
+  "commentReqLogin": "để bình luận.",
   "commentBtnPlaceholder": "Bình luận công khai...",
   "deleteCommentConfirmText": "Bạn có chắc muốn xóa bình luận này?",
   "saveAddToSuccess": "Lưu thành công",
@@ -46,5 +47,6 @@
   "rateTextAreaError": "Trường này là bắt buộc",
   "notFoundData": "Không tìm thấy dữ liệu.",
   "commentNotFound": "Hiện chưa có bình luận nào",
-  "noReviewFound": "Hiện chưa có đánh giá nào."
+  "noReviewFound": "Hiện chưa có đánh giá nào.",
+  "loginLink": "Đăng nhập"
 }

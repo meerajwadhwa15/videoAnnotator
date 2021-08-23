@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { SaveAddToData, LikeVideoData, RatingVideoData } from './types';
-import { CommentsList } from 'models';
+import { CommentsList, UserReview } from 'models';
 
 export const [saveAddTo, saveAddToSuccess, saveAddToFail] = [
   createAction<{ id: number; data: SaveAddToData[] }>(
@@ -22,7 +22,7 @@ export const [ratingVideo, ratingVideoSuccess, ratingVideoFail] = [
   createAction<{ id: number; data: RatingVideoData }>(
     `clientVideoDetail/ratingVideo`
   ),
-  createAction<RatingVideoData>(`clientVideoDetail/ratingVideoSuccess`),
+  createAction<UserReview>(`clientVideoDetail/ratingVideoSuccess`),
   createAction(`clientVideoDetail/ratingVideoFail`),
 ];
 
