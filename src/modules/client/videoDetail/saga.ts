@@ -94,6 +94,15 @@ function* postCommentWorker({
     const response = yield call(request.post, `/video/${payload.id}/comment`, {
       content: payload.content,
     });
+    if (
+      Array.isArray(response.commentList) &&
+      response.commentList.length > 0
+    ) {
+      response.commentList.sort((a, b) => {
+        return b.id - a.id;
+      });
+    }
+
     yield put(postCommentSuccess(response));
   } catch (error) {
     yield put(postCommentFail());
@@ -110,6 +119,15 @@ function* editCommentWorker({
       `${API_ENDPOINT.clientVideoComment}/${payload.id}`,
       { content: payload.content }
     );
+    if (
+      Array.isArray(response.commentList) &&
+      response.commentList.length > 0
+    ) {
+      response.commentList.sort((a, b) => {
+        return b.id - a.id;
+      });
+    }
+
     yield put(editCommentSuccess(response));
     yield call(
       toast.success,
@@ -127,6 +145,15 @@ function* deleteCommentWorker({ payload }: PayloadAction<number>) {
       request.delete,
       `${API_ENDPOINT.clientVideoComment}/${payload}`
     );
+    if (
+      Array.isArray(response.commentList) &&
+      response.commentList.length > 0
+    ) {
+      response.commentList.sort((a, b) => {
+        return b.id - a.id;
+      });
+    }
+
     yield put(deleteCommentSuccess(response));
     yield call(
       toast.success,

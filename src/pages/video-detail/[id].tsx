@@ -27,10 +27,20 @@ function Index({ videoDetail }) {
 
 export const getServerSideProps = withAuthConsumerPage(async (context) => {
   const { params, locale } = context;
-  const videoDetail = await requestServer.get({
+  const videoDetail: any = await requestServer.get({
     url: `${API_ENDPOINT.clientVideoList}/${params?.id}`,
     context,
   });
+
+  if (
+    videoDetail &&
+    Array.isArray(videoDetail.userComment?.commentList) &&
+    videoDetail.userComment?.commentList.length > 0
+  ) {
+    videoDetail.userComment.commentList.sort((a, b) => {
+      return b.id - a.id;
+    });
+  }
 
   return {
     props: {
