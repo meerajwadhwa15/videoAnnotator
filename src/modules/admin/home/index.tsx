@@ -4,7 +4,7 @@ import { Button } from 'shards-react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import DashboardLayout from 'components/layouts/DashboardLayout';
 import { videosListSelector, assignVideo, clearData } from './slice';
-import { User } from 'models/user.model';
+import { User, UserRole } from 'models/user.model';
 import EditVideoModal from './EditVideoModal';
 import DeleteVideoModal from './DeleteVideoModal';
 import { AssignVideoModal } from './AssignVideoModal';
@@ -15,6 +15,7 @@ const Home = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation(['home']);
   const tableDataStore = useAppSelector(videosListSelector);
+  const user = useAppSelector((state) => state.app.user);
   const [tableDataState, setTableDataState] = useState(tableDataStore);
   const [isAssignModalOpen, setAssignModal] = useState(false);
   const [isEditModalOpen, setEditModal] = useState(false);
@@ -22,6 +23,7 @@ const Home = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const currentVideoId = useRef(0);
+  const isAdmin = user.roles.includes(UserRole.admin);
 
   useEffect(() => {
     setTableDataState(tableDataStore);
@@ -133,9 +135,11 @@ const Home = () => {
     <DashboardLayout>
       <div className="d-flex mb-2 mt-4">
         <h3 className="page-title">{t('title')}</h3>
-        <Button onClick={toggleEditModal} className="ml-auto">
-          {t('addVideoButton')}
-        </Button>
+        {isAdmin && (
+          <Button onClick={toggleEditModal} className="ml-auto">
+            {t('addVideoButton')}
+          </Button>
+        )}
       </div>
       <VideoSearchBar />
       <VideoList
