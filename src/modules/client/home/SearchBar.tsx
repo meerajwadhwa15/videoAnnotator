@@ -16,11 +16,12 @@ export const SearchBar = () => {
     },
     onSubmit: (values) => {
       const { search } = values;
+      delete query.search;
       push({
         pathname: pathname,
         query: {
-          ...(search && { search }),
           ...query,
+          ...(search && { search }),
         },
       });
     },
