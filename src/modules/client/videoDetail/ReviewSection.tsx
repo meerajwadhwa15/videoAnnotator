@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, SyntheticEvent } from 'react';
 import { useTranslation } from 'next-i18next';
 import Rating from 'react-rating';
 
@@ -12,6 +12,10 @@ interface Props {
 
 const ReviewSection: FC<Props> = ({ isLoadingVideo, videoDetail }) => {
   const { t } = useTranslation(['client-video-detail']);
+
+  function onImageError(event: SyntheticEvent<EventTarget>) {
+    (event.target as HTMLImageElement).src = '/images/avatar-default.jpg';
+  }
 
   return (
     <React.Fragment>
@@ -29,10 +33,11 @@ const ReviewSection: FC<Props> = ({ isLoadingVideo, videoDetail }) => {
                 <div className={styles.reviewItem} key={review.id}>
                   <div className={styles.avatarWrapper}>
                     <img
-                      src={'/images/avatar-default.jpg'}
+                      src={review.avatar || '/images/avatar-default.jpg'}
                       width={40}
                       height={40}
                       alt="User Avatar"
+                      onError={onImageError}
                     />
                   </div>
                   <div className={styles.reviewMetaInfo}>

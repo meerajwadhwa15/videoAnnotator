@@ -28,7 +28,7 @@
   "reviewSectionText": "{{count}} reviews",
   "addToSubmitBtn": "Save",
   "addToCancelBtn": "Cancel",
-  "commentBtn": "Comment",
+  "commentBtn": "Publish",
   "commentReqLogin": "to give comment.",
   "commentBtnPlaceholder": "Post public comment here...",
   "deleteCommentConfirmText": "Are you sure to delete this comment?",

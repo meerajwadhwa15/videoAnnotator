@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, SyntheticEvent } from 'react';
 import { Button } from 'shards-react';
 import { useTranslation } from 'next-i18next';
 
@@ -50,9 +50,20 @@ const CommentSection: FC<Props> = ({
     });
   }
 
+  function onCheckPostComment(commentText) {
+    setTimeout(() => {
+      setCommentText('');
+    }, 500);
+    onPostComment(commentText);
+  }
+
   function onCheckInnerEditComment(id, content) {
     setEditMode({ id: -1, content: '' });
     onEditComment(id, content);
+  }
+
+  function onImageError(event: SyntheticEvent<EventTarget>) {
+    (event.target as HTMLImageElement).src = '/images/avatar-default.jpg';
   }
 
   return (
@@ -84,6 +95,7 @@ const CommentSection: FC<Props> = ({
                       width={40}
                       height={40}
                       alt="User Avatar"
+                      onError={onImageError}
                     />
                   </div>
                   <div className={styles.commentInputWrapper}>
@@ -105,7 +117,7 @@ const CommentSection: FC<Props> = ({
                   <Button
                     type="submit"
                     disabled={commentLoading || !commentText}
-                    onClick={() => onPostComment(commentText)}
+                    onClick={() => onCheckPostComment(commentText)}
                   >
                     {t('commentBtn')}
                   </Button>
@@ -123,6 +135,7 @@ const CommentSection: FC<Props> = ({
                     width={40}
                     height={40}
                     alt="User Avatar"
+                    onError={onImageError}
                   />
                 </div>
                 {isEditMode.id === comment.id ? (
@@ -167,7 +180,7 @@ const CommentSection: FC<Props> = ({
                         <span className={styles.commentName}>
                           {comment.userName}
                         </span>
-                        <span className={styles.commentTime}>1-1-1970</span>
+                        <span className={styles.commentTime}></span>
                       </div>
                       {comment.canEdit && (
                         <div className={styles.btnInfo}>
