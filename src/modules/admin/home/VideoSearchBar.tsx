@@ -14,7 +14,7 @@ export const VideoSearchBar = () => {
   const categories = useAppSelector(categoriesSelector);
   const { t } = useTranslation(['common', 'home']);
 
-  const { values, handleChange, handleSubmit, setFieldValue } = useFormik({
+  const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
       search: query.search || '',
       category: query.categoryId || '',
@@ -32,9 +32,7 @@ export const VideoSearchBar = () => {
   });
 
   const clearFormData = () => {
-    setFieldValue('search', '');
-    setFieldValue('category', '');
-    setFieldValue('subCategory', '');
+    return push({ pathname });
   };
 
   const category = typeof values.category === 'string' ? values.category : '';
