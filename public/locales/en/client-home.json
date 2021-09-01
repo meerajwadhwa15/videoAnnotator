@@ -1,6 +1,7 @@
 {
-  "home": "Video Annotator",
-  "videoSearchLabel": "Search video",
+  "home": "Video Annotator - Discover Your Favorite Playlist",
+  "videoSearchLabel": "Video Annotator giúp bạn chia sẻ và khám phá vô vàn các video hữu ích",
+  "discoverAllVideos": "Discover Video Gallery",
   "videoSearchPlaceHolder": "Search video by name or description...",
   "videoCategoryLabel": "Category",
   "videoSubCategoryLabel": "Sub category",

@@ -15,6 +15,7 @@ function Index() {
     <>
       <Head>
         <title>{t('client-home:home')}</title>
+        <meta name="description" content={t('client-home:description')} />
       </Head>
       <Home />
     </>

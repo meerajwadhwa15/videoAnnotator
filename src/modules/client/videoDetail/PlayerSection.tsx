@@ -50,7 +50,7 @@ const PlayerSection: FC<Props> = ({
       {!isLoadingVideo && Object.keys(videoDetail).length > 0 && (
         <div className={styles.metaInfoWrapper}>
           <div className={styles.metaInfoLeft}>
-            <h4 className={styles.vidName}>{videoDetail.name}</h4>
+            <h2 className={styles.vidName}>{videoDetail.name}</h2>
             <p className={styles.vidDes}>{videoDetail.description}</p>
           </div>
           <div className={styles.metainfoRight}>

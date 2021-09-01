@@ -28,8 +28,8 @@ import {
   editComment,
   deleteComment,
 } from './actions';
-import BackButton from 'components/elements/BackButton';
 import styles from './style.module.scss';
+import Link from 'next/link';
 
 const VideoDetail = () => {
   const dispatch = useAppDispatch();
@@ -50,9 +50,9 @@ const VideoDetail = () => {
     useState<boolean>(false);
 
   const videoRef = useRef<any>();
+
   useEffect(() => {
     setVideoDetail(videoDetailStore);
-    console.log('videoDetailStore', videoDetailStore);
   }, [videoDetailStore]);
 
   function ref(player) {
@@ -206,14 +206,16 @@ const VideoDetail = () => {
       <Col xs="12" className={styles.wrapper}>
         {!isLoadingVideo && (
           <div className={styles.backBtnWrapper}>
-            <BackButton />
+            <Link href="/">
+              <a className="mr-2">
+                <i className="material-icons">arrow_back</i>
+              </a>
+            </Link>
+            <h1>{t('detail')}</h1>
           </div>
         )}
         {isLoadingVideo && (
           <p className={styles.loadingPlaceholder}>{t('loadingVideoText')}</p>
-        )}
-        {!isLoadingVideo && Object.keys(videoDetail).length === 0 && (
-          <p className={styles.loadingPlaceholder}>{t('dataNotFound')}</p>
         )}
         <Row>
           <Col lg="8" md="12">
