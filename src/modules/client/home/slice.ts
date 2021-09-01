@@ -3,6 +3,7 @@ import type { RootState } from 'redux/store';
 import { VideoInfo, Category } from 'models';
 import { HomeState, UpdatePlaylistPayload, VideosList } from './types';
 import { AlertMessageType } from 'utils/types';
+import { HYDRATE } from 'next-redux-wrapper';
 
 const initialState: HomeState = {
   videosList: {
@@ -84,6 +85,9 @@ export const clientHomeSlice = createSlice({
       if (video) {
         video.playlists = action.payload.data;
       }
+    },
+    [HYDRATE](state, { payload }: PayloadAction<any>) {
+      return payload.clientHome;
     },
   },
 });

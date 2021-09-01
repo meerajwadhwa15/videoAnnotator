@@ -24,6 +24,7 @@ import {
   deleteCommentSuccess,
   deleteCommentFail,
 } from './actions';
+import { HYDRATE } from 'next-redux-wrapper';
 
 const initialState: VideoDetailState = {
   videoDetail: {} as VideoInfo,
@@ -165,6 +166,9 @@ export const videoDetailSlice = createSlice({
     },
     [deleteCommentFail.type](state) {
       state.commentLoading = false;
+    },
+    [HYDRATE](state, { payload }: PayloadAction<any>) {
+      return payload.clientVideoDetail;
     },
   },
 });

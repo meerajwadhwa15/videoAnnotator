@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useAppDispatch } from 'redux/hooks';
 import VideoDetail from 'modules/client/videoDetail';
 import { requestServer } from 'utils/apiClient';
 import { API_ENDPOINT } from 'utils/constants';
@@ -9,12 +8,6 @@ import { fetchVideoDetailSSR } from 'modules/client/videoDetail/slice';
 import { withAuthConsumerPage } from 'utils/hoc/withAuthConsumerPage';
 
 function Index({ videoDetail }) {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchVideoDetailSSR(videoDetail));
-  }, [dispatch, videoDetail]);
-
   return (
     <React.Fragment>
       <Head>
@@ -25,29 +18,23 @@ function Index({ videoDetail }) {
   );
 }
 
-export const getServerSideProps = withAuthConsumerPage(async (context) => {
-  const { params, locale } = context;
-  const videoDetail: any = await requestServer.get({
-    url: `${API_ENDPOINT.clientVideoList}/${params?.id}`,
-    context,
-  });
-
-  if (
-    videoDetail &&
-    Array.isArray(videoDetail.userComment?.commentList) &&
-    videoDetail.userComment?.commentList.length > 0
-  ) {
-    videoDetail.userComment.commentList.sort((a, b) => {
-      return b.id - a.id;
+export const getServerSideProps = withAuthConsumerPage(
+  async (context, store) => {
+    const { params, locale } = context;
+    const videoDetail: any = await requestServer.get({
+      url: `${API_ENDPOINT.clientVideoList}/${params?.id}`,
+      context,
     });
-  }
 
-  return {
-    props: {
-      ...(await serverSideTranslations(locale || '')),
-      videoDetail,
-    },
-  };
-});
+    store?.dispatch(fetchVideoDetailSSR(videoDetail));
+
+    return {
+      props: {
+        ...(await serverSideTranslations(locale || '')),
+        videoDetail,
+      },
+    };
+  }
+);
 
 export default Index;

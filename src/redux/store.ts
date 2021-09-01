@@ -11,6 +11,7 @@ import clientVideoDetailReducer from 'modules/client/videoDetail/slice';
 import elementReducer from 'components/elements/slice';
 
 import authClientReducer from 'modules/authentication/slice';
+import { createWrapper } from 'next-redux-wrapper';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -31,6 +32,11 @@ export const store = configureStore({
 });
 
 sagaMiddleware.run(rootSaga);
+
+const makeStore = () => store;
+export type AppStore = ReturnType<typeof makeStore>;
+export type AppState = ReturnType<AppStore['getState']>;
+export const wrapper = createWrapper<AppStore>(makeStore);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

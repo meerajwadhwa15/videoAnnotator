@@ -15,6 +15,7 @@ import {
   dispatchDeleteAnnotatorFail,
   dispatchDeleteAnnotatorSuccess,
 } from './actions';
+import { HYDRATE } from 'next-redux-wrapper';
 
 const initialState: VideoDetailState = {
   videoDetail: {} as VideoInfo,
@@ -94,6 +95,9 @@ export const videoDetailSlice = createSlice({
     },
     [dispatchDeleteAnnotatorFail.type](state) {
       state.loading = false;
+    },
+    [HYDRATE](state, { payload }: PayloadAction<any>) {
+      return payload[name];
     },
   },
 });
