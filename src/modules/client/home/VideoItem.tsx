@@ -3,7 +3,7 @@ import { Playlist, VideoInfo } from 'models';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { Col, Card, CardImg, CardBody, CardTitle, Popover } from 'shards-react';
+import { Col, Card, CardImg, CardBody, Popover } from 'shards-react';
 import { CLIENT_ROUTING } from 'utils/constants';
 import _groupBy from 'lodash/groupBy';
 import styles from './style.module.scss';
@@ -78,7 +78,7 @@ export const VideoItem = ({ data }: { data: VideoInfo }) => {
               locale={router.locale}
             >
               <a className="d-block">
-                <CardTitle>{data.name}</CardTitle>
+                <h2 className="mb-2">{data.name}</h2>
                 <p title={data.description} className={styles.cardDes}>
                   {data.description}
                 </p>

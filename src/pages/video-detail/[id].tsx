@@ -12,6 +12,7 @@ function Index({ videoDetail }) {
     <React.Fragment>
       <Head>
         <title>Video Annotator - {videoDetail.name}</title>
+        <meta name="description" content={videoDetail.description} />
       </Head>
       <VideoDetail />
     </React.Fragment>
@@ -20,20 +21,29 @@ function Index({ videoDetail }) {
 
 export const getServerSideProps = withAuthConsumerPage(
   async (context, store) => {
-    const { params, locale } = context;
-    const videoDetail: any = await requestServer.get({
-      url: `${API_ENDPOINT.clientVideoList}/${params?.id}`,
-      context,
-    });
+    try {
+      const { params, locale } = context;
 
-    store?.dispatch(fetchVideoDetailSSR(videoDetail));
+      const videoDetail: any = await requestServer.get({
+        url: `${API_ENDPOINT.clientVideoList}/${params?.id}`,
+        context,
+      });
 
-    return {
-      props: {
-        ...(await serverSideTranslations(locale || '')),
-        videoDetail,
-      },
-    };
+      store?.dispatch(fetchVideoDetailSSR(videoDetail));
+
+      return {
+        props: {
+          ...(await serverSideTranslations(locale || '')),
+          videoDetail,
+        },
+      };
+    } catch {
+      return {
+        redirect: {
+          destination: '/',
+        },
+      };
+    }
   }
 );
 
