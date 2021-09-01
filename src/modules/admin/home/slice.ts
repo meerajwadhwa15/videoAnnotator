@@ -8,6 +8,7 @@ import {
   VideoList,
 } from './types';
 import { Category } from 'models/category.model';
+import { HYDRATE } from 'next-redux-wrapper';
 
 const initialState: HomeState = {
   videosList: {
@@ -153,6 +154,11 @@ export const homeSlice = createSlice({
         type: '',
         text: '',
       };
+    },
+  },
+  extraReducers: {
+    [HYDRATE](state, { payload }: PayloadAction<any>) {
+      return payload.home;
     },
   },
 });

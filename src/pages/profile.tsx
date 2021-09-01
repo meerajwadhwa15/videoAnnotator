@@ -22,7 +22,7 @@ function Index() {
 }
 
 export const getServerSideProps = withAuthConsumerPage(
-  async ({ locale }, user) => {
+  async ({ locale }, store, user) => {
     if (!user) {
       return {
         redirect: {

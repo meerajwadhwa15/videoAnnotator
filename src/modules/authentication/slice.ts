@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 import { RootState } from 'redux/store';
 import * as actions from './actions';
 import { AuthStatus, ConsumerAuthenState } from './types';
@@ -88,6 +89,9 @@ const authSlice = createSlice({
     },
     [actions.dispatchResetPassFail.type](state) {
       state.loading = false;
+    },
+    [HYDRATE](state, { payload }: PayloadAction<any>) {
+      return payload.authClient;
     },
   },
 });

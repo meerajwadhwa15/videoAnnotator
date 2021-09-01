@@ -1,13 +1,10 @@
 import { FC, useEffect } from 'react';
-import { Provider } from 'react-redux';
 import { appWithTranslation } from 'next-i18next';
 import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { toast, Flip } from 'react-toastify';
 import NProgress from 'nprogress';
-import { store } from 'redux/store';
-
-import { setCurrentLoginUser } from 'redux/globalSlice';
+import { wrapper } from 'redux/store';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'shards-ui/dist/css/shards.min.css';
@@ -59,22 +56,9 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
     return () => {
       router.events.off('routeChangeStart', NProgress.remove());
     };
-  }, []);
+  }, []); // eslint-disable-line
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const { user } = pageProps;
-      if (user) {
-        store.dispatch(setCurrentLoginUser(user));
-      }
-    }
-  }, [pageProps]);
-
-  return (
-    <Provider store={store}>
-      <Component {...pageProps} />
-    </Provider>
-  );
+  return <Component {...pageProps} />;
 };
 
-export default appWithTranslation(MyApp);
+export default wrapper.withRedux(appWithTranslation(MyApp));
