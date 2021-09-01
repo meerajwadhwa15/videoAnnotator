@@ -22,7 +22,7 @@ module.exports = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://13.82.120.142:8080/:path*',
+        destination: 'http://20.205.233.27:8081/:path*',
       },
     ];
   },

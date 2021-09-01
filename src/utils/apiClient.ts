@@ -93,7 +93,7 @@ export class APIClient {
 class APIServer {
   private axiosServer = Axios.create();
   constructor() {
-    this.axiosServer.defaults.baseURL = 'http://13.82.120.142:8080';
+    this.axiosServer.defaults.baseURL = 'http://20.205.233.27:8081';
     // intercepting response
     this.axiosServer.interceptors.response.use(
       function (response: AxiosResponse) {
