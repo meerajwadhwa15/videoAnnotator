@@ -205,14 +205,14 @@ const VideoDetail = () => {
     <ClientLayout>
       <Col xs="12" className={styles.wrapper}>
         {!isLoadingVideo && (
-          <div className={styles.backBtnWrapper}>
+          <h1 className={styles.backBtnWrapper}>
             <Link href="/">
               <a className="mr-2">
                 <i className="material-icons">arrow_back</i>
               </a>
             </Link>
-            <h1>{t('detail')}</h1>
-          </div>
+            {t('detail')}
+          </h1>
         )}
         {isLoadingVideo && (
           <p className={styles.loadingPlaceholder}>{t('loadingVideoText')}</p>

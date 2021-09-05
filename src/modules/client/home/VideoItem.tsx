@@ -60,7 +60,7 @@ export const VideoItem = ({ data }: { data: VideoInfo }) => {
 
   return (
     <Col xl="3" lg="3" sm="4" xs="12" key={data.id}>
-      <a className={styles.videoItem}>
+      <span className={styles.videoItem}>
         <Card className={styles.card}>
           <Link
             passHref
@@ -68,7 +68,7 @@ export const VideoItem = ({ data }: { data: VideoInfo }) => {
             locale={router.locale}
           >
             <div className={styles.imgWrapper}>
-              <CardImg src={data.thumbnail} />
+              <CardImg alt={`video-${data.name}`} src={data.thumbnail} />
             </div>
           </Link>
           <CardBody className="p-3 d-flex justify-content-between">
@@ -118,7 +118,7 @@ export const VideoItem = ({ data }: { data: VideoInfo }) => {
             </Popover>
           </CardBody>
         </Card>
-      </a>
+      </span>
     </Col>
   );
 };

@@ -1,8 +1,7 @@
 {
   "home": "Video Annotator - Khám phá danh sách yêu thích của bạn",
-  "description": "Video Annotator allows you to share and discover various of useful videos",
+  "description": "Video Annotator giúp bạn chia sẻ và khám phá vô vàn các video hữu ích",
   "discoverAllVideos": "Khám phá thư viện video",
-  "videoSearchLabel": "Tìm kiếm video",
   "videoSearchPlaceHolder": "Tìm video theo tên hoặc mô tả...",
   "videoCategoryLabel": "Thể loại",
   "videoSubCategoryLabel": "Thể loại con",

@@ -6,13 +6,20 @@ import { requestServer } from 'utils/apiClient';
 import { API_ENDPOINT } from 'utils/constants';
 import { fetchVideoDetailSSR } from 'modules/client/videoDetail/slice';
 import { withAuthConsumerPage } from 'utils/hoc/withAuthConsumerPage';
+import { useTranslation } from 'react-i18next';
 
 function Index({ videoDetail }) {
+  const { t } = useTranslation();
   return (
     <React.Fragment>
       <Head>
         <title>Video Annotator - {videoDetail.name}</title>
-        <meta name="description" content={videoDetail.description} />
+        <meta
+          name="description"
+          content={`${videoDetail.description} - ${t(
+            'client-home:description'
+          )}`}
+        />
       </Head>
       <VideoDetail />
     </React.Fragment>
