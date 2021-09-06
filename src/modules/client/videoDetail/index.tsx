@@ -48,11 +48,15 @@ const VideoDetail = () => {
   const [isAddToModalOpen, setAddToModal] = useState<boolean>(false);
   const [isRatingVideoModalOpen, setRatingVideoModal] =
     useState<boolean>(false);
+  const [url, setUrl] = useState<string>('');
 
   const videoRef = useRef<any>();
 
   useEffect(() => {
     setVideoDetail(videoDetailStore);
+    if (typeof window !== 'undefined') {
+      setUrl(window.location.href);
+    }
   }, [videoDetailStore]);
 
   function ref(player) {
@@ -135,8 +139,8 @@ const VideoDetail = () => {
     }
 
     const data = {
-      isLike: !likeData.liked,
-      isDislike: false,
+      like: !likeData.liked,
+      dislike: false,
     };
     dispatch(likeVideo({ id: videoDetail.id, data }));
   }
@@ -147,8 +151,8 @@ const VideoDetail = () => {
     }
 
     const data = {
-      isLike: false,
-      isDislike: !likeData.disliked,
+      like: false,
+      dislike: !likeData.disliked,
     };
     dispatch(likeVideo({ id: videoDetail.id, data }));
   }
@@ -252,6 +256,7 @@ const VideoDetail = () => {
             <CommentSection
               isLoadingVideo={isLoadingVideo}
               commentLoading={commentLoading}
+              url={url}
               videoDetail={videoDetail}
               user={user}
               onPostComment={onPostComment}

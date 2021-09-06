@@ -35,7 +35,6 @@ export const getServerSideProps = withAuthConsumerPage(
         url: `${API_ENDPOINT.clientVideoList}/${params?.id}`,
         context,
       });
-
       store?.dispatch(fetchVideoDetailSSR(videoDetail));
 
       return {

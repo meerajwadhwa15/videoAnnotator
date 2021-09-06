@@ -16,8 +16,8 @@ export interface SaveAddToData {
 }
 
 export interface LikeVideoData {
-  isLike: boolean;
-  isDislike: boolean;
+  like: boolean;
+  dislike: boolean;
 }
 
 export interface RatingVideoData {

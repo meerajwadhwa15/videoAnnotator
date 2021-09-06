@@ -52,10 +52,10 @@ function* likeVideoWorker({
     let type = 'none';
     let transMsg = '';
 
-    if (data.isLike && !data.isDislike) {
+    if (data.like && !data.dislike) {
       type = 'like';
       transMsg = 'client-video-detail:likeVideoSuccess';
-    } else if (!data.isLike && data.isDislike) {
+    } else if (!data.like && data.dislike) {
       type = 'dislike';
       transMsg = 'client-video-detail:unlikeVideoSuccess';
     }
@@ -91,18 +91,13 @@ function* postCommentWorker({
   payload,
 }: PayloadAction<{ id: number; content: string }>) {
   try {
-    const response = yield call(request.post, `/video/${payload.id}/comment`, {
-      content: payload.content,
-    });
-    if (
-      Array.isArray(response.commentList) &&
-      response.commentList.length > 0
-    ) {
-      response.commentList.sort((a, b) => {
-        return b.id - a.id;
-      });
-    }
-
+    const response = yield call(
+      request.post,
+      `${API_ENDPOINT.clientVideoComment}/${payload.id}`,
+      {
+        content: payload.content,
+      }
+    );
     yield put(postCommentSuccess(response));
   } catch (error) {
     yield put(postCommentFail());
@@ -119,14 +114,6 @@ function* editCommentWorker({
       `${API_ENDPOINT.clientVideoComment}/${payload.id}`,
       { content: payload.content }
     );
-    if (
-      Array.isArray(response.commentList) &&
-      response.commentList.length > 0
-    ) {
-      response.commentList.sort((a, b) => {
-        return b.id - a.id;
-      });
-    }
 
     yield put(editCommentSuccess(response));
     yield call(
@@ -145,14 +132,14 @@ function* deleteCommentWorker({ payload }: PayloadAction<number>) {
       request.delete,
       `${API_ENDPOINT.clientVideoComment}/${payload}`
     );
-    if (
-      Array.isArray(response.commentList) &&
-      response.commentList.length > 0
-    ) {
-      response.commentList.sort((a, b) => {
-        return b.id - a.id;
-      });
-    }
+    // if (
+    //   Array.isArray(response.commentList) &&
+    //   response.commentList.length > 0
+    // ) {
+    //   response.commentList.sort((a, b) => {
+    //     return b.id - a.id;
+    //   });
+    // }
 
     yield put(deleteCommentSuccess(response));
     yield call(
