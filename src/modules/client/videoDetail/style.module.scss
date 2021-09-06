@@ -269,13 +269,51 @@
   text-align: right;
 }
 
+.commentSettingWrapper {
+  opacity: 0;
+  visibility: hidden;
+
+  > button {
+    margin-right: 15px;
+  }
+
+  .addVert {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: top;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #efefef;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    i {
+      font-size: 22px;
+    }
+  }
+}
+
 .commentItemWrapper {
   display: flex;
   justify-content: space-between;
   flex-flow: wrap;
   margin-bottom: 10px;
-  padding: 10px 0;
+  padding: 10px;
   min-height: 70px;
+
+  &:hover {
+    background-color: #fbf9f9;
+
+    .commentSettingWrapper {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
 
   &:last-child {
     border: none;
@@ -291,24 +329,6 @@
   justify-content: space-between;
 }
 
-.btnInfo {
-  button {
-    color: #5a6169;
-    border: none;
-    background-color: transparent;
-    margin-right: 5px;
-    padding: 0 5px;
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    &:hover {
-      color: #007bff;
-    }
-  }
-}
-
 .btnGroup {
   margin-bottom: 10px;
 
@@ -317,9 +337,61 @@
   }
 }
 
+.popoverWrapper {
+  position: absolute;
+  top: 34px;
+  right: 0;
+  min-width: 160px;
+  max-width: 200px;
+  height: auto;
+  z-index: 99;
+  padding: 5px 0;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  -webkit-box-shadow: 0 3px 15px rgb(90 97 105 / 10%),
+    0 2px 3px rgb(90 97 105 / 20%);
+  box-shadow: 0 3px 15px rgb(90 97 105 / 10%), 0 2px 3px rgb(90 97 105 / 20%);
+  display: none;
+
+  &.popoverOpen {
+    display: block;
+  }
+
+  .item {
+    padding: 5px 0;
+
+    &:hover {
+      background-color: #eaeaea;
+    }
+
+    button {
+      color: #5a6169;
+      border: none;
+      background-color: transparent;
+      padding: 0 10px;
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-align: left;
+      font-size: 14px;
+
+      i {
+        position: relative;
+        top: 3px;
+        margin-right: 5px;
+        font-size: 18px;
+      }
+    }
+  }
+}
+
 .commentName {
-  font-weight: 500;
-  margin-right: 10px;
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+.time {
+  font-size: 14px;
 }
 
 .btnInnerCommentWrapper {
@@ -379,6 +451,7 @@
 .reviewName {
   font-weight: 500;
   margin-bottom: 0 !important;
+  margin-right: 5px;
 }
 
 .noReview {

@@ -41,7 +41,15 @@ const ReviewSection: FC<Props> = ({ isLoadingVideo, videoDetail }) => {
                     />
                   </div>
                   <div className={styles.reviewMetaInfo}>
-                    <div className={styles.reviewName}>{review.userName}</div>
+                    <div>
+                      <span className={styles.reviewName}>
+                        {review.userName}
+                      </span>
+                      <span className={styles.time}>
+                        {t('onTime')}{' '}
+                        {new Date(review.createTime).toLocaleString()}
+                      </span>
+                    </div>
                     <div className={styles.reviewPoint}>
                       <Rating
                         readonly={true}

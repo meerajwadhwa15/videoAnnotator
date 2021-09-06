@@ -13,6 +13,8 @@
   "ratingVideoTooltip": "Đánh giá video",
   "editCommentTooltip": "Chỉnh sửa",
   "deleteCommentTooltip": "Xóa bình luận",
+  "facebookShare": "Chia sẻ Facebook",
+  "twitterShare": "Chia se Twitter",
   "vidEval": "Đánh số sao cho video",
   "ratingVideoPlaceholder": "Nhận xét về video...",
   "searchAnnotation": "Tìm kiếm chú thích...",
@@ -48,5 +50,6 @@
   "notFoundData": "Không tìm thấy dữ liệu.",
   "commentNotFound": "Hiện chưa có bình luận nào",
   "noReviewFound": "Hiện chưa có đánh giá nào.",
-  "loginLink": "Đăng nhập"
+  "loginLink": "Đăng nhập",
+  "onTime": "vào lúc"
 }

@@ -29,8 +29,6 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
 
   NProgress.configure({
     minimum: 0.1,
-    trickleRate: 0.4,
-    trickleSpeed: 1000,
     showSpinner: false,
   });
 

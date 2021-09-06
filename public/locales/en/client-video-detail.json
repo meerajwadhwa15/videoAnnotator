@@ -13,6 +13,8 @@
   "ratingVideoTooltip": "Rating video",
   "editCommentTooltip": "Edit comment",
   "deleteCommentTooltip": "Delete comment",
+  "facebookShare": "Share on Facebook",
+  "twitterShare": "Share on Twiiter",
   "vidEval": "Rate this video",
   "ratingVideoPlaceholder": "Some comments about the video...",
   "searchAnnotation": "Search annotation...",
@@ -48,5 +50,6 @@
   "dataNotFound": "Data not found.",
   "commentNotFound": "This video has no comments",
   "noReviewFound": "This video has no reviews.",
-  "loginLink": "Login"
+  "loginLink": "Login",
+  "onTime": "on"
 }

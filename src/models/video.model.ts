@@ -27,7 +27,7 @@ export interface CommentsList {
   canEdit: boolean;
   content: string;
   avatar: string;
-  time: number;
+  createTime: string;
 }
 
 export interface UserLike {
@@ -43,6 +43,7 @@ export interface Reviews {
   userName: string;
   content: string;
   avatar: string;
+  createTime: string;
 }
 
 export interface UserReview {
